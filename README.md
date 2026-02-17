@@ -1,4 +1,4 @@
-# GM campane creation helper (Work in progress)
+# GM campagne helper (Work in progress)
 This tool is for DND version 3.5e
 ## Description
 This is a tool made to help you make you campagne/mission.  

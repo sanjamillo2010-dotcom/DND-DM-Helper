@@ -8,6 +8,7 @@ NPC_conf:
         - Halfling
         - Gnome
         - Half-Orc
+        - test
 
     Classtype:
         - Barbarian
@@ -19,6 +20,7 @@ NPC_conf:
         - Paladin
         - Rogue
         - Wizard
+        - testclass
     Human:
         - usualNames:
             - Aldric
@@ -51,6 +53,8 @@ NPC_conf:
             - Clayne
             - Corin
             - Corvus
+        - MaxSize: 180
+        - MaxAge: 100
     Elf:
         - usualNames:
             - Aelar
@@ -77,6 +81,8 @@ NPC_conf:
             - Calyndra
             - Caranthir
             - Cariel
+        - MaxSize: 170
+        - MaxAge: 750
     Half-Elf:
         - usualNames:
             - Aelar
@@ -103,6 +109,8 @@ NPC_conf:
             - Calyndra
             - Caranthir
             - Cariel
+        - MaxSize: 175
+        - MaxAge: 180
     Dwarf:
         - usualNames:
             - Adrik
@@ -141,6 +149,8 @@ NPC_conf:
             - Thráin
             - Ulfgar
             - Vondal
+        - MaxSize: 150
+        - MaxAge: 350
     Halfling:
         - usualNames:
             - Alton
@@ -164,6 +174,8 @@ NPC_conf:
             - Perrin
             - Reed
             - Rosyie
+        - MaxSize: 100
+        - MaxAge: 150
     Gnome:
         - usualNames:
             - Alston
@@ -194,6 +206,8 @@ NPC_conf:
             - Warryn
             - Wrenn
             - Zook
+        - MaxSize: 120
+        - MaxAge: 500
     Half-Orc:
         - usualNames:
             - Dench
@@ -213,6 +227,15 @@ NPC_conf:
             - Ugarth
             - Varg
             - Yurk
+        - MaxSize: 200
+        - MaxAge: 75
+    test :
+        - usualNames:
+            - test1
+            - test2
+            - test3
+        - MaxSize: 999
+        - MaxAge: 999
     Barbarian:
         - usualLastNames:
             - Ironfist
@@ -229,7 +252,14 @@ NPC_conf:
             - Firebrand
             - Shadowhunter
             - Doomhammer
-            - Warbringer
+            - 
+        - HPdice: 12
+    testclass:
+        - usualLastNames:
+            - testlast1
+            - testlast2
+            - testlast3
+        - HPdice: 999
     Bard:
         - usualLastNames:
             - Silverstring
@@ -247,6 +277,7 @@ NPC_conf:
             - Sonneteer
             - Cadence
             - Echoheart
+        - HPdice: 6
     Cleric:
         - usualLastNames:
             - Lightbringer
@@ -264,6 +295,7 @@ NPC_conf:
             - Sacred
             - Venerated
             - Zealot
+        - HPdice: 8
     Druid:
         - usualLastNames:
             - "Greenleaf"
@@ -281,6 +313,7 @@ NPC_conf:
             - Skywatcher
             - Wildsoul
             - "Nature's Guardian"
+        - HPdice: 8
     Fighter:
         - usualLastNames:
             - Ironfist
@@ -298,6 +331,7 @@ NPC_conf:
             - Vanguard
             - Sentinel
             - Warrior
+        - HPdice: 10
     Monk:
         - usualLastNames:
             - Silent
@@ -315,6 +349,7 @@ NPC_conf:
             - Balanced
             - Harmonious
             - Disciplined
+        - HPdice: 8
     Paladin:
         - usualLastNames:
             - Lightbringer
@@ -332,6 +367,7 @@ NPC_conf:
             - Inquisitor
             - Avenger
             - Protector
+        - HPdice: 10
     Rogue:
         - usualLastNames:
             - Shadow
@@ -349,6 +385,7 @@ NPC_conf:
             - Trickster
             - Shadowstep
             - Darkblade
+        - HPdice: 8
     Wizard:
         - usualLastNames:
             - Arcaneweaver
@@ -365,4 +402,80 @@ NPC_conf:
             - Diviner
             - Elementalist
             - Chronomancer
-            - Illusionist
+        - HPdice: 4
+    
+    Divinite:
+        - Boccob
+        - Ehlonna
+        - Erythnul
+        - Fharlanghn
+        - Garl Brilledor
+        - Gruumsh
+        - Heironeous
+        - Hextor
+        - Kord
+        - Moradin
+        - Nerull
+        - Obad-Hai
+        - Olidammara
+        - Pelor
+        - St. Cuthbert
+        - Vecna
+        - Wy-Djaz
+        - Yondalla
+    
+    DivinityDetails:
+        Boccob:
+            Alignment1: Neutral
+            Alignment2: Neutral
+        Ehlonna:
+            Alignment1: Neutral
+            Alignment2: Good
+        Erythnul:
+            Alignment1: Chaotic
+            Alignment2: Evil
+        Fharlanghn:
+            Alignment1: Neutral
+            Alignment2: Neutral
+        Garl Brilledor:
+            Alignment1: Neutral
+            Alignment2: Good
+        Gruumsh:
+            Alignment1: Chaotic
+            Alignment2: Evil
+        Heironeous:
+            Alignment1: Lawful
+            Alignment2: Good
+        Hextor:
+            Alignment1: Lawful
+            Alignment2: Evil
+        Kord:
+            Alignment1: Chaotic
+            Alignment2: Good
+        Moradin:
+            Alignment1: Lawful
+            Alignment2: Good
+        Nerull:
+            Alignment1: Neutral
+            Alignment2: Evil
+        Obad-Hai:
+            Alignment1: Neutral
+            Alignment2: Neutral
+        Olidammara:
+            Alignment1: Chaotic
+            Alignment2: Neutral
+        Pelor:
+            Alignment1: Neutral
+            Alignment2: Good
+        St. Cuthbert:
+            Alignment1: Lawful
+            Alignment2: Neutral
+        Vecna:
+            Alignment1: Neutral
+            Alignment2: Evil
+        Wy-Djaz:
+            Alignment1: Lawful
+            Alignment2: Neutral
+        Yondalla:
+            Alignment1: Lawful
+            Alignment2: Good

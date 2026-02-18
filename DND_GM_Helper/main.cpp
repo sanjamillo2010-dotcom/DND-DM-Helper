@@ -9,26 +9,47 @@ class Race {
 public:
     std::string name;
     std::vector<std::string> usualNames;
+    int MaxSize;
+    int MaxAge;
     
     Race() = default;
     
-    Race(const std::string& raceName) : name(raceName) {}
+    Race(const std::string& raceName) : name(raceName), MaxSize(0), MaxAge(0) {}
     
     void set_usualname(YAML::Node config,std::string raceName) {
         try {
             YAML::Node Node = config["NPC_conf"][raceName];
             if (Node) {
                 YAML::Node namesNode;
+                YAML::Node maxSizeNode;
+                YAML::Node maxAgeNode;
+                
                 if (Node.IsSequence() && Node.size() > 0) {
                     namesNode = Node[0]["usualNames"];
+                    if (Node.size() > 1) {
+                        maxSizeNode = Node[1]["MaxSize"];
+                    }
+                    if (Node.size() > 2) {
+                        maxAgeNode = Node[2]["MaxAge"];
+                    }
                 } else if (Node.IsMap()) {
                     namesNode = Node["usualNames"];
+                    maxSizeNode = Node["MaxSize"];
+                    maxAgeNode = Node["MaxAge"];
                 }
 
                 if (namesNode && namesNode.IsSequence()) {
                     usualNames = namesNode.as<std::vector<std::string>>();
                 } else {
                     std::cerr << raceName << " usualNames missing or not a sequence\n";
+                }
+                
+                if (maxSizeNode && maxSizeNode.IsScalar()) {
+                    MaxSize = maxSizeNode.as<int>();
+                }
+                
+                if (maxAgeNode && maxAgeNode.IsScalar()) {
+                    MaxAge = maxAgeNode.as<int>();
                 }
             } else {
                 std::cerr << raceName << " node missing\n";
@@ -43,7 +64,7 @@ public:
         for (const auto& name : this->usualNames) {
             std::cout << name << " ";
         }
-        std::cout << "\n";
+        std::cout << "\nMax Size: " << MaxSize << std::endl << "Max Age: " << MaxAge << std::endl;
     }
     std::string GetRandomName() {
         if (usualNames.empty()) {        
@@ -62,6 +83,7 @@ class ClassType {
 public:
     std::string name; 
     std::vector<std::string> usualLastNames;
+    int HPdice = 0;
     
     ClassType() = default;
     explicit ClassType(const std::string& className) : name(className) {}
@@ -116,6 +138,17 @@ public:
     Alignment(const std::string& n1, const std::string& n2) : alig1(n1), alig2(n2) {}
 };
 
+class Divinite {
+public:
+    std::string name;
+    Alignment alignment;
+    Divinite() = default;
+    Divinite(const std::string& divinityName, const Alignment& divinityAlignment) : name(divinityName), alignment(divinityAlignment) {}
+    void print_divinity_info() {
+        std::cout << "Divinity: " << name << "\nAlignment: " << alignment.alig1 << " " << alignment.alig2 << "\n";
+    }
+};
+
 
 class NPC {
 public:
@@ -123,20 +156,28 @@ public:
     std::string LastName;
     Race race;
     ClassType classtype;
-    int level;
-    int XP;
-    int HP;
+    int Age = 0;
+    int Size = 0;
+    std::string SizeCategory = "";
+    int level = 1;
+    int XP = 0;
+    int HP = 0;
     Alignment alignment;
+    Divinite divinity;
     void Print_NPC_Stats(){
         std::cout << "\n\n" << std::endl;
         std::cout << "-----------------------------------------" << std::endl;
         std::cout << "Name : " << name << " " << LastName << std::endl;
         std::cout << "Race : " << race.name << std::endl;
         std::cout << "Class : " << classtype.name << std::endl;
+        std::cout << "Age : " << Age << std::endl;
+        std::cout << "Size : " << Size << std::endl;
+        std::cout << "Size category : " << SizeCategory << std::endl;
         std::cout << "HP : " << HP << std::endl;
         std::cout << "Level : " << level << std::endl;
         std::cout << "XP : " << XP << std::endl;
         std::cout << "Alignment : " << alignment.alig1 << " " << alignment.alig2 << std::endl;
+        std::cout << "Divinity : " << divinity.name << " Alignment: " << divinity.alignment.alig1 << " " << divinity.alignment.alig2 << std::endl;
         std::cout << "-----------------------------------------" << std::endl;
         std::cout << name << " " << LastName << " the " << alignment.alig1 << " " << alignment.alig2 << " " << race.name << " " << classtype.name << std::endl;
     }
@@ -151,7 +192,8 @@ public:
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<> dis(0, races.size() - 1);
-            Race r(races[dis(gen)]);
+            std::string selectedRace = races[dis(gen)];
+            Race r(selectedRace);
             r.set_usualname(config, r.name);
             return r;
          }
@@ -170,6 +212,30 @@ public:
             ct.set_usualLastname(config, ct.name);
             return ct;
          }
+    Divinite Get_Random_Divinity(){
+            YAML::Node config = YAML::LoadFile("conf/NPC_conf.yaml");
+            YAML::Node divinitiesNode = config["NPC_conf"]["Divinite"];
+            if (!divinitiesNode || !divinitiesNode.IsSequence()) {
+                std::cerr << "Divinite node missing or not a sequence\n";
+                return Divinite();
+            }
+            std::vector<std::string> divinities = divinitiesNode.as<std::vector<std::string>>();
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> dis(0, divinities.size() - 1);
+            std::string chosenDivinity = divinities[dis(gen)];
+            
+            // Fetch alignment details
+            YAML::Node divinityDetails = config["NPC_conf"]["DivinityDetails"][chosenDivinity];
+            Alignment alignment;
+            if (divinityDetails) {
+                alignment.alig1 = divinityDetails["Alignment1"].as<std::string>();
+                alignment.alig2 = divinityDetails["Alignment2"].as<std::string>();
+            }
+            
+            Divinite d(chosenDivinity, alignment);
+            return d;
+        }
     void Get_NPC_Stats(){
         YAML::Node config = YAML::LoadFile("conf/NPC_conf.yaml");
         while (true) {
@@ -182,25 +248,21 @@ public:
                 break;
             } else if (raceChoice == 2) {
                 while (true) {
-                    std::cout << "Please select a race: " << std::endl << "1- Human" << std::endl << "2- Elf" << std::endl << "3- Half-Elf" << std::endl << "4- Dwarf" << std::endl << "5- Halfling" << std::endl << "6- Gnome" << std::endl << "7- Half-Orc" << std::endl << "Enter your choice : ";
+                    std::cout << "Please select a race" << std::endl;
                     int specificRaceChoice;
+                    YAML::Node RaceNode = config["NPC_conf"]["race"];
+                    std::cout << "Available :" << std::endl;
+                    for (size_t i = 0; i < RaceNode.size(); ++i) {
+                       std::cout << i + 1 << "- " << RaceNode[i].as<std::string>() << std::endl;
+                    }
                     if (!(std::cin >> specificRaceChoice)) { std::cin.clear(); std::string skip; std::getline(std::cin, skip); continue; }
 
-                    if (specificRaceChoice >= 1 && specificRaceChoice <= 7) {
-                        switch (specificRaceChoice) {
-                            case 1: race.name = "Human"; break;
-                            case 2: race.name = "Elf"; break;
-                            case 3: race.name = "Half-Elf"; break;
-                            case 4: race.name = "Dwarf"; break;
-                            case 5: race.name = "Halfling"; break;
-                            case 6: race.name = "Gnome"; break;
-                            case 7: race.name = "Half-Orc"; break;
-                        }
-                        // Populate usual names for the selected race
+                    if (specificRaceChoice >= 1 && specificRaceChoice <= RaceNode.size()) {
+                        race.name = RaceNode[specificRaceChoice - 1].as<std::string>();
                         race.set_usualname(config, race.name);
                         break;
                     } else {
-                        std::cout << "Invalid choice. Please select a valid race number (1-7): ";
+                        std::cout << "Invalid choice. Please select a valid race number (1-" << RaceNode.size() << "): ";
                     }
                 }
                 break;
@@ -224,28 +286,21 @@ public:
                 break;
             } else if (classChoice == 2) {
                 while (true) {
-                    std::cout << "Please select a class: " << std::endl << "1- Barbarian" << std::endl << "2- Bard" << std::endl << "3- Cleric" << std::endl << "4- Druid" << std::endl << "5- Fighter" << std::endl << "6- Monk" << std::endl << "7- Paladin" << std::endl << "8- Rogue" << std::endl << "9- Wizard" << std::endl << "Enter your choice : ";
+                    std::cout << "Please select a class" << std::endl;
+                    YAML::Node ClassNode = config["NPC_conf"]["Classtype"];
+                    std::cout << "Available :" << std::endl;
+                    for (size_t i = 0; i < ClassNode.size(); ++i) {
+                       std::cout << i + 1 << "- " << ClassNode[i].as<std::string>() << std::endl;
+                    }
                     int specificClassChoice;
                     if (!(std::cin >> specificClassChoice)) { std::cin.clear(); std::string skip; std::getline(std::cin, skip); continue; }
 
-                    if (specificClassChoice >= 1 && specificClassChoice <= 9) {
-                        switch (specificClassChoice) {
-                            case 1: classtype.name = "Barbarian"; break;
-                            case 2: classtype.name = "Bard"; break;
-                            case 3: classtype.name = "Cleric"; break;
-                            case 4: classtype.name = "Druid"; break;
-                            case 5: classtype.name = "Fighter"; break;
-                            case 6: classtype.name = "Monk"; break;
-                            case 7: classtype.name = "Paladin"; break;
-                            case 8: classtype.name = "Rogue"; break;
-                            case 9: classtype.name = "Wizard"; break;
-                        }
-                        // Populate usual last names for the selected class
+                    if (specificClassChoice >= 1 && specificClassChoice <= ClassNode.size()) {
+                        classtype.name = ClassNode[specificClassChoice - 1].as<std::string>();
                         classtype.set_usualLastname(config, classtype.name);
                         break;
-                    } 
-                    else {
-                        std::cout << "Invalid choice. Please select a valid class number (1-9): ";
+                    } else {
+                        std::cout << "Invalid choice. Please select a valid class number (1-" << ClassNode.size() << "): ";
                     }
                 }
                 break;
@@ -295,6 +350,64 @@ public:
         }
         system("clear");
         std::cout << "Last Name : " << LastName << std::endl;
+        while (true) {
+            std::cout << "1- Custom Age" << std::endl << "2- Random Age" << std::endl << "Enter your choice : ";
+            int ageChoice;
+            std::cin >> ageChoice;
+            if (ageChoice == 1) {
+                std::cout << "Please enter the NPC's age: ";
+                if (!(std::cin >> Age) || Age < 0 || Age > race.MaxAge) {
+                    std::cin.clear();
+                    std::string skip;
+                    std::getline(std::cin, skip);
+                    std::cout << "Invalid input. Please enter a number between 0 and " << race.MaxAge << ".\n";
+                } else {
+                    break;
+                }
+            } else if (ageChoice == 2) {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dis(race.MaxAge / 2, race.MaxAge + 10);
+                Age = dis(gen);
+                break;
+            } else {
+                std::cout << "Invalid choice. Please enter 1 or 2.\n";
+            }
+        }
+        system("clear");
+        std::cout << "Age : " << Age << std::endl;
+        while (true) {
+            std::cout << "1- Custom Size" << std::endl << "2- Random Size" << std::endl << "Enter your choice : ";
+            int sizeChoice;
+            std::cin >> sizeChoice;
+            if (sizeChoice == 1) {
+                std::cout << "Please enter the NPC's size: ";
+                if (!(std::cin >> Size) || Size < 0 || Size > race.MaxSize) {
+                    std::cin.clear();
+                    std::string skip;
+                    std::getline(std::cin, skip);
+                    std::cout << "Invalid input. Please enter a number between 0 and " << race.MaxSize << ".\n";
+                } else {
+                    break;
+                }
+            } else if (sizeChoice == 2) {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dis(race.MaxSize / 2, race.MaxSize + 10);
+                Size = dis(gen);
+                break;
+            } else {
+                std::cout << "Invalid choice. Please enter 1 or 2.\n";
+            }
+        }
+        system("clear");
+        std::cout  << "Size : " << Size << std::endl;
+        if (Size <= 20) SizeCategory = "Tiny";
+        else if (Size <= 100) SizeCategory = "Small";
+        else if (Size <= 190) SizeCategory = "Medium";
+        else if (Size <= 320) SizeCategory = "Large";
+        else if (Size <= 640) SizeCategory = "Huge";
+        else SizeCategory = "Gargantuan";
         while (true) {
             std::cout << "1- Enter level " << std::endl << "2- Random level" << std::endl << "3- Enter XP" << std::endl << "4- Random XP" << std::endl << "Enter your choice : ";
             int choice;
@@ -477,63 +590,35 @@ public:
                 break;
             } 
             else if (hpChoice == 2) {
-                if (classtype.name == "Barbarian") {
-                    for (int i = 1; i <= level; ++i) {
-                        if (i == 1) HP = 12;
-                        else HP += rand()%12 + 1;
-                        //std::cout << "Level " << i << ": HP = " << HP << std::endl;
+                YAML::Node config = YAML::LoadFile("conf/NPC_conf.yaml");
+                // attempt to load HPdice robustly
+                int loadedHP = 0;
+                YAML::Node classNode = config["NPC_conf"][classtype.name];
+                if (classNode) {
+                    YAML::Node hpNode;
+                    if (classNode.IsSequence() && classNode.size() > 0) hpNode = classNode[0]["HPdice"];
+                    else if (classNode.IsMap()) hpNode = classNode["HPdice"];
+
+                    if (hpNode && hpNode.IsScalar()) {
+                        try {
+                            loadedHP = hpNode.as<int>();
+                        } catch (const YAML::Exception &e) {
+                            std::cerr << "HPdice conversion error for class " << classtype.name << ": " << e.what() << "\n";
+                        }
                     }
-                } else if (classtype.name == "Bard") {
-                    for (int i = 1; i <= level; ++i) {
-                        if (i == 1) HP = 6;
-                        else HP += rand()%6 + 1;
-                        //std::cout << "Level " << i << ": HP = " << HP << std::endl;
-                    }
-                } else if (classtype.name == "Cleric") {
-                    for (int i = 1; i <= level; ++i) {
-                        if (i == 1) HP = 8;
-                        else HP += rand()%8 + 1;
-                        //std::cout << "Level " << i << ": HP = " << HP << std::endl;
-                    }
-                } else if (classtype.name == "Druid") {
-                    for (int i = 1; i <= level; ++i) {
-                        if (i == 1) HP = 8;
-                        else HP += rand()%8 + 1;
-                        //std::cout << "Level " << i << ": HP = " << HP << std::endl;
-                    }
-                } else if (classtype.name == "Fighter") {
-                    for (int i = 1; i <= level; ++i) {
-                        if (i == 1) HP = 10;
-                        else HP += rand()%10 + 1;
-                        //std::cout << "Level " << i << ": HP = " << HP << std::endl;
-                    }
-                } else if (classtype.name == "Monk") {
-                    for (int i = 1; i <= level; ++i) {
-                        if (i == 1) HP = 8;
-                        else HP += rand()%8 + 1;
-                        //std::cout << "Level " << i << ": HP = " << HP << std::endl;
-                    }
-                } else if (classtype.name == "Paladin") {
-                    for (int i = 1; i <= level; ++i) {
-                        if (i == 1) HP = 10;
-                        else HP += rand()%10 + 1;
-                        //std::cout << "Level " << i << ": HP = " << HP << std::endl;
-                    }
-                } else if (classtype.name == "Rogue") {
-                    for (int i = 1; i <= level; ++i) {
-                        if (i == 1) HP = 6;
-                        else HP += rand()%6 + 1;
-                        //std::cout << "Level " << i << ": HP = " << HP << std::endl;
-                    }
-                } else if (classtype.name == "Wizard") {
-                    for (int i = 1; i <= level; ++i) {
-                        if (i == 1) HP = 4;
-                        else HP += rand()%4 + 1;
-                        //std::cout << "Level " << i << ": HP = " << HP << std::endl;
-                    }
+                }
+
+                if (loadedHP > 0) {
+                    classtype.HPdice = loadedHP;
                 } else {
-                    std::cout << "Unknown class. Cannot calculate HP.\n";
-                    break;
+                    static const std::map<std::string,int> defaultHP = {{"Barbarian",12},{"Bard",6},{"Cleric",8},{"Druid",8},{"Fighter",10},{"Monk",8},{"Paladin",10},{"Rogue",8},{"Wizard",4}};
+                    auto it = defaultHP.find(classtype.name);
+                    classtype.HPdice = (it != defaultHP.end()) ? it->second : 8;
+                }
+
+                for (int i = 1; i <= level; ++i) {
+                    if (i == 1) HP = classtype.HPdice;
+                    else HP += rand() % classtype.HPdice + 1; // + CON mod 
                 }
                 break;
             }
@@ -544,14 +629,24 @@ public:
         system("clear");
         std::cout << "HP : " << HP << std::endl;
         while(true) {
-            std::cout << "1- Enter Alignment " << std::endl << "2- Random Alignment" << std::endl << "Enter your choice : ";
+            std::cout << "1- Celect Alignment " << std::endl << "2- Random Alignment" << std::endl << "Enter your choice : ";
             int alignmentChoice;
             std::cin >> alignmentChoice;
             if (alignmentChoice == 1) {
-                std::cout << "Enter the first part of the alignment: ";
-                std::cin >> alignment.alig1;
-                std::cout << "Enter the second part of the alignment: ";
-                std::cin >> alignment.alig2;
+                std::cout << "Please select an alignment: " << std::endl << "1- Lawful Good" << std::endl << "2- Neutral Good" << std::endl << "3- Chaotic Good" << std::endl << "4- Lawful Neutral" << std::endl << "5- Neutral Neutral" << std::endl << "6- Chaotic Neutral" << std::endl << "7- Lawful Evil" << std::endl << "8- Neutral Evil" << std::endl << "9- Chaotic Evil" << std::endl << "Enter your choice : ";
+                int specificAlignmentChoice;
+                if (!(std::cin >> specificAlignmentChoice)) { std::cin.clear(); std::string skip; std::getline(std::cin, skip); }
+                switch (specificAlignmentChoice)                {
+                    case 1: alignment.alig1 = "Lawful"; alignment.alig2 = "Good"; break;
+                    case 2: alignment.alig1 = "Neutral"; alignment.alig2 = "Good"; break;
+                    case 3: alignment.alig1 = "Chaotic"; alignment.alig2 = "Good"; break;
+                    case 4: alignment.alig1 = "Lawful"; alignment.alig2 = "Neutral"; break;
+                    case 5: alignment.alig1 = "Neutral"; alignment.alig2 = "Neutral"; break;
+                    case 6: alignment.alig1 = "Chaotic"; alignment.alig2 = "Neutral"; break;
+                    case 7: alignment.alig1 = "Lawful"; alignment.alig2 = "Evil"; break;
+                    case 8: alignment.alig1 = "Neutral"; alignment.alig2 = "Evil"; break;
+                    case 9: alignment.alig1 = "Chaotic"; alignment.alig2 = "Evil";break;
+                }
                 break;
             }
             else if (alignmentChoice == 2) {
@@ -573,6 +668,93 @@ public:
         }
         system("clear");
         std::cout << "Alignment : " << alignment.alig1 << " " << alignment.alig2 << std::endl;
+        while (true) {
+            std::cout << "Do you want your NPC to be a worshipper of a divinity? (y/n): ";
+            char divinityChoice;
+            std::cin >> divinityChoice;
+            if (divinityChoice == 'y' || divinityChoice == 'Y') {
+                std::cout << "1- Random Divinity" << std::endl << "2- Select Divinity" << std::endl << "3- Divinity By Alignment" << std::endl << "Enter your choice : ";
+                int specificDivinityChoice;
+                if (!(std::cin >> specificDivinityChoice)) { std::cin.clear(); std::string skip; std::getline(std::cin, skip); }
+                if (specificDivinityChoice == 1) {
+                    divinity = Get_Random_Divinity();
+                    divinity.print_divinity_info();
+                } else if (specificDivinityChoice == 2) {
+                    YAML::Node divinitiesNode = config["NPC_conf"]["Divinite"];
+                    std::cout << "Please select a divinity: " << std::endl;
+                    for (size_t i = 0; i < divinitiesNode.size(); ++i) {
+                        std::cout << i + 1 << "- " << divinitiesNode[i].as<std::string>() << " Alignment: " << config["NPC_conf"]["DivinityDetails"][divinitiesNode[i].as<std::string>()]["Alignment1"].as<std::string>() << " " << config["NPC_conf"]["DivinityDetails"][divinitiesNode[i].as<std::string>()]["Alignment2"].as<std::string>() << std::endl;
+                    }
+                    int divinityIndex;
+                    std::cout << "Enter your choice : ";
+                    if (!(std::cin >> divinityIndex) || divinityIndex < 1 || divinityIndex > divinitiesNode.size()) {
+                        std::cin.clear();
+                        std::string skip;
+                        std::getline(std::cin, skip);
+                        std::cout << "Invalid choice. Please select a valid divinity number.\n";
+                    } else {
+                        std::string chosenDivinity = divinitiesNode[divinityIndex - 1].as<std::string>();
+                        YAML::Node divinityDetails = config["NPC_conf"]["DivinityDetails"][chosenDivinity];
+                        if (divinityDetails) {
+                            Alignment divinityAlignment;
+                            divinityAlignment.alig1 = divinityDetails["Alignment1"].as<std::string>();
+                            divinityAlignment.alig2 = divinityDetails["Alignment2"].as<std::string>();
+                            divinity = Divinite(chosenDivinity, divinityAlignment);
+                            divinity.print_divinity_info();
+                        } else {
+                            std::cout << "Details for the selected divinity are missing in the configuration.\n";
+                        }
+                    }
+                } else if (specificDivinityChoice == 3) {
+                    // Map alignments to available deities from the YAML configuration
+                    std::map<std::string, std::vector<std::string>> alignmentToDivinities;
+                    alignmentToDivinities["Lawful Good"] = {"Heironeous", "Moradin", "Yondalla"};
+                    alignmentToDivinities["Neutral Good"] = {"Ehlonna", "Garl Brilledor", "Pelor"};
+                    alignmentToDivinities["Chaotic Good"] = {"Kord"};
+                    alignmentToDivinities["Lawful Neutral"] = {"St. Cuthbert", "Wy-Djaz"};
+                    alignmentToDivinities["Neutral Neutral"] = {"Boccob", "Fharlanghn", "Obad-Hai"};
+                    alignmentToDivinities["Chaotic Neutral"] = {"Olidammara"};
+                    alignmentToDivinities["Lawful Evil"] = {"Hextor"};
+                    alignmentToDivinities["Neutral Evil"] = {"Nerull", "Vecna"};
+                    alignmentToDivinities["Chaotic Evil"] = {"Erythnul", "Gruumsh"};
+                    
+                    std::string alignmentKey = alignment.alig1 + " " + alignment.alig2;
+                    
+                    if (alignmentToDivinities.find(alignmentKey) != alignmentToDivinities.end()) {
+                        std::vector<std::string>& possibleDivinities = alignmentToDivinities[alignmentKey];
+                        std::random_device rd;
+                        std::mt19937 gen(rd());
+                        std::uniform_int_distribution<> dis(0, possibleDivinities.size() - 1);
+                        std::string chosenDivinity = possibleDivinities[dis(gen)];
+                        
+                        YAML::Node divinityDetails = config["NPC_conf"]["DivinityDetails"][chosenDivinity];
+                        if (divinityDetails) {
+                            Alignment divinityAlignment;
+                            divinityAlignment.alig1 = divinityDetails["Alignment1"].as<std::string>();
+                            divinityAlignment.alig2 = divinityDetails["Alignment2"].as<std::string>();
+                            divinity = Divinite(chosenDivinity, divinityAlignment);
+                            divinity.print_divinity_info();
+                        }
+                    } else {
+                        divinity.name = "None";
+                        divinity.alignment.alig1 = alignment.alig1;
+                        divinity.alignment.alig2 = alignment.alig2;
+                    }
+                } else {
+                    std::cout << "Invalid choice. Please try again.\n";
+                }
+                break;
+            } else if (divinityChoice == 'n' || divinityChoice == 'N') {
+                divinity.name = "None";
+                divinity.alignment.alig1 = alignment.alig1;
+                divinity.alignment.alig2 = alignment.alig2;
+                break;
+            } else {
+                std::cout << "Invalid choice. Please enter 'y' or 'n': ";
+            }
+        }
+        system("clear");
+        std::cout << "Divinity : " << divinity.name << std::endl;
     }
 };
 

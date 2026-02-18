@@ -1,21 +1,42 @@
-# GM Campagne Helper (Work in progress)
-This tool is for DND version 3.5e
+# GM Campaign Creation Helper
+
 ## Description
-This is a tool made to help you make you campagne/mission.  
-It can generate :
-- NPC's
-    - Race
-    - Class
-    - Name
-    - Last Name
-    - Level
-    - XP
-    - HP
-    - Alignment
+This tool is designed to help you create your **D&D 3.5e** campaign or mission.
+
+It can generate:
+
+- **NPCs**, including:
+  - Race
+  - Class
+  - First Name
+  - Last Name
+  - Age
+  - Size
+  - Size Category
+  - Level
+  - XP
+  - HP
+  - Alignment
+  - Deity
+
+---
+
 ## Configuration
-The config files are in /conf .  
-- NPC_conf.yaml
-    - You can add race's but not all functionality will work whit that race.
-    - You can add class's but not all functionality will work whit that class.
-    - You can add/remouve **usualNames** and the tool will be able to yous/no yous the name you have added/remouved.
-    - You can add/remouve **usualLastNames** and the tool will be able to yous/no yous the last name you have added/remouved.
+
+The configuration files are located in the `/conf` directory.
+
+### `NPC_conf.yaml`
+
+You can customize the NPC generator by editing this file:
+
+- You can **add or remove races**, and the tool will use (or stop using) the races you modify.  
+  *(Make sure to configure them correctly.)*
+
+- You can **add or remove classes**, and the tool will use (or stop using) the classes you modify.  
+  *(Make sure to configure them correctly.)*
+
+- You can **add or remove entries in `usualNames`**, and the tool will use (or stop using) the names you modify.
+
+- You can **add or remove entries in `usualLastNames`**, and the tool will use (or stop using) the last names you modify.
+
+- You can **add or remove deities**, and the tool will use (or stop using) the deities you modify.

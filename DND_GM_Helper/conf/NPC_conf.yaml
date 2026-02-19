@@ -8,7 +8,6 @@ NPC_conf:
         - Halfling
         - Gnome
         - Half-Orc
-        - test
 
     Classtype:
         - Barbarian
@@ -20,7 +19,7 @@ NPC_conf:
         - Paladin
         - Rogue
         - Wizard
-        - testclass
+
     Human:
         - usualNames:
             - Aldric
@@ -229,13 +228,7 @@ NPC_conf:
             - Yurk
         - MaxSize: 200
         - MaxAge: 75
-    test :
-        - usualNames:
-            - test1
-            - test2
-            - test3
-        - MaxSize: 999
-        - MaxAge: 999
+
     Barbarian:
         - usualLastNames:
             - Ironfist
@@ -254,12 +247,6 @@ NPC_conf:
             - Doomhammer
             - 
         - HPdice: 12
-    testclass:
-        - usualLastNames:
-            - testlast1
-            - testlast2
-            - testlast3
-        - HPdice: 999
     Bard:
         - usualLastNames:
             - Silverstring
@@ -278,6 +265,13 @@ NPC_conf:
             - Cadence
             - Echoheart
         - HPdice: 6
+        - Caracteristicspriority:
+            - CHA
+            - DEX
+            - FOR
+            - SAG
+            - CON
+            - INT
     Cleric:
         - usualLastNames:
             - Lightbringer
@@ -296,6 +290,13 @@ NPC_conf:
             - Venerated
             - Zealot
         - HPdice: 8
+        - Caracteristicspriority:
+            - SAG
+            - FOR
+            - CON
+            - CHA
+            - DEX
+            - INT
     Druid:
         - usualLastNames:
             - "Greenleaf"
@@ -314,6 +315,13 @@ NPC_conf:
             - Wildsoul
             - "Nature's Guardian"
         - HPdice: 8
+        - Caracteristicspriority:
+            - SAG
+            - DEX
+            - CON
+            - FOR
+            - CHA
+            - INT
     Fighter:
         - usualLastNames:
             - Ironfist
@@ -332,6 +340,13 @@ NPC_conf:
             - Sentinel
             - Warrior
         - HPdice: 10
+        - Caracteristicspriority:
+            - FOR
+            - CON
+            - DEX
+            - SAG
+            - CHA
+            - INT
     Monk:
         - usualLastNames:
             - Silent
@@ -350,6 +365,13 @@ NPC_conf:
             - Harmonious
             - Disciplined
         - HPdice: 8
+        - Caracteristicspriority:
+            - DEX
+            - SAG
+            - FOR
+            - CON
+            - CHA
+            - INT
     Paladin:
         - usualLastNames:
             - Lightbringer
@@ -368,6 +390,13 @@ NPC_conf:
             - Avenger
             - Protector
         - HPdice: 10
+        - Caracteristicspriority:
+            - FOR
+            - SAG
+            - CON
+            - CHA
+            - DEX
+            - INT
     Rogue:
         - usualLastNames:
             - Shadow
@@ -386,6 +415,13 @@ NPC_conf:
             - Shadowstep
             - Darkblade
         - HPdice: 8
+        - Caracteristicspriority:
+            - DEX
+            - CHA
+            - FOR
+            - SAG
+            - CON
+            - INT
     Wizard:
         - usualLastNames:
             - Arcaneweaver
@@ -403,7 +439,13 @@ NPC_conf:
             - Elementalist
             - Chronomancer
         - HPdice: 4
-    
+        - Caracteristicspriority:
+            - INT
+            - SAG
+            - DEX
+            - CHA
+            - CON
+            - FOR
     Divinite:
         - Boccob
         - Ehlonna
@@ -479,3 +521,8 @@ NPC_conf:
         Yondalla:
             Alignment1: Lawful
             Alignment2: Good
+
+    Sexes:
+        - Male
+        - Female
+        - Non-binary

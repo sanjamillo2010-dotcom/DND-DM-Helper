@@ -10,6 +10,7 @@ It can generate:
   - Class
   - First Name
   - Last Name
+  - Sexe
   - Age
   - Size
   - Size Category
@@ -18,7 +19,8 @@ It can generate:
   - HP
   - Alignment
   - Deity
-
+  - Caracteristique (Not fully devloped)
+  
 ---
 
 ## Configuration

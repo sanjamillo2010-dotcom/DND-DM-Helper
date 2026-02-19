@@ -156,12 +156,20 @@ public:
     std::string LastName;
     Race race;
     ClassType classtype;
+    std::string Sexe;
     int Age = 0;
     int Size = 0;
     std::string SizeCategory = "";
     int level = 1;
     int XP = 0;
     int HP = 0;
+    int FOR;
+    int DEX;
+    int CON;
+    int INT;
+    int SAG;
+    int CHA;
+    int CA = 10;
     Alignment alignment;
     Divinite divinity;
     void Print_NPC_Stats(){
@@ -178,6 +186,8 @@ public:
         std::cout << "XP : " << XP << std::endl;
         std::cout << "Alignment : " << alignment.alig1 << " " << alignment.alig2 << std::endl;
         std::cout << "Divinity : " << divinity.name << " Alignment: " << divinity.alignment.alig1 << " " << divinity.alignment.alig2 << std::endl;
+        std::cout << "-----------------------------------------" << std::endl;
+        std::cout << "strength : " << FOR << std::endl << "dexterity : " << DEX << std::endl << "constitution : " << CON << std::endl << "intelligence : " << INT << std::endl << "wisdom : " << SAG << std::endl << "charisma : " << CHA << std::endl;
         std::cout << "-----------------------------------------" << std::endl;
         std::cout << name << " " << LastName << " the " << alignment.alig1 << " " << alignment.alig2 << " " << race.name << " " << classtype.name << std::endl;
     }
@@ -236,6 +246,19 @@ public:
             Divinite d(chosenDivinity, alignment);
             return d;
         }
+    int Calculate_Carecteristics(){
+        int Diceroll; int D1 = rand() % 6 + 1; int D2 = rand() % 6 + 1; int D3 = rand() % 6 + 1; int D4 = rand() % 6 + 1;
+        //std::cout << "Debug: First roll: " << D1 << " " << D2 << " " << D3 << " " << D4 << std::endl;
+        if (D1 < D2) std::swap(D1, D2);
+        if (D1 < D3) std::swap(D1, D3);
+        if (D1 < D4) std::swap(D1, D4);
+        if (D2 < D3) std::swap(D2, D3);
+        if (D2 < D4) std::swap(D2, D4);
+        if (D3 < D4) std::swap(D3, D4);
+        Diceroll = D1 + D2 + D3;
+        //std::cout << "Debug: First roll: " << D1 << "+" << D2 << "+" << D3 << std::endl;
+        return Diceroll;
+    } 
     void Get_NPC_Stats(){
         YAML::Node config = YAML::LoadFile("conf/NPC_conf.yaml");
         while (true) {
@@ -350,6 +373,39 @@ public:
         }
         system("clear");
         std::cout << "Last Name : " << LastName << std::endl;
+        while (true) {
+            std::cout << "1- Select Sexe" << std::endl << "2- Random Sexe" << std::endl << "Enter your choice : ";
+            int sexeChoice;
+            std::cin >> sexeChoice;
+            if (sexeChoice == 1) {
+                YAML::Node sexesNode = config["NPC_conf"]["Sexes"];
+                std::cout << "Available :" << std::endl;
+                int i = 1;
+                for (YAML::const_iterator it = sexesNode.begin(); it != sexesNode.end(); ++it) {
+                    std::cout << i << "- " << it->as<std::string>() << std::endl;
+                    i = i + 1;
+                }
+                std::cout << "Please enter the NPC's sexe: ";
+                std::cin >> sexeChoice;
+                Sexe = sexesNode[sexeChoice - 1].as<std::string>();
+                break;
+            } else if (sexeChoice == 2) {
+                YAML::Node sexesNode = config["NPC_conf"]["Sexes"];
+                std::vector<std::string> availableSexes;
+                for (YAML::const_iterator it = sexesNode.begin(); it != sexesNode.end(); ++it) {
+                    availableSexes.push_back(it->as<std::string>());
+                }
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dis(0, availableSexes.size() - 1);
+                Sexe = availableSexes[dis(gen)];
+                break;
+            } else {
+                std::cout << "Invalid choice. Please enter -1 or 2.\n";
+            }
+        }
+        system("clear");
+        std::cout << "Sexe : " << Sexe << std::endl;
         while (true) {
             std::cout << "1- Custom Age" << std::endl << "2- Random Age" << std::endl << "Enter your choice : ";
             int ageChoice;
@@ -755,6 +811,213 @@ public:
         }
         system("clear");
         std::cout << "Divinity : " << divinity.name << std::endl;
+        while (true) {
+            std::cout << "Carecteristiques : " << std::endl << "1- Custom Carecteristiqes" << std::endl << "2- Calculate Carecteristiqes with class (dos not work rn)" << std::endl << "3- Random Carecteristiqes" << std::endl << "Enter your choice : ";
+            int carecteristicsChoice;
+            std::cin >> carecteristicsChoice;
+            if (carecteristicsChoice == 1) {
+                std::cout << "Please enter the NPC's Strength: ";
+                std::cin >> FOR;
+                std::cout << "Please enter the NPC's Dexterity: ";
+                std::cin >> DEX;
+                std::cout << "Please enter the NPC's Constitution: ";
+                std::cin >> CON;
+                std::cout << "Please enter the NPC's Intelligence: ";
+                std::cin >> INT;
+                std::cout << "Please enter the NPC's Wisdom: ";
+                std::cin >> SAG;
+                std::cout << "Please enter the NPC's Charisma: ";
+                std::cin >> CHA;
+                break;
+            } else if (carecteristicsChoice == 2) {
+                std::cout << "Currunly not working" << std::endl;
+                /*int Diceroll1, Diceroll2, Diceroll3, Diceroll4, Diceroll5, Diceroll6;
+                Diceroll1 = Calculate_Carecteristics();
+                Diceroll2 = Calculate_Carecteristics();
+                Diceroll3 = Calculate_Carecteristics();
+                Diceroll4 = Calculate_Carecteristics();
+                Diceroll5 = Calculate_Carecteristics();
+                Diceroll6 = Calculate_Carecteristics();
+                std::cout << "Generated rolls: " << Diceroll1 << ", " << Diceroll2 << ", " << Diceroll3 << ", " << Diceroll4 << ", " << Diceroll5 << ", " << Diceroll6 << std::endl;
+                if (Diceroll1 < Diceroll2) std::swap(Diceroll1, Diceroll2);
+                if (Diceroll1 < Diceroll3) std::swap(Diceroll1, Diceroll3);
+                if (Diceroll1 < Diceroll4) std::swap(Diceroll1, Diceroll4);
+                if (Diceroll1 < Diceroll5) std::swap(Diceroll1, Diceroll5);
+                if (Diceroll1 < Diceroll6) std::swap(Diceroll1, Diceroll6);
+                if (Diceroll2 < Diceroll3) std::swap(Diceroll2, Diceroll3);
+                if (Diceroll2 < Diceroll4) std::swap(Diceroll2, Diceroll4);
+                if (Diceroll2 < Diceroll5) std::swap(Diceroll2, Diceroll5);
+                if (Diceroll2 < Diceroll6) std::swap(Diceroll2, Diceroll6);
+                if (Diceroll3 < Diceroll4) std::swap(Diceroll3, Diceroll4);
+                if (Diceroll3 < Diceroll5) std::swap(Diceroll3, Diceroll5);
+                if (Diceroll3 < Diceroll6) std::swap(Diceroll3, Diceroll6);
+                if (Diceroll4 < Diceroll5) std::swap(Diceroll4, Diceroll5);
+                if (Diceroll4 < Diceroll6) std::swap(Diceroll4, Diceroll6);
+                if (Diceroll5 < Diceroll6) std::swap(Diceroll5, Diceroll6);
+                std::cout << "Generated rolls: " << Diceroll1 << ", " << Diceroll2 << ", " << Diceroll3 << ", " << Diceroll4 << ", " << Diceroll5 << ", " << Diceroll6 << std::endl;
+                YAML::Node config = YAML::LoadFile("conf/NPC_conf.yaml");
+                std::string priority1 = config["NPC_conf"][classtype.name]["Caracteristicspriority"][0].as<std::string>();
+                std::string priority2 = config["NPC_conf"][classtype.name]["Caracteristicspriority"][1].as<std::string>();
+                std::string priority3 = config["NPC_conf"][classtype.name]["Caracteristicspriority"][2].as<std::string>();
+                std::string priority4 = config["NPC_conf"][classtype.name]["Caracteristicspriority"][3].as<std::string>();
+                std::string priority5 = config["NPC_conf"][classtype.name]["Caracteristicspriority"][4].as<std::string>();
+                std::string priority6 = config["NPC_conf"][classtype.name]["Caracteristicspriority"][5].as<std::string>();
+                //give the highest roll to the highest priority stat, the second highest to the second priority, etc.
+                std::map<std::string, int*> statMap = {{"FOR", &FOR}, {"DEX", &DEX}, {"CON", &CON}, {"INT", &INT}, {"SAG", &SAG}, {"CHA", &CHA}};
+                if (statMap.find(priority1) != statMap.end()) *statMap[priority1] = Diceroll1;
+                if (statMap.find(priority2) != statMap.end()) *statMap[priority2] = Diceroll2;
+                if (statMap.find(priority3) != statMap.end()) *statMap[priority3] = Diceroll3;
+                if (statMap.find(priority4) != statMap.end()) *statMap[priority4] = Diceroll4;
+                if (statMap.find(priority5) != statMap.end()) *statMap[priority5] = Diceroll5;
+                if (statMap.find(priority6) != statMap.end()) *statMap[priority6] = Diceroll6;
+                break;*/
+            } else if (carecteristicsChoice == 3) {
+                bool validStats = false;
+                while (validStats == false) {
+                    std::random_device rd;
+                    std::mt19937 gen(rd());
+                    std::uniform_int_distribution<> dis(3, 18);
+                    FOR = dis(gen);
+                    DEX = dis(gen);
+                    CON = dis(gen);
+                    INT = dis(gen);
+                    SAG = dis(gen);
+                    CHA = dis(gen);
+                    if (FOR + DEX + CON + INT + SAG + CHA >= 50) validStats = true;
+                    else validStats = false; //std::cout << "Debug: Generated stats sum = " << FOR + DEX + CON + INT + SAG + CHA << " (regenerating...)\n";
+                }
+                for (int i = 0; i < level / 4; ++i) {
+                    //std::cout << "Debug: i = " << i << std::endl;
+                    std::random_device rd;
+                    std::mt19937 gen(rd());
+                    std::uniform_int_distribution<> dis(1, 6);
+                    if (dis(gen) == 1) FOR += 1;
+                    if (dis(gen) == 2) DEX += 1;
+                    if (dis(gen) == 3) CON += 1;
+                    if (dis(gen) == 4) INT += 1;
+                    if (dis(gen) == 5) SAG += 1;
+                    if (dis(gen) == 6) CHA += 1;
+                }
+                break;
+            } else {
+                std::cout << "Invalid choice. Please try again." << std::endl;
+            }
+        }
+        system("clear");
+        std::cout << "Strength : " << FOR << std::endl << "Dexterity : " << DEX << std::endl << "Constitution : " << CON << std::endl << "Intelligence : " << INT << std::endl << "Wisdom : " << SAG << std::endl << "Charisma : " << CHA << std::endl;
+        while (true){
+            CA = 10 + (DEX - 10) / 2;
+            if (SizeCategory == "Tiny") CA += 2;
+            else if (SizeCategory == "Small") CA += 1;
+            else if (SizeCategory == "Large") CA -= 1;
+            else if (SizeCategory == "Huge") CA -= 2;
+            else if (SizeCategory == "Gargantuan") CA -= 4;
+            std::cout << "AC : " << CA << std::endl;
+            std::cout << "NPC has a armor? (y/n) ";
+            std::string armor;
+            std::cin >> armor;
+            if (armor == "y" || armor == "Y") {
+                std::cout << "Please enter the armor's AC bonus: ";
+                int armorBonus;
+                if (!(std::cin >> armorBonus) || armorBonus < 0) {
+                    std::cin.clear();
+                    std::string skip;
+                    std::getline(std::cin, skip);
+                    std::cout << "Invalid input. Please enter a non-negative number.\n";
+                } else {
+                    CA += armorBonus;
+                    std::cout << "AC : " << CA << std::endl;
+                }
+            }
+            else if (armor == "n" || armor == "N") {
+                std::cout << "AC : " << CA << std::endl;
+            } else {
+                std::cout << "Invalid choice. Please enter 'y' or 'n': ";
+            }
+            std::cout << "NPC has a shield? (y/n) ";
+            std::string shield;
+            std::cin >> shield;
+            if (shield == "y" || shield == "Y") {
+                std::cout << "AC : " << CA << std::endl;
+                std::cout << "Please enter the shield's AC bonus: ";
+                int shieldBonus;
+                if (!(std::cin >> shieldBonus) || shieldBonus < 0) {
+                    std::cin.clear();
+                    std::string skip;
+                    std::getline(std::cin, skip);
+                    std::cout << "Invalid input. Please enter a non-negative number.\n";
+                } else {
+                    CA += shieldBonus;
+                    std::cout << "AC : " << CA << std::endl;
+                }
+            }
+            else if (shield == "n" || shield == "N") {
+                std::cout << "AC : " << CA << std::endl;
+            } else {
+                std::cout << "Invalid choice. Please enter 'y' or 'n': ";
+            }
+            std::cout << "NPC has a natural armor? (y/n) ";
+            std::string naturalArmor;
+            std::cin >> naturalArmor;
+            if (naturalArmor == "y" || naturalArmor == "Y") {
+                std::cout << "Please enter the natural armor's AC bonus: ";
+                int naturalArmorBonus;
+                if (!(std::cin >> naturalArmorBonus) || naturalArmorBonus < 0) {
+                    std::cin.clear();
+                    std::string skip;
+                    std::getline(std::cin, skip);
+                    std::cout << "Invalid input. Please enter a non-negative number.\n";
+                } else {
+                    CA += naturalArmorBonus;
+                    std::cout << "AC : " << CA << std::endl;
+                }
+            }
+            else if (naturalArmor == "n" || naturalArmor == "N") {
+                std::cout << "AC : " << CA << std::endl;
+            } else {
+                std::cout << "Invalid choice. Please enter 'y' or 'n': ";
+            }
+            std::cout << "NPC has magical objects that give it an AC bonus? (y/n) ";
+            std::string magicalObjects;
+            std::cin >> magicalObjects;
+            if (magicalObjects == "y" || magicalObjects == "Y") {
+                std::cout << "Please enter the total AC bonus from magical objects: ";
+                int magicalObjectsBonus;
+                if (!(std::cin >> magicalObjectsBonus) || magicalObjectsBonus < 0) {
+                    std::cin.clear();
+                    std::string skip;
+                    std::getline(std::cin, skip);
+                    std::cout << "Invalid input. Please enter a non-negative number.\n";
+                } else {
+                    CA += magicalObjectsBonus;
+                    std::cout << "AC : " << CA << std::endl;
+                }
+            }
+            else if (magicalObjects == "n" || magicalObjects == "N") {
+               std::cout << "AC : " <<  CA << std::endl;
+            } else {
+                std::cout << "Invalid choice. Please enter 'y' or 'n': ";
+            }
+            std::cout << "AC : " << CA << std::endl;
+            std::cout << "Do you want to adjust the AC further? (y/n) ";
+            std::string adjustCA;
+            std::cin >> adjustCA;
+            if (adjustCA == "n" || adjustCA == "N") {
+                std::cout << "AC : " << CA << std::endl;
+            } else if (adjustCA != "y" && adjustCA != "Y") {
+                std::cout << "Final Modifier : ";
+                int finalmod;
+                std::cin >> finalmod;
+                CA += finalmod;
+                std::cout << "AC : " << CA << std::endl;
+            }
+            else {
+                std::cout << "Invalid choice. Please enter 'y' or 'n': ";
+            }
+            break;
+        }
+        system("clear");
+        std::cout << "AC : " << CA << std::endl;
     }
 };
 

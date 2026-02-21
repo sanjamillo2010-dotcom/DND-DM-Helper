@@ -22,6 +22,14 @@ It can generate:
   - Caracteristique (Not fully devloped)
   
 ---
+## How to run
+
+In the terminal
+`cd Documents/workspace/GM_Helper/  
+rm -rf build  
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug  
+cmake --build build --parallel -- VERBOSE=1 2>&1  
+./build/GM_Helper`  
 
 ## Configuration
 

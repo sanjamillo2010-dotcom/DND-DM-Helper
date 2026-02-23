@@ -1,9 +1,0 @@
-/home/sanja/Documents/workspace/GM_Helper/build/CMakeFiles/GM_Helper.dir
-/home/sanja/Documents/workspace/GM_Helper/build/CMakeFiles/edit_cache.dir
-/home/sanja/Documents/workspace/GM_Helper/build/CMakeFiles/rebuild_cache.dir
-/home/sanja/Documents/workspace/GM_Helper/build/CMakeFiles/list_install_components.dir
-/home/sanja/Documents/workspace/GM_Helper/build/CMakeFiles/install.dir
-/home/sanja/Documents/workspace/GM_Helper/build/CMakeFiles/install/local.dir
-/home/sanja/Documents/workspace/GM_Helper/build/CMakeFiles/install/strip.dir
-/home/sanja/Documents/workspace/GM_Helper/build/CMakeFiles/GM_Helper_autogen_timestamp_deps.dir
-/home/sanja/Documents/workspace/GM_Helper/build/CMakeFiles/GM_Helper_autogen.dir

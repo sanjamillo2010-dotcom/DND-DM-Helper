@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/GM_Helper.dir/GM_Helper_autogen/mocs_compilation.cpp.o CMakeFiles/GM_Helper.dir/main.cpp.o -o GM_Helper  /usr/lib/x86_64-linux-gnu/libQt6Widgets.so.6.4.2 /usr/local/lib/libyaml-cpp.a /usr/lib/x86_64-linux-gnu/libQt6Gui.so.6.4.2 /usr/lib/x86_64-linux-gnu/libQt6Core.so.6.4.2 /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libOpenGL.so 

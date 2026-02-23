@@ -17,7 +17,7 @@ It can generate:
   
 ---
 ## How to make it in a executable file
-You can skip this part if there is already a working executable file in the repository. They will be in '/Executable/yourOS'
+You can skip this part if there is already a working executable file in the repository. They will be in /Executable/yourOS
 ### Linux
 
 **1. Install the tools**
@@ -52,7 +52,7 @@ chmod +x build/Desktop-Debug/DND_MG_Helper_GUI
 # Run it
 ~/Desktop/DND_MG_Helper_GUI
 ```
-The '/conf' folder will be there too. Bundle theme in a single folder for easy configuration. Correct the spelling.
+The /conf folder will be there too. Bundle theme in a single folder for easy configuration. Correct the spelling.
 
 **6. Optional — make a Flatpak for wider sharing**
 ```bash

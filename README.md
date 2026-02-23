@@ -128,5 +128,3 @@ You can customize the NPC generator by editing this file:
 - You can **add or remove entries in `usualNames`**, and the tool will use (or stop using) the names you modify.
 
 - You can **add or remove entries in `usualLastNames`**, and the tool will use (or stop using) the last names you modify.
-
-- You can **add or remove deities**, and the tool will use (or stop using) the deities you modify.

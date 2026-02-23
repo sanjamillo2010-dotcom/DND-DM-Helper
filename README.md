@@ -83,7 +83,7 @@ The easiest way is via vcpkg:
 ```cmd
 git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
-bootstrap-vcpkg.bat
+./bootstrap-vcpkg.bat
 vcpkg install yaml-cpp
 vcpkg integrate install
 cd ..

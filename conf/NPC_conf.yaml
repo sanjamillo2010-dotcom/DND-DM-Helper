@@ -1,0 +1,528 @@
+---
+NPC_conf:
+    race:
+        - Human
+        - Elf
+        - Half-Elf
+        - Dwarf
+        - Halfling
+        - Gnome
+        - Half-Orc
+
+    Classtype:
+        - Barbarian
+        - Bard
+        - Cleric
+        - Druid
+        - Fighter
+        - Monk
+        - Paladin
+        - Rogue
+        - Wizard
+
+    Human:
+        - usualNames:
+            - Aldric
+            - Aelwyn
+            - Antar
+            - Ashen
+            - Athalus
+            - Aurion
+            - Azarath
+            - Bartholomew
+            - Bastion
+            - Belor
+            - Bennox
+            - Bernward
+            - Blaze
+            - Bolar
+            - Brennus
+            - Broderick
+            - Bryden
+            - Cadmus
+            - Caelum
+            - Caerith
+            - Caine
+            - Caleb
+            - Callen
+            - Caspian
+            - Cedric
+            - Ceren
+            - Cipher
+            - Clayne
+            - Corin
+            - Corvus
+        - MaxSize: 180
+        - MaxAge: 100
+    Elf:
+        - usualNames:
+            - Aelar
+            - Aeris
+            - Alaric
+            - Althaea
+            - Amara
+            - Anarion
+            - Arannis
+            - Ariawyn
+            - Ariella
+            - Arin
+            - Arion
+            - Ashryn
+            - Averyn
+            - Avriel
+            - Azura
+            - Belanor
+            - Beltharion
+            - Briar
+            - Caelith
+            - Caladriel
+            - Caleneth
+            - Calyndra
+            - Caranthir
+            - Cariel
+        - MaxSize: 170
+        - MaxAge: 750
+    Half-Elf:
+        - usualNames:
+            - Aelar
+            - Aeris
+            - Alaric
+            - Althaea
+            - Amara
+            - Anarion
+            - Arannis
+            - Ariawyn
+            - Ariella
+            - Arin
+            - Arion
+            - Ashryn
+            - Averyn
+            - Avriel
+            - Azura
+            - Belanor
+            - Beltharion
+            - Briar
+            - Caelith
+            - Caladriel
+            - Caleneth
+            - Calyndra
+            - Caranthir
+            - Cariel
+        - MaxSize: 175
+        - MaxAge: 180
+    Dwarf:
+        - usualNames:
+            - Adrik
+            - Alaric
+            - Baldric
+            - Barendd
+            - Beloril
+            - Bharash
+            - Borin
+            - Brokk
+            - Dain
+            - Darrak
+            - Delg
+            - Eberk
+            - Einkil
+            - Eldeth
+            - Erebor
+            - Erik
+            - Fargrim
+            - Flint
+            - Gardain
+            - Gilthur
+            - Glóin
+            - Gloinn
+            - Grimnir
+            - Harbek
+            - Kildrak
+            - Kilvar
+            - Morgran
+            - Orsik
+            - Oskar
+            - Rurik
+            - Taklinn
+            - Thoradin
+            - Thorin
+            - Thráin
+            - Ulfgar
+            - Vondal
+        - MaxSize: 150
+        - MaxAge: 350
+    Halfling:
+        - usualNames:
+            - Alton
+            - Ander
+            - Bernie
+            - Bobbin
+            - Bree
+            - Callie
+            - Cora
+            - Daisy
+            - Eldon
+            - Euphemia
+            - Finnan
+            - Garret
+            - Gilbert
+            - Hamfast
+            - Lobelia
+            - Merric
+            - Milo
+            - osborn
+            - Perrin
+            - Reed
+            - Rosyie
+        - MaxSize: 100
+        - MaxAge: 150
+    Gnome:
+        - usualNames:
+            - Alston
+            - Alvyn
+            - Boddynock
+            - Brocc
+            - Burgell
+            - Dimble
+            - Eldon
+            - Ellyn
+            - Erky
+            - Fonkin
+            - Frug
+            - Gerbo
+            - Gimble
+            - Glim
+            - Jebeddo
+            - Kellen
+            - Namfoodle
+            - Nim
+            - Nipperkin
+            - Orryn
+            - Roywyn
+            - Rudolph
+            - Sarn
+            - Seebo
+            - Sindri
+            - Warryn
+            - Wrenn
+            - Zook
+        - MaxSize: 120
+        - MaxAge: 500
+    Half-Orc:
+        - usualNames:
+            - Dench
+            - Feng
+            - Gell
+            - Henk
+            - Holg
+            - Imsh
+            - Keth
+            - Krusk
+            - Mhurr
+            - Mogor
+            - Morg
+            - Nil
+            - Orsik
+            - Thokk
+            - Ugarth
+            - Varg
+            - Yurk
+        - MaxSize: 200
+        - MaxAge: 75
+
+    Barbarian:
+        - usualLastNames:
+            - Ironfist
+            - Stormbringer
+            - Bloodaxe
+            - Skullcrusher
+            - Thunderfoot
+            - Rageheart
+            - Frostbeard
+            - Stonebreaker
+            - Wildmane
+            - Grimblade
+            - Bonecrusher
+            - Firebrand
+            - Shadowhunter
+            - Doomhammer
+            - 
+        - HPdice: 12
+    Bard:
+        - usualLastNames:
+            - Silverstring
+            - Melodyweaver
+            - Harmonious
+            - Lyrical
+            - Songbird
+            - Whisperwind
+            - Fableweaver
+            - Balladmaster
+            - Chantress
+            - Minstrel
+            - Serenade
+            - Rhythmweaver
+            - Sonneteer
+            - Cadence
+            - Echoheart
+        - HPdice: 6
+        - Caracteristicspriority:
+            - CHA
+            - DEX
+            - FOR
+            - SAG
+            - CON
+            - INT
+    Cleric:
+        - usualLastNames:
+            - Lightbringer
+            - Soulhealer
+            - Divineheart
+            - Faithkeeper
+            - Holyshield
+            - Graceful
+            - Pious
+            - Sanctum
+            - Blessed
+            - Radiant
+            - Spiritwalker
+            - Devout
+            - Sacred
+            - Venerated
+            - Zealot
+        - HPdice: 8
+        - Caracteristicspriority:
+            - SAG
+            - FOR
+            - CON
+            - CHA
+            - DEX
+            - INT
+    Druid:
+        - usualLastNames:
+            - "Greenleaf"
+            - "Wildheart"
+            - "Nature's Embrace"
+            - Earthshaper
+            - Moonwhisper
+            - Sunseeker
+            - Stormcaller
+            - Feralheart
+            - Thornweaver
+            - Spiritwalker
+            - Leafsong
+            - Rootbinder
+            - Skywatcher
+            - Wildsoul
+            - "Nature's Guardian"
+        - HPdice: 8
+        - Caracteristicspriority:
+            - SAG
+            - DEX
+            - CON
+            - FOR
+            - CHA
+            - INT
+    Fighter:
+        - usualLastNames:
+            - Ironfist
+            - Steelheart
+            - Battleborn
+            - Warbringer
+            - Shieldbearer
+            - Swordmaster
+            - Armored
+            - Defender
+            - Gladiator
+            - Warlord
+            - Champion
+            - Berserker
+            - Vanguard
+            - Sentinel
+            - Warrior
+        - HPdice: 10
+        - Caracteristicspriority:
+            - FOR
+            - CON
+            - DEX
+            - SAG
+            - CHA
+            - INT
+    Monk:
+        - usualLastNames:
+            - Silent
+            - Shadow
+            - Swift
+            - Serene
+            - Tranquil
+            - Zen
+            - Mystic
+            - Innerpeace
+            - Calm
+            - Still
+            - Focused
+            - Enlightened
+            - Balanced
+            - Harmonious
+            - Disciplined
+        - HPdice: 8
+        - Caracteristicspriority:
+            - DEX
+            - SAG
+            - FOR
+            - CON
+            - CHA
+            - INT
+    Paladin:
+        - usualLastNames:
+            - Lightbringer
+            - Holyshield
+            - Divineheart
+            - Faithkeeper
+            - Radiant
+            - Sacred
+            - Venerated
+            - Zealot
+            - Crusader
+            - Templar
+            - Knight
+            - Justicar
+            - Inquisitor
+            - Avenger
+            - Protector
+        - HPdice: 10
+        - Caracteristicspriority:
+            - FOR
+            - SAG
+            - CON
+            - CHA
+            - DEX
+            - INT
+    Rogue:
+        - usualLastNames:
+            - Shadow
+            - Silent
+            - Swift
+            - Whisperwind
+            - Nightshade
+            - Dagger
+            - Cloak
+            - Viper
+            - Phantom
+            - Bandit
+            - Assassin
+            - Thief
+            - Trickster
+            - Shadowstep
+            - Darkblade
+        - HPdice: 8
+        - Caracteristicspriority:
+            - DEX
+            - CHA
+            - FOR
+            - SAG
+            - CON
+            - INT
+    Wizard:
+        - usualLastNames:
+            - Arcaneweaver
+            - Spellbinder
+            - Mystic
+            - Enchanter
+            - Sorcerer
+            - Warlock
+            - Mage
+            - Spellweaver
+            - Arcaneheart
+            - Sage
+            - Seer
+            - Diviner
+            - Elementalist
+            - Chronomancer
+        - HPdice: 4
+        - Caracteristicspriority:
+            - INT
+            - SAG
+            - DEX
+            - CHA
+            - CON
+            - FOR
+    Divinite:
+        - Boccob
+        - Ehlonna
+        - Erythnul
+        - Fharlanghn
+        - Garl Brilledor
+        - Gruumsh
+        - Heironeous
+        - Hextor
+        - Kord
+        - Moradin
+        - Nerull
+        - Obad-Hai
+        - Olidammara
+        - Pelor
+        - St. Cuthbert
+        - Vecna
+        - Wy-Djaz
+        - Yondalla
+    
+    DivinityDetails:
+        Boccob:
+            Alignment1: Neutral
+            Alignment2: Neutral
+        Ehlonna:
+            Alignment1: Neutral
+            Alignment2: Good
+        Erythnul:
+            Alignment1: Chaotic
+            Alignment2: Evil
+        Fharlanghn:
+            Alignment1: Neutral
+            Alignment2: Neutral
+        Garl Brilledor:
+            Alignment1: Neutral
+            Alignment2: Good
+        Gruumsh:
+            Alignment1: Chaotic
+            Alignment2: Evil
+        Heironeous:
+            Alignment1: Lawful
+            Alignment2: Good
+        Hextor:
+            Alignment1: Lawful
+            Alignment2: Evil
+        Kord:
+            Alignment1: Chaotic
+            Alignment2: Good
+        Moradin:
+            Alignment1: Lawful
+            Alignment2: Good
+        Nerull:
+            Alignment1: Neutral
+            Alignment2: Evil
+        Obad-Hai:
+            Alignment1: Neutral
+            Alignment2: Neutral
+        Olidammara:
+            Alignment1: Chaotic
+            Alignment2: Neutral
+        Pelor:
+            Alignment1: Neutral
+            Alignment2: Good
+        St. Cuthbert:
+            Alignment1: Lawful
+            Alignment2: Neutral
+        Vecna:
+            Alignment1: Neutral
+            Alignment2: Evil
+        Wy-Djaz:
+            Alignment1: Lawful
+            Alignment2: Neutral
+        Yondalla:
+            Alignment1: Lawful
+            Alignment2: Good
+
+    Sexes:
+        - Male
+        - Female
+        - Non-binary

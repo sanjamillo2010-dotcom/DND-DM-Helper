@@ -84,8 +84,8 @@ The easiest way is via vcpkg:
 git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
 ./bootstrap-vcpkg.bat
-vcpkg install yaml-cpp
-vcpkg integrate install
+.\vcpkg install yaml-cpp
+.\vcpkg integrate install
 cd ..
 ```
 

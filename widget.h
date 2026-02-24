@@ -2,10 +2,11 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <yaml-cpp/yaml.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class Widget;
+class DND_GM_Helper;
 }
 QT_END_NAMESPACE
 
@@ -16,6 +17,7 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
+    YAML::Node config;
 
 private slots:
     void on_Racetxtin_editingFinished();
@@ -52,7 +54,21 @@ private slots:
 
     void on_pushButton_5_clicked();
 
+    void on_butCOmandlinemode_clicked();
+
+    void on_leveltxtin_editingFinished();
+
+    void on_xptxtin_editingFinished();
+
+    void on_butrandlevel_clicked();
+
+    void on_butRandXP_clicked();
+
+    void on_HPtxtin_editingFinished();
+
+    void on_butCalculatehp_clicked();
+
 private:
-    Ui::Widget *ui;
+    Ui::DND_GM_Helper *ui;
 };
 #endif // WIDGET_H

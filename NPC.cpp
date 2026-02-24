@@ -746,3 +746,28 @@ void NPC::Get_NPC_Stats() {
     system("clear");
     std::cout << "AC : " << CA << std::endl;
 }
+
+void NPC::Print_NPC_Stats() {
+    std::cout
+        << "Name : "          << name                          << "\n"
+        << "Last Name : "     << LastName                      << "\n"
+        << "Race : "          << race.name                     << "\n"
+        << "Class : "         << classtype.name                << "\n"
+        << "Sexe : "          << Sexe                          << "\n"
+        << "Age : "           << Age                           << "\n"
+        << "Size : "          << Size << " (" << SizeCategory << ")\n"
+        << "HP : "            << HP                            << "\n"
+        << "Alignment : "     << alignment.alig1 << " " << alignment.alig2 << "\n"
+        << "Divinity : "      << divinity.name                 << "\n"
+        << "Divinity Alignment : " << divinity.alignment.alig1 << " " << divinity.alignment.alig2 << "\n"
+        << "Level : "         << level                         << "\n"
+        << "XP : "            << XP                            << "\n"
+        << "-----------------------------------------------\n"
+        << "Strength : "      << FOR                           << "\n"
+        << "Dexterity : "     << DEX                           << "\n"
+        << "Constitution : "  << CON                           << "\n"
+        << "Intelligence : "  << INT                           << "\n"
+        << "Wisdom : "        << SAG                           << "\n"
+        << "Charisma : "      << CHA                           << "\n"
+        << "AC : "            << CA                            << "\n";
+}

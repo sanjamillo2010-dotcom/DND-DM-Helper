@@ -24,7 +24,7 @@ It can generate:
   
 ---
 ## How to make it in a executable file
-You can skip this part if there is already a working executable file in the repository. They will be in /Executable/yourOS
+You can skip this part if there is already a working executable file in the repository. They will be in ~/Executable/yourOS
 ### Linux
 
 **1. Install the tools**

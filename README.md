@@ -1,7 +1,7 @@
 # GM Campaign Creation Helper
 
 ## Description
-This tool is designed to help you create your **D&D 3.5e** campaign or mission.
+This tool is designed to help you create your **D&D 3.5e** campaign or mission. 
 The tool has a GUI and a Comand line mode. Note that if you want to youse the comand line mode you need to launch it from the Terminal or cmd.
 For linux and Windows 
 ```bash

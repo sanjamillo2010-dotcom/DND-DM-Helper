@@ -2,6 +2,11 @@
 
 ## Description
 This tool is designed to help you create your **D&D 3.5e** campaign or mission.
+The tool has a GUI and a Comand line mode. Note that if you want to youse the comand line mode you need to launch it from the Terminal or cmd.
+For linux and Windows 
+```bash
+./DND_MG_Helper_GUI-v'vertion'-'yourOS'
+```
 
 It can generate:
 

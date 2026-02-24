@@ -70,54 +70,7 @@ flatpak --user remote-add --no-gpg-verify myrepo myrepo
 flatpak --user install myrepo com.sanja.DND_MG_Helper
 flatpak run com.sanja.DND_MG_Helper
 ```
-
-### Windows
-
-**1. Install the tools**
-- Download and install **Qt** from https://www.qt.io/download-qt-installer (free, select Qt 6.7 + Qt Creator during install)
-- Download and install **Git** from https://git-scm.com
-- Download and install **CMake** from https://cmake.org
-
-**2. Clone the project**
-```cmd
-cd C:\Users\YourName\Documents
-git clone https://github.com/sanjamillo2010-dotcom/DND-DM-Helper.git
-cd DND_MG_Helper_GUI
-```
-
-**3. Install yaml-cpp**
-The easiest way is via vcpkg:
-```cmd
-git clone https://github.com/microsoft/vcpkg.git
-cd vcpkg
-bootstrap-vcpkg.bat
-vcpkg install yaml-cpp
-vcpkg integrate install
-cd ..
-```
-
-**4. Open the project in Qt Creator**
-- Open Qt Creator
-- File → Open File or Project
-- Navigate to your cloned folder and open `CMakeLists.txt`
-- Qt Creator will ask you to configure the project — click **Configure**
-
-**5. Tell CMake where vcpkg is**
-In Qt Creator go to **Projects → Build → CMake Configuration** and add:
-```
-CMAKE_TOOLCHAIN_FILE=C:/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
-```
-
-**6. Build and run**
-- Click the hammer to build
-- Click the green play button to run
-
-**7. Make a shareable executable**
-Open the Qt command prompt (search "Qt 6.7 MinGW" in Start menu) and run:
-```cmd
-cd C:\Users\YourName\Documents\DND_MG_Helper_GUI\build\Desktop-Debug\DND_MG_Helper_GUI
-windeployqt DND_MG_Helper_GUI.exe
-```
+---
 Then copy the entire `Release` folder including your `conf/` folder to share it.
 
 ## Configuration

@@ -1,6 +1,4 @@
 cmake_minimum_required(VERSION 3.5)
-set(CMAKE_TOOLCHAIN_FILE "F:/workspace/vcpkg/scripts/buildsystems/vcpkg.cmake")
-set(VCPKG_TARGET_TRIPLET "x64-mingw-dynamic")
 project(DND_MG_Helper_GUI VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>796</width>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -436,6 +436,141 @@
    </property>
    <property name="text">
     <string>Calculate HP (with class)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Aliment">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>280</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Aliment : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="ddAlimetin">
+   <property name="geometry">
+    <rect>
+     <x>98</x>
+     <y>280</y>
+     <width>121</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Lawful Good</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Neutral Good</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Chaotic Good</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Lawful Neutral</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Neutral Neutral</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Chaotic Neutral</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Lawful Evil</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Neutral Evil</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Chaotic Evil</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="pushButton_7">
+   <property name="geometry">
+    <rect>
+     <x>225</x>
+     <y>280</y>
+     <width>111</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Rand aliment</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Divinity">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>310</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Divinity : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="ddDivinity">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>310</y>
+     <width>251</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>No divinity</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="butRandDivinity">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>340</y>
+     <width>111</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Rand Divinity</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="butDivinitybyaliment">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>340</y>
+     <width>131</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Divinity by aliment</string>
    </property>
   </widget>
  </widget>

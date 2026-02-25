@@ -15,11 +15,44 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
     QString configPath = QCoreApplication::applicationDirPath() + "/conf/NPC_conf.yaml";
     config = YAML::LoadFile(configPath.toStdString());
+
+    // Populate ddDivinity combobox
+    YAML::Node divinities = config["NPC_conf"]["Divinite"];
+    YAML::Node details = config["NPC_conf"]["DivinityDetails"];
+
+    for (const auto& deity : divinities) {
+        std::string name = deity.as<std::string>();
+        std::string a1 = details[name]["Alignment1"].as<std::string>();
+        std::string a2 = details[name]["Alignment2"].as<std::string>();
+        std::string entry = name + " : " + a1 + " " + a2;
+        ui->ddDivinity->addItem(QString::fromStdString(entry));
+    }
 }
 
 Widget::~Widget()
 {
     delete ui;
+}
+
+void Widget::on_ddDivinity_activated(int index)
+{
+    // Get the selected divinity name (strip the alignment part)
+    QString selected = ui->ddDivinity->currentText();
+    QString divinityName = selected.split(" : ").first();
+
+    YAML::Node details = config["NPC_conf"]["DivinityDetails"];
+    std::string key = divinityName.toStdString();
+
+    if (details[key]) {
+        npc.divinity.name = key;
+        npc.divinity.alignment.alig1 = details[key]["Alignment1"].as<std::string>();
+        npc.divinity.alignment.alig2 = details[key]["Alignment2"].as<std::string>();
+    }
+    else {
+        npc.divinity.name = "None";
+        npc.divinity.alignment.alig1 = "None";
+        npc.divinity.alignment.alig2 = "";
+    }
 }
 
 void Widget::on_Racetxtin_editingFinished()
@@ -57,6 +90,12 @@ void Widget::on_butPrintNPCinfo_clicked()
                             + QString::number(npc.level)
                             + "\nXP : "
                             + QString::number(npc.XP)
+                            + "\nAlignment : "
+                            + QString::fromStdString(npc.alignment.alig1) + " " + QString::fromStdString(npc.alignment.alig2)
+                            + "\nDivinity : "
+                            + QString::fromStdString(npc.divinity.name)
+                            + " (" + QString::fromStdString(npc.divinity.alignment.alig1)
+                            + " " + QString::fromStdString(npc.divinity.alignment.alig2) + ")"
                             + "\n\n"
                             + QString::fromStdString(npc.name)
                             + " "
@@ -133,12 +172,11 @@ void Widget::on_Sizetxtin_editingFinished()
     else if (npc.Size <= 190)  npc.SizeCategory = "Medium";
     else if (npc.Size <= 320)  npc.SizeCategory = "Large";
     else if (npc.Size <= 640)  npc.SizeCategory = "Huge";
-    else                   npc.SizeCategory = "Gargantuan";
+    else                       npc.SizeCategory = "Gargantuan";
 }
 
 void Widget::on_butRandsize_clicked()
 {
-    YAML::Node config = YAML::LoadFile("conf/NPC_conf.yaml");
     npc.race.set_usualname(config, npc.race.name);
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -150,16 +188,16 @@ void Widget::on_butRandsize_clicked()
     else if (npc.Size <= 190)  npc.SizeCategory = "Medium";
     else if (npc.Size <= 320)  npc.SizeCategory = "Large";
     else if (npc.Size <= 640)  npc.SizeCategory = "Huge";
-    else                   npc.SizeCategory = "Gargantuan";
+    else                       npc.SizeCategory = "Gargantuan";
 }
 
 void Widget::on_agetxtin_editingFinished()
 {
     npc.Age = ui->agetxtin->text().toInt();
 }
+
 void Widget::on_pushButton_5_clicked()
 {
-    YAML::Node config = YAML::LoadFile("conf/NPC_conf.yaml");
     npc.race.set_usualname(config, npc.race.name);
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -168,64 +206,54 @@ void Widget::on_pushButton_5_clicked()
     ui->agetxtin->setText(QString::number(npc.Age));
 }
 
-
 void Widget::on_butCOmandlinemode_clicked()
 {
-    this->hide(); // Hide Qt window during CLI mode
-
-    // Reopen stdin/stdout to the actual terminal
+    this->hide();
     freopen("/dev/tty", "r", stdin);
     freopen("/dev/tty", "w", stdout);
-
     npc.Get_NPC_Stats();
     npc.Print_NPC_Stats();
-
-    // Pause so user can read output
     std::cout << "\nPress Enter to return..." << std::flush;
     std::cin.ignore();
     std::cin.get();
-
-    this->show(); // Restore Qt window
+    this->show();
 }
-
 
 void Widget::on_leveltxtin_editingFinished()
 {
     npc.level = ui->leveltxtin->text().toInt();
     ui->leveltxtin->setText(QString::number(npc.level));
-    if (npc.level >= 20) {npc.XP = 190000;}
+    if (npc.level >= 20)      {npc.XP = 190000;}
     else if (npc.level == 19) {npc.XP = 171000;}
-    else if (npc.level == 18){npc.XP = 153000;}
-    else if (npc.level == 17){npc.XP = 136000;}
-    else if (npc.level == 16){npc.XP = 120000;}
-    else if (npc.level == 15){npc.XP = 105000;}
-    else if (npc.level == 14){npc.XP = 91000;}
-    else if (npc.level == 13){npc.XP = 78000;}
-    else if (npc.level == 12){npc.XP = 66000;}
-    else if (npc.level == 11){npc.XP = 55000;}
-    else if (npc.level == 10){npc.XP = 45000;}
-    else if (npc.level == 9){npc.XP = 36000;}
-    else if (npc.level == 8){npc.XP = 28000;}
-    else if (npc.level == 7){npc.XP = 21000;}
-    else if (npc.level == 6){npc.XP = 15000;}
-    else if (npc.level == 5){npc.XP = 10000;}
-    else if (npc.level == 4){npc.XP = 6000;}
-    else if (npc.level == 3){npc.XP = 3000;}
-    else if (npc.level == 2){npc.XP = 1000;}
-    else if (npc.level == 1){npc.XP = 0;}
-    else {npc.XP = 0;}
+    else if (npc.level == 18) {npc.XP = 153000;}
+    else if (npc.level == 17) {npc.XP = 136000;}
+    else if (npc.level == 16) {npc.XP = 120000;}
+    else if (npc.level == 15) {npc.XP = 105000;}
+    else if (npc.level == 14) {npc.XP = 91000;}
+    else if (npc.level == 13) {npc.XP = 78000;}
+    else if (npc.level == 12) {npc.XP = 66000;}
+    else if (npc.level == 11) {npc.XP = 55000;}
+    else if (npc.level == 10) {npc.XP = 45000;}
+    else if (npc.level == 9)  {npc.XP = 36000;}
+    else if (npc.level == 8)  {npc.XP = 28000;}
+    else if (npc.level == 7)  {npc.XP = 21000;}
+    else if (npc.level == 6)  {npc.XP = 15000;}
+    else if (npc.level == 5)  {npc.XP = 10000;}
+    else if (npc.level == 4)  {npc.XP = 6000;}
+    else if (npc.level == 3)  {npc.XP = 3000;}
+    else if (npc.level == 2)  {npc.XP = 1000;}
+    else                      {npc.XP = 0;}
     ui->xptxtin->setText(QString::number(npc.XP));
 }
-
 
 void Widget::on_xptxtin_editingFinished()
 {
     npc.XP = ui->xptxtin->text().toInt();
     ui->xptxtin->setText(QString::number(npc.XP));
-    if (npc.XP <= 0) {npc.level = 1;}
-    else if (npc.XP <= 1000) {npc.level = 2;}
-    else if (npc.XP <= 3000) {npc.level = 3;}
-    else if (npc.XP <= 6000) {npc.level = 4;}
+    if (npc.XP <= 0)          {npc.level = 1;}
+    else if (npc.XP <= 1000)  {npc.level = 2;}
+    else if (npc.XP <= 3000)  {npc.level = 3;}
+    else if (npc.XP <= 6000)  {npc.level = 4;}
     else if (npc.XP <= 10000) {npc.level = 5;}
     else if (npc.XP <= 15000) {npc.level = 6;}
     else if (npc.XP <= 21000) {npc.level = 7;}
@@ -236,15 +264,14 @@ void Widget::on_xptxtin_editingFinished()
     else if (npc.XP <= 66000) {npc.level = 12;}
     else if (npc.XP <= 78000) {npc.level = 13;}
     else if (npc.XP <= 91000) {npc.level = 14;}
-    else if (npc.XP <= 105000) {npc.level = 15;}
-    else if (npc.XP <= 120000) {npc.level = 16;}
-    else if (npc.XP <= 136000) {npc.level = 17;}
-    else if (npc.XP <= 153000) {npc.level = 18;}
-    else if (npc.XP <= 171000) {npc.level = 19;}
-    else {npc.level = 20;}
+    else if (npc.XP <= 105000){npc.level = 15;}
+    else if (npc.XP <= 120000){npc.level = 16;}
+    else if (npc.XP <= 136000){npc.level = 17;}
+    else if (npc.XP <= 153000){npc.level = 18;}
+    else if (npc.XP <= 171000){npc.level = 19;}
+    else                      {npc.level = 20;}
     ui->leveltxtin->setText(QString::number(npc.level));
 }
-
 
 void Widget::on_butrandlevel_clicked()
 {
@@ -253,30 +280,28 @@ void Widget::on_butrandlevel_clicked()
     std::uniform_int_distribution<> dis(1, 20);
     npc.level = dis(gen);
     ui->leveltxtin->setText(QString::number(npc.level));
-    if (npc.level >= 20) {npc.XP = 190000;}
+    if (npc.level >= 20)      {npc.XP = 190000;}
     else if (npc.level == 19) {npc.XP = 171000;}
-    else if (npc.level == 18){npc.XP = 153000;}
-    else if (npc.level == 17){npc.XP = 136000;}
-    else if (npc.level == 16){npc.XP = 120000;}
-    else if (npc.level == 15){npc.XP = 105000;}
-    else if (npc.level == 14){npc.XP = 91000;}
-    else if (npc.level == 13){npc.XP = 78000;}
-    else if (npc.level == 12){npc.XP = 66000;}
-    else if (npc.level == 11){npc.XP = 55000;}
-    else if (npc.level == 10){npc.XP = 45000;}
-    else if (npc.level == 9){npc.XP = 36000;}
-    else if (npc.level == 8){npc.XP = 28000;}
-    else if (npc.level == 7){npc.XP = 21000;}
-    else if (npc.level == 6){npc.XP = 15000;}
-    else if (npc.level == 5){npc.XP = 10000;}
-    else if (npc.level == 4){npc.XP = 6000;}
-    else if (npc.level == 3){npc.XP = 3000;}
-    else if (npc.level == 2){npc.XP = 1000;}
-    else if (npc.level == 1){npc.XP = 0;}
-    else {npc.XP = 0;}
+    else if (npc.level == 18) {npc.XP = 153000;}
+    else if (npc.level == 17) {npc.XP = 136000;}
+    else if (npc.level == 16) {npc.XP = 120000;}
+    else if (npc.level == 15) {npc.XP = 105000;}
+    else if (npc.level == 14) {npc.XP = 91000;}
+    else if (npc.level == 13) {npc.XP = 78000;}
+    else if (npc.level == 12) {npc.XP = 66000;}
+    else if (npc.level == 11) {npc.XP = 55000;}
+    else if (npc.level == 10) {npc.XP = 45000;}
+    else if (npc.level == 9)  {npc.XP = 36000;}
+    else if (npc.level == 8)  {npc.XP = 28000;}
+    else if (npc.level == 7)  {npc.XP = 21000;}
+    else if (npc.level == 6)  {npc.XP = 15000;}
+    else if (npc.level == 5)  {npc.XP = 10000;}
+    else if (npc.level == 4)  {npc.XP = 6000;}
+    else if (npc.level == 3)  {npc.XP = 3000;}
+    else if (npc.level == 2)  {npc.XP = 1000;}
+    else                      {npc.XP = 0;}
     ui->xptxtin->setText(QString::number(npc.XP));
 }
-
 
 void Widget::on_butRandXP_clicked()
 {
@@ -285,10 +310,10 @@ void Widget::on_butRandXP_clicked()
     std::uniform_int_distribution<> dis(0, 190000);
     npc.XP = dis(gen);
     ui->xptxtin->setText(QString::number(npc.XP));
-    if (npc.XP <= 0) {npc.level = 1;}
-    else if (npc.XP <= 1000) {npc.level = 2;}
-    else if (npc.XP <= 3000) {npc.level = 3;}
-    else if (npc.XP <= 6000) {npc.level = 4;}
+    if (npc.XP <= 0)          {npc.level = 1;}
+    else if (npc.XP <= 1000)  {npc.level = 2;}
+    else if (npc.XP <= 3000)  {npc.level = 3;}
+    else if (npc.XP <= 6000)  {npc.level = 4;}
     else if (npc.XP <= 10000) {npc.level = 5;}
     else if (npc.XP <= 15000) {npc.level = 6;}
     else if (npc.XP <= 21000) {npc.level = 7;}
@@ -299,15 +324,14 @@ void Widget::on_butRandXP_clicked()
     else if (npc.XP <= 66000) {npc.level = 12;}
     else if (npc.XP <= 78000) {npc.level = 13;}
     else if (npc.XP <= 91000) {npc.level = 14;}
-    else if (npc.XP <= 105000) {npc.level = 15;}
-    else if (npc.XP <= 120000) {npc.level = 16;}
-    else if (npc.XP <= 136000) {npc.level = 17;}
-    else if (npc.XP <= 153000) {npc.level = 18;}
-    else if (npc.XP <= 171000) {npc.level = 19;}
-    else {npc.level = 20;}
+    else if (npc.XP <= 105000){npc.level = 15;}
+    else if (npc.XP <= 120000){npc.level = 16;}
+    else if (npc.XP <= 136000){npc.level = 17;}
+    else if (npc.XP <= 153000){npc.level = 18;}
+    else if (npc.XP <= 171000){npc.level = 19;}
+    else                      {npc.level = 20;}
     ui->leveltxtin->setText(QString::number(npc.level));
 }
-
 
 void Widget::on_HPtxtin_editingFinished()
 {
@@ -316,7 +340,6 @@ void Widget::on_HPtxtin_editingFinished()
 
 void Widget::on_butCalculatehp_clicked()
 {
-    // Load HPdice from config
     YAML::Node classNode = config["NPC_conf"][npc.classtype.name];
     if (classNode) {
         YAML::Node hpNode;
@@ -325,12 +348,10 @@ void Widget::on_butCalculatehp_clicked()
         else if (classNode.IsMap())
             hpNode = classNode["HPdice"];
 
-        if (hpNode && hpNode.IsScalar()) {
+        if (hpNode && hpNode.IsScalar())
             npc.classtype.HPdice = hpNode.as<int>();
-        }
     }
 
-    // Fallback if HPdice still not set or is 0
     if (npc.classtype.HPdice <= 0) {
         static const std::map<std::string, int> defaultHP = {
             {"Barbarian", 12}, {"Bard", 6},    {"Cleric", 8},
@@ -341,10 +362,8 @@ void Widget::on_butCalculatehp_clicked()
         npc.classtype.HPdice = (it != defaultHP.end()) ? it->second : 8;
     }
 
-    // Guard: make sure level is valid too
     if (npc.level <= 0) npc.level = 1;
 
-    // Calculate HP
     npc.HP = 0;
     for (int i = 1; i <= npc.level; ++i) {
         if (i == 1)
@@ -355,3 +374,93 @@ void Widget::on_butCalculatehp_clicked()
 
     ui->HPtxtin->setText(QString::number(npc.HP));
 }
+
+void Widget::on_ddAlimetin_activated(int index)
+{
+    if (index == 0)      {npc.alignment.alig1 = "Lawful";  npc.alignment.alig2 = "Good";}
+    else if (index == 1) {npc.alignment.alig1 = "Neutral"; npc.alignment.alig2 = "Good";}
+    else if (index == 2) {npc.alignment.alig1 = "Chaotic"; npc.alignment.alig2 = "Good";}
+    else if (index == 3) {npc.alignment.alig1 = "Lawful";  npc.alignment.alig2 = "Neutral";}
+    else if (index == 4) {npc.alignment.alig1 = "Neutral"; npc.alignment.alig2 = "Neutral";}
+    else if (index == 5) {npc.alignment.alig1 = "Chaotic"; npc.alignment.alig2 = "Neutral";}
+    else if (index == 6) {npc.alignment.alig1 = "Lawful";  npc.alignment.alig2 = "Evil";}
+    else if (index == 7) {npc.alignment.alig1 = "Neutral"; npc.alignment.alig2 = "Evil";}
+    else if (index == 8) {npc.alignment.alig1 = "Chaotic"; npc.alignment.alig2 = "Evil";}
+    else                 {npc.alignment.alig1 = "Unknown"; npc.alignment.alig2 = "Unknown";}
+}
+
+void Widget::on_pushButton_7_clicked()
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 8);
+    int index = dis(gen);
+    if (index == 0)      {npc.alignment.alig1 = "Lawful";  npc.alignment.alig2 = "Good";}
+    else if (index == 1) {npc.alignment.alig1 = "Neutral"; npc.alignment.alig2 = "Good";}
+    else if (index == 2) {npc.alignment.alig1 = "Chaotic"; npc.alignment.alig2 = "Good";}
+    else if (index == 3) {npc.alignment.alig1 = "Lawful";  npc.alignment.alig2 = "Neutral";}
+    else if (index == 4) {npc.alignment.alig1 = "Neutral"; npc.alignment.alig2 = "Neutral";}
+    else if (index == 5) {npc.alignment.alig1 = "Chaotic"; npc.alignment.alig2 = "Neutral";}
+    else if (index == 6) {npc.alignment.alig1 = "Lawful";  npc.alignment.alig2 = "Evil";}
+    else if (index == 7) {npc.alignment.alig1 = "Neutral"; npc.alignment.alig2 = "Evil";}
+    else if (index == 8) {npc.alignment.alig1 = "Chaotic"; npc.alignment.alig2 = "Evil";}
+    else                 {npc.alignment.alig1 = "Unknown"; npc.alignment.alig2 = "Unknown";}
+    ui->ddAlimetin->setCurrentIndex(index);
+}
+
+void Widget::on_butRandDivinity_clicked()
+{
+    YAML::Node divinities = config["NPC_conf"]["Divinite"];
+    YAML::Node details = config["NPC_conf"]["DivinityDetails"];
+
+    std::vector<std::string> deityList;
+    for (const auto& deity : divinities)
+        deityList.push_back(deity.as<std::string>());
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, deityList.size() - 1);
+    int index = dis(gen);
+
+    std::string name = deityList[index];
+    npc.divinity.name = name;
+    npc.divinity.alignment.alig1 = details[name]["Alignment1"].as<std::string>();
+    npc.divinity.alignment.alig2 = details[name]["Alignment2"].as<std::string>();
+
+    ui->ddDivinity->setCurrentIndex(index);
+}
+
+
+void Widget::on_butDivinitybyaliment_clicked()
+{
+    YAML::Node divinities = config["NPC_conf"]["Divinite"];
+    YAML::Node details = config["NPC_conf"]["DivinityDetails"];
+
+    std::vector<std::string> matches;
+    for (const auto& deity : divinities) {
+        std::string name = deity.as<std::string>();
+        std::string a1 = details[name]["Alignment1"].as<std::string>();
+        std::string a2 = details[name]["Alignment2"].as<std::string>();
+
+        if (a1 == npc.alignment.alig1 && a2 == npc.alignment.alig2)
+            matches.push_back(name);
+    }
+
+    if (matches.empty()) return; // no deity matches this alignment
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, matches.size() - 1);
+    std::string name = matches[dis(gen)];
+
+    npc.divinity.name = name;
+    npc.divinity.alignment.alig1 = details[name]["Alignment1"].as<std::string>();
+    npc.divinity.alignment.alig2 = details[name]["Alignment2"].as<std::string>();
+
+    QString entry = QString::fromStdString(
+        name + " : " + npc.divinity.alignment.alig1 + " " + npc.divinity.alignment.alig2
+        );
+    int idx = ui->ddDivinity->findText(entry);
+    if (idx >= 0) ui->ddDivinity->setCurrentIndex(idx);
+}
+

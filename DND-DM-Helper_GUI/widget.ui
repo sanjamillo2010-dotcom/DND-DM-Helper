@@ -117,7 +117,7 @@
      <x>10</x>
      <y>70</y>
      <width>66</width>
-     <height>18</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -320,8 +320,8 @@
   <widget class="QPushButton" name="butCOmandlinemode">
    <property name="geometry">
     <rect>
-     <x>3</x>
-     <y>572</y>
+     <x>1</x>
+     <y>567</y>
      <width>141</width>
      <height>26</height>
     </rect>

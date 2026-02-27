@@ -8,6 +8,8 @@
 #include "alignment.h"
 #include "divinite.h"
 
+namespace DND_GM_Helper_N {
+namespace NPC_N {
 
 class NPC {
 public:
@@ -38,9 +40,14 @@ public:
     int Calculate_Carecteristics();
     void Get_NPC_Stats();
     void Get_NPC_Race();
+    int XPFromLVL(int lvl);
+    int LVLFromXP(int xp);
     NPC() = default;
 };
 
 extern NPC npc;
+
+}// namespace NPC_N
+}// namespace DND_GM_Helper_N
 
 #endif // NPC_H

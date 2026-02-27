@@ -3,10 +3,10 @@
 
 #include <string>
 #include <vector>
+#include <yaml-cpp/yaml.h>
 
-namespace YAML {
-class Node;
-}
+namespace DND_GM_Helper_N {
+namespace NPC_N {
 
 class ClassType {
 public:
@@ -18,10 +18,14 @@ public:
 
     explicit ClassType(const std::string& className);
 
-    void set_usualLastname(YAML::Node& config,std::string& className);
+    void set_usualLastname(::YAML::Node& config,std::string& className);
 
-    void print_ClassType_Info();
+    void print_ClassType_Info_CLmode();
 
     std::string GetRandomLastName();
 };
+
+} // namespace DND_GM_Helper_N
+} // namespace NPC_N
+
 #endif // CLASSTYPE_H

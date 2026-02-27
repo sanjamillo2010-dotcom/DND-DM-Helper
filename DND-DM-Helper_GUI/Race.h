@@ -3,10 +3,10 @@
 
 #include <string>
 #include <vector>
+#include <yaml-cpp/yaml.h>
 
-namespace YAML {
-class Node;
-}
+namespace DND_GM_Helper_N {
+namespace NPC_N {
 
 class Race {
 public:
@@ -19,7 +19,7 @@ public:
 
     Race(const std::string& iRaceName);
 
-    void set_usualname(YAML::Node& ioConfig, const std::string& raceName);
+    void set_usualname(::YAML::Node& ioConfig, const std::string& raceName);
 
     void print_race_info();
 
@@ -27,6 +27,7 @@ public:
 
 };
 
-
+} // namespace DND_GM_Helper_N
+} // namespace NPC_N
 
 #endif // RACE_H

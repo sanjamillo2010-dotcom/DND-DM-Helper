@@ -11,6 +11,9 @@
 #include "Race.h"
 #include "NPC.h"
 
+namespace DND_GM_Helper_N {
+namespace NPC_N {
+
 Race NPC::Get_Random_Race() {
     QString configPath = QCoreApplication::applicationDirPath() + "/conf/NPC_conf.yaml";
     YAML::Node config = YAML::LoadFile(configPath.toStdString());
@@ -291,7 +294,7 @@ void NPC::Get_NPC_Stats() {
         } else if (ageChoice == 2) {
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(race.MaxAge / 2, race.MaxAge + 10);
+            std::uniform_int_distribution<> dis(race.MaxAge / 2 , race.MaxAge + 10);
             Age = dis(gen);
             break;
         } else {
@@ -321,7 +324,7 @@ void NPC::Get_NPC_Stats() {
         } else if (sizeChoice == 2) {
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(race.MaxSize / 2, race.MaxSize + 10);
+            std::uniform_int_distribution<> dis(race.MaxSize / 2 , race.MaxSize + 10);
             Size = dis(gen);
             break;
         } else {
@@ -392,7 +395,7 @@ void NPC::Get_NPC_Stats() {
         } else if (choice == 2) {
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(1, 20);
+            std::uniform_int_distribution<> dis(1 , 20);
             level = dis(gen);
             XP = xpFromLevel(level);
             break;
@@ -410,7 +413,7 @@ void NPC::Get_NPC_Stats() {
         } else if (choice == 4) {
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(0, 190000);
+            std::uniform_int_distribution<> dis(0 , 190000);
             XP = dis(gen);
             level = levelFromXP(XP);
             break;
@@ -554,7 +557,7 @@ void NPC::Get_NPC_Stats() {
 
             if (specificDivinityChoice == 1) {
                 divinity = Get_Random_Divinity();
-                divinity.print_divinity_info();
+                divinity.print_divinity_info_CLmode();
             } else if (specificDivinityChoice == 2) {
                 YAML::Node divinitiesNode = config["NPC_conf"]["Divinite"];
                 std::cout << "Please select a divinity: " << std::endl;
@@ -582,7 +585,7 @@ void NPC::Get_NPC_Stats() {
                         divinityAlignment.alig1 = divinityDetails["Alignment1"].as<std::string>();
                         divinityAlignment.alig2 = divinityDetails["Alignment2"].as<std::string>();
                         divinity = Divinite(chosenDivinity, divinityAlignment);
-                        divinity.print_divinity_info();
+                        divinity.print_divinity_info_CLmode();
                     } else {
                         std::cout << "Details for the selected divinity are missing in the configuration.\n";
                     }
@@ -613,7 +616,7 @@ void NPC::Get_NPC_Stats() {
                         divinityAlignment.alig1 = divinityDetails["Alignment1"].as<std::string>();
                         divinityAlignment.alig2 = divinityDetails["Alignment2"].as<std::string>();
                         divinity = Divinite(chosenDivinity, divinityAlignment);
-                        divinity.print_divinity_info();
+                        divinity.print_divinity_info_CLmode();
                     }
                 } else {
                     divinity.name = "None";
@@ -659,15 +662,30 @@ void NPC::Get_NPC_Stats() {
         } else if (carecteristicsChoice == 3) {
             bool validStats = false;
             while (!validStats) {
-                std::random_device rd;
-                std::mt19937 gen(rd());
-                std::uniform_int_distribution<> dis(3, 18);
-                FOR = dis(gen);
-                DEX = dis(gen);
-                CON = dis(gen);
-                INT = dis(gen);
-                SAG = dis(gen);
-                CHA = dis(gen);
+                std::random_device rdFOR;
+                std::mt19937 genFOR(rdFOR());
+                std::uniform_int_distribution<> disFOR(3 , 18);
+                FOR = disFOR(genFOR);
+                std::random_device rdDEX;
+                std::mt19937 genDEX(rdDEX());
+                std::uniform_int_distribution<> disDEX(3 , 18);
+                DEX = disDEX(genDEX);
+                std::random_device rdCON;
+                std::mt19937 genCON(rdCON());
+                std::uniform_int_distribution<> disCON(3 , 18);
+                CON = disCON(genCON);
+                std::random_device rdINT;
+                std::mt19937 genINT(rdINT());
+                std::uniform_int_distribution<> disINT(3 , 18);
+                INT = disINT(genINT);
+                std::random_device rdSAG;
+                std::mt19937 genSAG(rdSAG());
+                std::uniform_int_distribution<> disSAG(3 , 18);
+                SAG = disSAG(genSAG);
+                std::random_device rdCHA;
+                std::mt19937 genCHA(rdCHA());
+                std::uniform_int_distribution<> disCHA(3 , 18);
+                CHA = disCHA(genCHA);
                 validStats = (FOR + DEX + CON + INT + SAG + CHA >= 50);
             }
             for (int i = 0; i < level / 4; ++i) {
@@ -771,3 +789,26 @@ void NPC::Print_NPC_Stats() {
         << "Charisma : "      << CHA                           << "\n"
         << "AC : "            << CA                            << "\n";
 }
+
+int NPC::XPFromLVL(int level){
+    if ( level <= 1 )
+    {
+        return level * 1000;
+    }
+    else {
+        return level * 1000 + XPFromLVL(level - 1);
+    }
+}
+
+int NPC::LVLFromXP(int xp) {
+    if (xp <= 0)      return 1;
+    if (xp >= 190000) return 20;
+    int lvl = 1;
+    while (lvl < 20 && xp >= XPFromLVL(lvl + 1))
+        lvl++;
+    return lvl;
+}
+
+} // namespace NPC_N
+} // namespace DND_GM_Helper_N
+

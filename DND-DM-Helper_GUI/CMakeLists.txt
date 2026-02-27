@@ -38,6 +38,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         widget.cpp
         widget.h
         widget.ui
+        conf/conf.yaml
+        conf/NPC_conf.yaml
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET DND_MG_Helper_GUI APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

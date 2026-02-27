@@ -4,13 +4,16 @@
 #include <random>
 #include <yaml-cpp/yaml.h>
 
+namespace DND_GM_Helper_N {
+namespace NPC_N {
+
 ClassType::ClassType(const std::string& className) : name(className) {}
 
-void ClassType::set_usualLastname(YAML::Node& config,std::string& className) {
+void DND_GM_Helper_N::NPC_N::ClassType::set_usualLastname(::YAML::Node& config,std::string& className) {
     try {
-        YAML::Node Node = config["NPC_conf"][className];
+        ::YAML::Node Node = config["NPC_conf"][className];
         if (Node) {
-            YAML::Node namesNode;
+            ::YAML::Node namesNode;
             if (Node.IsSequence() && Node.size() > 0) {
                 namesNode = Node[0]["usualLastNames"];
             } else if (Node.IsMap()) {
@@ -26,15 +29,9 @@ void ClassType::set_usualLastname(YAML::Node& config,std::string& className) {
             std::cerr << className << " node missing\n";
         }
     }
-    catch (const YAML::Exception& e) {
+    catch (const ::YAML::Exception& e) {
         std::cerr << "YAML error: " << e.what() << "\n";
     }
-}
-
-void ClassType::print_ClassType_Info(){
-    std::cout << "Class : " << name << "\n" << "Usual Last Names : ";
-    for (const auto& name : this->usualLastNames) { std::cout << name << " "; }
-    std::cout << "\n";
 }
 
 std::string ClassType::GetRandomLastName(){
@@ -48,3 +45,6 @@ std::string ClassType::GetRandomLastName(){
 
     return usualLastNames[dis(gen)];
 }
+
+} // namespace DND_GM_Helper_N
+} // namespace NPC_N

@@ -4,15 +4,18 @@
 #include <random>
 #include <yaml-cpp/yaml.h>
 
+namespace DND_GM_Helper_N {
+namespace NPC_N {
+
 Race::Race(const std::string& raceName) : name(raceName), MaxSize(0), MaxAge(0) {}
 
 void Race::set_usualname(YAML::Node& config, const std::string& raceName) {
     try {
-        YAML::Node Node = config["NPC_conf"][raceName];
+        ::YAML::Node Node = config["NPC_conf"][raceName];
         if (Node) {
-            YAML::Node namesNode;
-            YAML::Node maxSizeNode;
-            YAML::Node maxAgeNode;
+            ::YAML::Node namesNode;
+            ::YAML::Node maxSizeNode;
+            ::YAML::Node maxAgeNode;
 
             if (Node.IsSequence() && Node.size() > 0) {
                 namesNode = Node[0]["usualNames"];
@@ -69,3 +72,6 @@ std::string Race::GetRandomName() {
 
     return usualNames[dis(gen)];
 }
+
+} // namespace DND_GM_Helper_N
+} // namespace NPC_N

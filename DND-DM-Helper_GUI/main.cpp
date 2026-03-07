@@ -1,4 +1,4 @@
-#include "widget.h"
+#include "mainmenu.h"
 #include "NPC.h"
 
 #include <QApplication>
@@ -8,7 +8,7 @@ DND_GM_Helper_N::NPC_N::NPC npc;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Widget w;
+    MainMenu w;
     w.show();
     return a.exec();
 }

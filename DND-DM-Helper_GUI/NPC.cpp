@@ -5,6 +5,8 @@
 #include <yaml-cpp/yaml.h>
 #include <QCoreApplication>
 
+#include "npcbattlestats.h"
+#include "ui_npcbattlestats.h"
 #include "alignment.h"
 #include "classtype.h"
 #include "divinite.h"
@@ -807,6 +809,139 @@ int NPC::LVLFromXP(int xp) {
     while (lvl < 20 && xp >= XPFromLVL(lvl + 1))
         lvl++;
     return lvl;
+}
+
+void NPC::Calculat_Bonus(std::string What_carak){
+    if (What_carak == "FOR"){
+        FOR_Bonus = (FOR / 2) - 5;
+    }
+    else if (What_carak == "DEX"){
+        DEX_Bonus = (DEX / 2) - 5;
+    }
+    else if (What_carak == "CON"){
+        CON_Bonus = (CON / 2) - 5;
+    }
+    else if (What_carak == "INT"){
+        INT_Bonus = (INT / 2) - 5;
+    }
+    else if (What_carak == "SAG"){
+        SAG_Bonus = (SAG / 2) - 5;
+    }
+    else if (What_carak == "CHA"){
+        CHA_Bonus = (CHA / 2) - 5;
+    }
+    else if (What_carak == "ALL") {
+        FOR_Bonus = (FOR / 2) - 5;
+        DEX_Bonus = (DEX / 2) - 5;
+        CON_Bonus = (CON / 2) - 5;
+        INT_Bonus = (INT / 2) - 5;
+        SAG_Bonus = (SAG / 2) - 5;
+        CHA_Bonus = (CHA / 2) - 5;
+    }
+    else {
+        std::cout << What_carak <<  " si not valid.";
+    }
+}
+
+int NPC::Calculat_CA() {
+    CA = 10;
+    CA = CA + DEX_Bonus;
+    if (SizeCategory == "Tiny") {CA = CA + 2;}
+    else if (SizeCategory == "Small") {CA = CA + 1;}
+    else if (SizeCategory == "Large") {CA = CA - 1;}
+    else if (SizeCategory == "Huge") {CA = CA - 2;}
+    CA = CA + Natural_Armor;
+    //Add Armor (Tello)
+    //Add Shild (Tello)
+    return CA;
+}
+
+void NPC::Reset_All_Stats() {
+    name = "";
+    LastName = "";
+    race.name = "";
+    classtype.name = "";
+    classtype.HPdice = 0;
+    Sexe = "";
+    Age = 0;
+    Size = 0;
+    SizeCategory = "";
+    level = 1;
+    XP = 0;
+    HP = 0;
+    FOR = 3;
+    FOR_Bonus = 0;
+    DEX = 3;
+    DEX_Bonus = 0;
+    CON = 3;
+    CON_Bonus = 0;
+    INT = 3;
+    INT_Bonus = 0;
+    SAG = 3;
+    SAG_Bonus = 0;
+    CHA = 3;
+    CHA_Bonus = 0;
+    CA = 10;
+    Natural_Armor = 0;
+    alignment.alig1 = "";
+    alignment.alig2 = "";
+    alignment.index = -1;
+    divinity.alignment.alig1 = "";
+    divinity.alignment.alig2 = "";
+    divinity.alignment.index = -1;
+    divinity.index = -1;
+    divinity.name = "";
+}
+
+void NPC::Calculat_Carak_Race_bonus() {
+    if (DND_GM_Helper_N::NPC_N::npc.race.name == "Elf") {
+        DND_GM_Helper_N::NPC_N::npc.DEX = DND_GM_Helper_N::NPC_N::npc.DEX + 2;
+        DND_GM_Helper_N::NPC_N::npc.CON = DND_GM_Helper_N::NPC_N::npc.CON - 2;
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("DEX");
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("CON");
+    }
+    else if (DND_GM_Helper_N::NPC_N::npc.race.name == "Dwarf") {
+        DND_GM_Helper_N::NPC_N::npc.CON = DND_GM_Helper_N::NPC_N::npc.CON + 2;
+        DND_GM_Helper_N::NPC_N::npc.CHA = DND_GM_Helper_N::NPC_N::npc.CHA - 2;
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("CON");
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("CHA");
+    }
+    else if (DND_GM_Helper_N::NPC_N::npc.race.name == "Halfling") {
+        DND_GM_Helper_N::NPC_N::npc.DEX = DND_GM_Helper_N::NPC_N::npc.DEX + 2;
+        DND_GM_Helper_N::NPC_N::npc.FOR = DND_GM_Helper_N::NPC_N::npc.FOR - 2;
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("DEX");
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("FOR");
+    }
+    else if (DND_GM_Helper_N::NPC_N::npc.race.name == "Gnome") {
+        DND_GM_Helper_N::NPC_N::npc.CON = DND_GM_Helper_N::NPC_N::npc.CON + 2;
+        DND_GM_Helper_N::NPC_N::npc.FOR = DND_GM_Helper_N::NPC_N::npc.FOR - 2;
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("CON");
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("FOR");
+    }
+    else if (DND_GM_Helper_N::NPC_N::npc.race.name == "Half-Orc") {
+        DND_GM_Helper_N::NPC_N::npc.FOR = DND_GM_Helper_N::NPC_N::npc.FOR + 2;
+        DND_GM_Helper_N::NPC_N::npc.INT = DND_GM_Helper_N::NPC_N::npc.INT - 2;
+        DND_GM_Helper_N::NPC_N::npc.CHA = DND_GM_Helper_N::NPC_N::npc.CHA - 2;
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("FOR");
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("INT");
+        DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("CHA");
+    }
+}
+
+void NPC::Get_Random_Natural_Armor() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(1 , 4);
+    Natural_Armor = dis(gen);
+}
+
+void NPC::SizeCategoryfromSize() {
+    if       (Size <= 20)  SizeCategory = "Tiny";
+    else if (Size <= 100)  SizeCategory = "Small";
+    else if (Size <= 190)  SizeCategory = "Medium";
+    else if (Size <= 320)  SizeCategory = "Large";
+    else if (Size <= 640)  SizeCategory = "Huge";
+    else                   SizeCategory = "Gargantuan";
 }
 
 } // namespace NPC_N

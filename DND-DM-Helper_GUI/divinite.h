@@ -13,6 +13,7 @@ class Divinite {
 public:
     std::string name;
     Alignment alignment;
+    int index;
     Divinite() = default;;
     Divinite(const std::string& divinityName, const Alignment& divinityAlignment) : name(divinityName), alignment(divinityAlignment) {}
     void print_divinity_info_CLmode();

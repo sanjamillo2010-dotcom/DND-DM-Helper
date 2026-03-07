@@ -2,7 +2,9 @@
 #include "NPC.h"
 #include "Race.h"
 #include "classtype.h"
-#include "./ui_widget.h"
+#include "ui_widget.h"
+#include "npcbattlestats.h"
+#include "mainmenu.h"
 
 #include <iostream>
 #include <random>
@@ -29,6 +31,18 @@ Widget::Widget(QWidget *parent)
         std::string entry = name + " : " + a1 + " " + a2;
         ui->ddDivinity->addItem(QString::fromStdString(entry));
     }
+    ui->Racetxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.race.name));
+    ui->Classtxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name));
+    ui->Nametxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name));
+    ui->LastNametxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.LastName));
+    ui->Sexetxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Sexe));
+    ui->Sizetxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.Size));
+    ui->agetxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.Age));
+    ui->leveltxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.level));
+    ui->xptxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.XP));
+    ui->HPtxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.HP));
+    ui->ddAlimetin->setCurrentIndex(DND_GM_Helper_N::NPC_N::npc.alignment.index);
+    ui->ddDivinity->setCurrentIndex(DND_GM_Helper_N::NPC_N::npc.divinity.alignment.index);
 }
 
 Widget::~Widget()
@@ -38,7 +52,7 @@ Widget::~Widget()
 
 void Widget::on_ddDivinity_activated(int index)
 {
-    // Get the selected divinity name (strip the alignment part)
+    // Fix for 1.3.2 and make it in a function
     QString selected = ui->ddDivinity->currentText();
     QString divinityName = selected.split(" : ").first();
 
@@ -55,11 +69,11 @@ void Widget::on_ddDivinity_activated(int index)
         DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig1 = "None";
         DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig2 = "";
     }
+    DND_GM_Helper_N::NPC_N::npc.divinity.alignment.index = index;
 }
 
 void Widget::on_Racetxtin_editingFinished()
 {
-    std::cout << "Entered Race" << std::endl;
     DND_GM_Helper_N::NPC_N::npc.race.name = ui->Racetxtin->text().toStdString();
 }
 
@@ -97,6 +111,15 @@ void Widget::on_butPrintNPCinfo_clicked()
                             + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.divinity.name)
                             + " (" + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig1)
                             + " " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig2) + ")"
+                            + "\n----------------------------------------------------\nBattle Stats"
+                            + "\nStr : " + QString::number(DND_GM_Helper_N::NPC_N::npc.FOR) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.FOR_Bonus) + ")"
+                            + "\nDex : " + QString::number(DND_GM_Helper_N::NPC_N::npc.DEX) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.DEX_Bonus) + ")"
+                            + "\nCon : " + QString::number(DND_GM_Helper_N::NPC_N::npc.CON) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.CON_Bonus) + ")"
+                            + "\nInt : " + QString::number(DND_GM_Helper_N::NPC_N::npc.INT) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.INT_Bonus) + ")"
+                            + "\nWis : " + QString::number(DND_GM_Helper_N::NPC_N::npc.SAG) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.SAG_Bonus) + ")"
+                            + "\nCha : " + QString::number(DND_GM_Helper_N::NPC_N::npc.CHA) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.CHA_Bonus) + ")"
+                            + "\nAC : " + QString::number(DND_GM_Helper_N::NPC_N::npc.CA)
+                            + "\n----------------------------------------------------\nInventory\n -=In v1.3.1=-"
                             + "\n\n"
                             + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name)
                             + " "
@@ -168,28 +191,18 @@ void Widget::on_Sexetxtin_editingFinished()
 void Widget::on_Sizetxtin_editingFinished()
 {
     DND_GM_Helper_N::NPC_N::npc.Size = ui->Sizetxtin->text().toInt();
-    if (DND_GM_Helper_N::NPC_N::npc.Size <= 20)        DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Tiny";
-    else if (DND_GM_Helper_N::NPC_N::npc.Size <= 100)  DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Small";
-    else if (DND_GM_Helper_N::NPC_N::npc.Size <= 190)  DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Medium";
-    else if (DND_GM_Helper_N::NPC_N::npc.Size <= 320)  DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Large";
-    else if (DND_GM_Helper_N::NPC_N::npc.Size <= 640)  DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Huge";
-    else                       DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Gargantuan";
+    DND_GM_Helper_N::NPC_N::npc.SizeCategoryfromSize();
 }
 
 void Widget::on_butRandsize_clicked()
 {
     DND_GM_Helper_N::NPC_N::npc.race.set_usualname(config, DND_GM_Helper_N::NPC_N::npc.race.name);
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(DND_GM_Helper_N::NPC_N::npc.race.MaxSize / 2,DND_GM_Helper_N::NPC_N::npc.race.MaxSize + 10);
-    DND_GM_Helper_N::NPC_N::npc.Size = dis(gen);
+    std::random_device SIZErd;
+    std::mt19937 SIZEgen(SIZErd());
+    std::uniform_int_distribution<> SIZEdis(DND_GM_Helper_N::NPC_N::npc.race.MaxSize / 2,DND_GM_Helper_N::NPC_N::npc.race.MaxSize + 10);
+    DND_GM_Helper_N::NPC_N::npc.Size = SIZEdis(SIZEgen);
     ui->Sizetxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.Size));
-    if (DND_GM_Helper_N::NPC_N::npc.Size <= 20)        DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Tiny";
-    else if (DND_GM_Helper_N::NPC_N::npc.Size <= 100)  DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Small";
-    else if (DND_GM_Helper_N::NPC_N::npc.Size <= 190)  DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Medium";
-    else if (DND_GM_Helper_N::NPC_N::npc.Size <= 320)  DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Large";
-    else if (DND_GM_Helper_N::NPC_N::npc.Size <= 640)  DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Huge";
-    else                       DND_GM_Helper_N::NPC_N::npc.SizeCategory = "Gargantuan";
+    DND_GM_Helper_N::NPC_N::npc.SizeCategoryfromSize();
 }
 
 void Widget::on_agetxtin_editingFinished()
@@ -209,6 +222,7 @@ void Widget::on_pushButton_5_clicked()
 
 void Widget::on_butCOmandlinemode_clicked()
 {
+    //Fix in v1.3.2
     this->hide();
     freopen("/dev/tty", "r", stdin);
     freopen("/dev/tty", "w", stdout);
@@ -312,6 +326,7 @@ void Widget::on_ddAlimetin_activated(int index)
     else if (index == 7) {DND_GM_Helper_N::NPC_N::npc.alignment.alig1 = "Neutral"; DND_GM_Helper_N::NPC_N::npc.alignment.alig2 = "Evil";}
     else if (index == 8) {DND_GM_Helper_N::NPC_N::npc.alignment.alig1 = "Chaotic"; DND_GM_Helper_N::NPC_N::npc.alignment.alig2 = "Evil";}
     else                 {DND_GM_Helper_N::NPC_N::npc.alignment.alig1 = "Unknown"; DND_GM_Helper_N::NPC_N::npc.alignment.alig2 = "Unknown";}
+    DND_GM_Helper_N::NPC_N::npc.alignment.index = index;
 }
 
 void Widget::on_pushButton_7_clicked()
@@ -331,6 +346,7 @@ void Widget::on_pushButton_7_clicked()
     else if (index == 7) {DND_GM_Helper_N::NPC_N::npc.alignment.alig1 = "Neutral"; DND_GM_Helper_N::NPC_N::npc.alignment.alig2 = "Evil";}
     else if (index == 8) {DND_GM_Helper_N::NPC_N::npc.alignment.alig1 = "Chaotic"; DND_GM_Helper_N::NPC_N::npc.alignment.alig2 = "Evil";}
     else                 {DND_GM_Helper_N::NPC_N::npc.alignment.alig1 = "Unknown"; DND_GM_Helper_N::NPC_N::npc.alignment.alig2 = "Unknown";}
+    DND_GM_Helper_N::NPC_N::npc.alignment.index = index;
     ui->ddAlimetin->setCurrentIndex(index);
 }
 
@@ -354,6 +370,7 @@ void Widget::on_butRandDivinity_clicked()
     DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig2 = details[name]["Alignment2"].as<std::string>();
 
     ui->ddDivinity->setCurrentIndex(index);
+    DND_GM_Helper_N::NPC_N::npc.divinity.alignment.index = index;
 }
 
 
@@ -372,7 +389,7 @@ void Widget::on_butDivinitybyaliment_clicked()
             matches.push_back(name);
     }
 
-    if (matches.empty()) return; // no deity matches this alignment
+    if (matches.empty()) return;
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -388,4 +405,37 @@ void Widget::on_butDivinitybyaliment_clicked()
         );
     int idx = ui->ddDivinity->findText(entry);
     if (idx >= 0) ui->ddDivinity->setCurrentIndex(idx);
+    DND_GM_Helper_N::NPC_N::npc.divinity.alignment.index = idx;
+}
+
+void Widget::on_butMakeNPCFItablain_clicked()
+{
+    NPCbattlestats *widget = new NPCbattlestats();
+    widget->show();
+    this->close();
+
+}
+
+void Widget::on_pushButton_8_clicked()
+{
+    MainMenu *widget = new MainMenu();
+    widget->show();
+    this->close();
+}
+
+void Widget::on_butResetallstatsin_clicked()
+{
+    DND_GM_Helper_N::NPC_N::npc.Reset_All_Stats();
+    ui->Racetxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.race.name));
+    ui->Classtxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name));
+    ui->Nametxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name));
+    ui->LastNametxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.LastName));
+    ui->Sexetxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Sexe));
+    ui->Sizetxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.Size));
+    ui->agetxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.Age));
+    ui->leveltxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.level));
+    ui->xptxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.XP));
+    ui->HPtxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.HP));
+    ui->ddAlimetin->setCurrentIndex(DND_GM_Helper_N::NPC_N::npc.alignment.index);
+    ui->ddDivinity->setCurrentIndex(DND_GM_Helper_N::NPC_N::npc.divinity.alignment.index);
 }

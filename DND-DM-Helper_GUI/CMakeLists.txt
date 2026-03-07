@@ -40,6 +40,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         widget.ui
         conf/conf.yaml
         conf/NPC_conf.yaml
+        mainmenu.h mainmenu.cpp mainmenu.ui
+        npcbattlestats.h npcbattlestats.cpp npcbattlestats.ui
+
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET DND_MG_Helper_GUI APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

@@ -10,6 +10,7 @@ class Alignment {
 public:
     std::string alig1;
     std::string alig2;
+    int index;
     Alignment() = default;
     Alignment(const std::string& n1, const std::string& n2) : alig1(n1), alig2(n2) {}
 

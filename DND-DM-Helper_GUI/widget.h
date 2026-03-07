@@ -2,6 +2,7 @@
 #define WIDGET_H
 #include <QWidget>
 #include <yaml-cpp/yaml.h>
+#include "ui_widget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -48,6 +49,14 @@ private slots:
     void on_butRandDivinity_clicked();
 
     void on_butDivinitybyaliment_clicked();
+
+    void on_butMakeNPCFItablain_clicked();
+
+    void on_pushButton_8_clicked();
+
+    void on_butResetallstatsin_clicked();
+
+    void on_cbhas_natural_armorin_clicked(bool checked);
 
 private:
     Ui::DND_GM_Helper *ui;

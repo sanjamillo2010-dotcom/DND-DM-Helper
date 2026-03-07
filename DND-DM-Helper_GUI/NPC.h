@@ -7,6 +7,9 @@
 #include "classtype.h"
 #include "alignment.h"
 #include "divinite.h"
+#include "npcbattlestats.h"
+#include "ui_npcbattlestats.h"
+
 
 namespace DND_GM_Helper_N {
 namespace NPC_N {
@@ -24,13 +27,20 @@ public:
     int level = 1;
     int XP = 0;
     int HP = 0;
-    int FOR;
-    int DEX;
-    int CON;
-    int INT;
-    int SAG;
-    int CHA;
+    int FOR = 3;
+    int FOR_Bonus;
+    int DEX = 3;
+    int DEX_Bonus;
+    int CON = 3;
+    int CON_Bonus;
+    int INT = 3;
+    int INT_Bonus;
+    int SAG = 3;
+    int SAG_Bonus;
+    int CHA = 3;
+    int CHA_Bonus;
     int CA = 10;
+    int Natural_Armor = 0;
     Alignment alignment;
     Divinite divinity;
     void Print_NPC_Stats();
@@ -42,6 +52,13 @@ public:
     void Get_NPC_Race();
     int XPFromLVL(int lvl);
     int LVLFromXP(int xp);
+    void SizeCategoryfromSize();
+    void Calculat_Bonus(std::string What_carak);
+    int Calculat_CA();
+    void Reset_All_Stats();
+    void Calculat_Carak_Race_bonus();
+    void Get_Random_Natural_Armor();
+
     NPC() = default;
 };
 

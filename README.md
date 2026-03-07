@@ -21,10 +21,17 @@ It can generate:
   - Size Category
   - Level
   - XP
-  
+  - Aliment
+  - Divinity
+  - Ability
+  - CA
+   - Natural Armor
+   - Test Armor
+   - Test Shield
+
 ---
 ## How to make it in a executable file
-You can skip this part if there is already a working executable file in the repository. They will be in ~/Executable/yourOS
+You can skip this part if there is already a working executable file in the repository. They will be in /Executable/yourOS
 ### Linux
 
 **1. Install the tools**
@@ -137,3 +144,5 @@ You can customize the NPC generator by editing this file:
 - You can **add or remove entries in `usualNames`**, and the tool will use (or stop using) the names you modify.
 
 - You can **add or remove entries in `usualLastNames`**, and the tool will use (or stop using) the last names you modify.
+
+-  You can **add or remove divinity**, and the tool will use (or stop using) the last divinity you modify. (BUG : Program will not run)

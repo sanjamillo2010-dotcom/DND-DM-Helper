@@ -145,4 +145,4 @@ You can customize the NPC generator by editing this file:
 
 - You can **add or remove entries in `usualLastNames`**, and the tool will use (or stop using) the last names you modify.
 
--  You can **add or remove divinity**, and the tool will use (or stop using) the last divinity you modify. (BUG : Program will not run)
+-  You can **add or remove divinity**, and the tool will use (or stop using) the last divinity you modify. (BUG : Program will not run : Fix comming in v1.3.2)

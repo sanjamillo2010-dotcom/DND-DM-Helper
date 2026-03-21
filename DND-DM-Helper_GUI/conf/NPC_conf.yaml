@@ -21,7 +21,7 @@ NPC_conf:
         - Wizard
 
     Human:
-        - usualNames:
+        usualNames:
             - Aldric
             - Aelwyn
             - Antar
@@ -52,10 +52,11 @@ NPC_conf:
             - Clayne
             - Corin
             - Corvus
-        - MaxSize: 180
-        - MaxAge: 100
+        MaxSize: 180
+        MaxAge: 100
+
     Elf:
-        - usualNames:
+        usualNames:
             - Aelar
             - Aeris
             - Alaric
@@ -80,10 +81,11 @@ NPC_conf:
             - Calyndra
             - Caranthir
             - Cariel
-        - MaxSize: 170
-        - MaxAge: 750
+        MaxSize: 170
+        MaxAge: 750
+
     Half-Elf:
-        - usualNames:
+        usualNames:
             - Aelar
             - Aeris
             - Alaric
@@ -108,10 +110,11 @@ NPC_conf:
             - Calyndra
             - Caranthir
             - Cariel
-        - MaxSize: 175
-        - MaxAge: 180
+        MaxSize: 175
+        MaxAge: 180
+
     Dwarf:
-        - usualNames:
+        usualNames:
             - Adrik
             - Alaric
             - Baldric
@@ -132,7 +135,6 @@ NPC_conf:
             - Flint
             - Gardain
             - Gilthur
-            - Glóin
             - Gloinn
             - Grimnir
             - Harbek
@@ -145,13 +147,13 @@ NPC_conf:
             - Taklinn
             - Thoradin
             - Thorin
-            - Thráin
             - Ulfgar
             - Vondal
-        - MaxSize: 150
-        - MaxAge: 350
+        MaxSize: 150
+        MaxAge: 350
+
     Halfling:
-        - usualNames:
+        usualNames:
             - Alton
             - Ander
             - Bernie
@@ -169,14 +171,15 @@ NPC_conf:
             - Lobelia
             - Merric
             - Milo
-            - osborn
+            - Osborn
             - Perrin
             - Reed
             - Rosyie
-        - MaxSize: 100
-        - MaxAge: 150
+        MaxSize: 100
+        MaxAge: 150
+
     Gnome:
-        - usualNames:
+        usualNames:
             - Alston
             - Alvyn
             - Boddynock
@@ -205,10 +208,11 @@ NPC_conf:
             - Warryn
             - Wrenn
             - Zook
-        - MaxSize: 120
-        - MaxAge: 500
+        MaxSize: 120
+        MaxAge: 500
+
     Half-Orc:
-        - usualNames:
+        usualNames:
             - Dench
             - Feng
             - Gell
@@ -226,11 +230,11 @@ NPC_conf:
             - Ugarth
             - Varg
             - Yurk
-        - MaxSize: 200
-        - MaxAge: 75
+        MaxSize: 200
+        MaxAge: 75
 
     Barbarian:
-        - usualLastNames:
+        usualLastNames:
             - Ironfist
             - Stormbringer
             - Bloodaxe
@@ -245,10 +249,27 @@ NPC_conf:
             - Firebrand
             - Shadowhunter
             - Doomhammer
-            - 
-        - HPdice: 12
+        HPdice: 12
+        HasLightArmor: true
+        HasMidArmor: true
+        HasHeavyArmor: true
+        HasShild: true
+        Hastarge: true
+        Hassimple_light: true
+        Hassimple_one_handed: true
+        Hassimple_two_handed: true
+        Hassimple_ranged: true
+        Hasmartial_light: true
+        Hasmartial_one_handed: true
+        Hasmartial_two_handed: true
+        Hasmartial_ranged: true
+        Hasexotic_light: false
+        Hasexotic_one_handed: false
+        Hasexotic_two_handed: false
+        Hasexotic_ranged: false
+
     Bard:
-        - usualLastNames:
+        usualLastNames:
             - Silverstring
             - Melodyweaver
             - Harmonious
@@ -264,16 +285,27 @@ NPC_conf:
             - Sonneteer
             - Cadence
             - Echoheart
-        - HPdice: 6
-        - Caracteristicspriority:
-            - CHA
-            - DEX
-            - FOR
-            - SAG
-            - CON
-            - INT
+        HPdice: 6
+        HasLightArmor: true
+        HasMidArmor: false
+        HasHeavyArmor: false
+        HasShild: true
+        Hastarge: false
+        Hassimple_light: true
+        Hassimple_one_handed: true
+        Hassimple_two_handed: true
+        Hassimple_ranged: true
+        Hasmartial_light: false
+        Hasmartial_one_handed: false
+        Hasmartial_two_handed: false
+        Hasmartial_ranged: false
+        Hasexotic_light: false
+        Hasexotic_one_handed: false
+        Hasexotic_two_handed: false
+        Hasexotic_ranged: false
+
     Cleric:
-        - usualLastNames:
+        usualLastNames:
             - Lightbringer
             - Soulhealer
             - Divineheart
@@ -289,18 +321,29 @@ NPC_conf:
             - Sacred
             - Venerated
             - Zealot
-        - HPdice: 8
-        - Caracteristicspriority:
-            - SAG
-            - FOR
-            - CON
-            - CHA
-            - DEX
-            - INT
+        HPdice: 8
+        HasLightArmor: true
+        HasMidArmor: true
+        HasHeavyArmor: true
+        HasShild: true
+        Hastarge: false
+        Hassimple_light: true
+        Hassimple_one_handed: true
+        Hassimple_two_handed: true
+        Hassimple_ranged: true
+        Hasmartial_light: false
+        Hasmartial_one_handed: false
+        Hasmartial_two_handed: false
+        Hasmartial_ranged: false
+        Hasexotic_light: false
+        Hasexotic_one_handed: false
+        Hasexotic_two_handed: false
+        Hasexotic_ranged: false
+
     Druid:
-        - usualLastNames:
-            - "Greenleaf"
-            - "Wildheart"
+        usualLastNames:
+            - Greenleaf
+            - Wildheart
             - "Nature's Embrace"
             - Earthshaper
             - Moonwhisper
@@ -314,16 +357,27 @@ NPC_conf:
             - Skywatcher
             - Wildsoul
             - "Nature's Guardian"
-        - HPdice: 8
-        - Caracteristicspriority:
-            - SAG
-            - DEX
-            - CON
-            - FOR
-            - CHA
-            - INT
+        HPdice: 8
+        HasLightArmor: true
+        HasMidArmor: true
+        HasHeavyArmor: false
+        HasShild: true
+        Hastarge: false
+        Hassimple_light: false
+        Hassimple_one_handed: false
+        Hassimple_two_handed: false
+        Hassimple_ranged: false
+        Hasmartial_light: false
+        Hasmartial_one_handed: false
+        Hasmartial_two_handed: false
+        Hasmartial_ranged: false
+        Hasexotic_light: false
+        Hasexotic_one_handed: false
+        Hasexotic_two_handed: false
+        Hasexotic_ranged: false
+
     Fighter:
-        - usualLastNames:
+        usualLastNames:
             - Ironfist
             - Steelheart
             - Battleborn
@@ -339,16 +393,27 @@ NPC_conf:
             - Vanguard
             - Sentinel
             - Warrior
-        - HPdice: 10
-        - Caracteristicspriority:
-            - FOR
-            - CON
-            - DEX
-            - SAG
-            - CHA
-            - INT
+        HPdice: 10
+        HasLightArmor: true
+        HasMidArmor: true
+        HasHeavyArmor: true
+        HasShild: true
+        Hastarge: true
+        Hassimple_light: true
+        Hassimple_one_handed: true
+        Hassimple_two_handed: true
+        Hassimple_ranged: true
+        Hasmartial_light: true
+        Hasmartial_one_handed: true
+        Hasmartial_two_handed: true
+        Hasmartial_ranged: true
+        Hasexotic_light: false
+        Hasexotic_one_handed: false
+        Hasexotic_two_handed: false
+        Hasexotic_ranged: false
+
     Monk:
-        - usualLastNames:
+        usualLastNames:
             - Silent
             - Shadow
             - Swift
@@ -364,16 +429,27 @@ NPC_conf:
             - Balanced
             - Harmonious
             - Disciplined
-        - HPdice: 8
-        - Caracteristicspriority:
-            - DEX
-            - SAG
-            - FOR
-            - CON
-            - CHA
-            - INT
+        HPdice: 8
+        HasLightArmor: false
+        HasMidArmor: false
+        HasHeavyArmor: false
+        HasShild: false
+        Hastarge: false
+        Hassimple_light: false
+        Hassimple_one_handed: false
+        Hassimple_two_handed: false
+        Hassimple_ranged: false
+        Hasmartial_light: false
+        Hasmartial_one_handed: false
+        Hasmartial_two_handed: false
+        Hasmartial_ranged: false
+        Hasexotic_light: false
+        Hasexotic_one_handed: false
+        Hasexotic_two_handed: false
+        Hasexotic_ranged: false
+
     Paladin:
-        - usualLastNames:
+        usualLastNames:
             - Lightbringer
             - Holyshield
             - Divineheart
@@ -389,16 +465,27 @@ NPC_conf:
             - Inquisitor
             - Avenger
             - Protector
-        - HPdice: 10
-        - Caracteristicspriority:
-            - FOR
-            - SAG
-            - CON
-            - CHA
-            - DEX
-            - INT
+        HPdice: 10
+        HasLightArmor: true
+        HasMidArmor: true
+        HasHeavyArmor: true
+        HasShild: true
+        Hastarge: true
+        Hassimple_light: true
+        Hassimple_one_handed: true
+        Hassimple_two_handed: true
+        Hassimple_ranged: true
+        Hasmartial_light: true
+        Hasmartial_one_handed: true
+        Hasmartial_two_handed: true
+        Hasmartial_ranged: true
+        Hasexotic_light: false
+        Hasexotic_one_handed: false
+        Hasexotic_two_handed: false
+        Hasexotic_ranged: false
+
     Rogue:
-        - usualLastNames:
+        usualLastNames:
             - Shadow
             - Silent
             - Swift
@@ -414,16 +501,27 @@ NPC_conf:
             - Trickster
             - Shadowstep
             - Darkblade
-        - HPdice: 8
-        - Caracteristicspriority:
-            - DEX
-            - CHA
-            - FOR
-            - SAG
-            - CON
-            - INT
+        HPdice: 8
+        HasLightArmor: true
+        HasMidArmor: false
+        HasHeavyArmor: false
+        HasShild: false
+        Hastarge: false
+        Hassimple_light: true
+        Hassimple_one_handed: true
+        Hassimple_two_handed: true
+        Hassimple_ranged: true
+        Hasmartial_light: false
+        Hasmartial_one_handed: false
+        Hasmartial_two_handed: false
+        Hasmartial_ranged: false
+        Hasexotic_light: false
+        Hasexotic_one_handed: false
+        Hasexotic_two_handed: false
+        Hasexotic_ranged: false
+
     Wizard:
-        - usualLastNames:
+        usualLastNames:
             - Arcaneweaver
             - Spellbinder
             - Mystic
@@ -438,89 +536,118 @@ NPC_conf:
             - Diviner
             - Elementalist
             - Chronomancer
-        - HPdice: 4
-        - Caracteristicspriority:
-            - INT
-            - SAG
-            - DEX
-            - CHA
-            - CON
-            - FOR
+        HPdice: 4
+        HasLightArmor: false
+        HasMidArmor: false
+        HasHeavyArmor: false
+        HasShild: false
+        Hastarge: false
+        Hassimple_light: false
+        Hassimple_one_handed: false
+        Hassimple_two_handed: false
+        Hassimple_ranged: false
+        Hasmartial_light: false
+        Hasmartial_one_handed: false
+        Hasmartial_two_handed: false
+        Hasmartial_ranged: false
+        Hasexotic_light: false
+        Hasexotic_one_handed: false
+        Hasexotic_two_handed: false
+        Hasexotic_ranged: false
+
     Divinite:
         - Boccob
         - Ehlonna
         - Erythnul
         - Fharlanghn
-        - Garl Brilledor
+        - GarlBrilledor
         - Gruumsh
         - Heironeous
         - Hextor
         - Kord
         - Moradin
         - Nerull
-        - Obad-Hai
+        - ObadHai
         - Olidammara
         - Pelor
-        - St. Cuthbert
+        - StCuthbert
         - Vecna
-        - Wy-Djaz
+        - WyDjaz
         - Yondalla
-    
+
     DivinityDetails:
         Boccob:
             Alignment1: Neutral
             Alignment2: Neutral
+            FavoritWeapon: quarterstaff
         Ehlonna:
             Alignment1: Neutral
             Alignment2: Good
+            FavoritWeapon: longbow
         Erythnul:
             Alignment1: Chaotic
             Alignment2: Evil
+            FavoritWeapon: morningstar
         Fharlanghn:
             Alignment1: Neutral
             Alignment2: Neutral
-        Garl Brilledor:
+            FavoritWeapon: quarterstaff
+        GarlBrilledor:
             Alignment1: Neutral
             Alignment2: Good
+            FavoritWeapon: battleaxe
         Gruumsh:
             Alignment1: Chaotic
             Alignment2: Evil
+            FavoritWeapon: spear
         Heironeous:
             Alignment1: Lawful
             Alignment2: Good
+            FavoritWeapon: longsword
         Hextor:
             Alignment1: Lawful
             Alignment2: Evil
+            FavoritWeapon: flail_heavy
         Kord:
             Alignment1: Chaotic
             Alignment2: Good
+            FavoritWeapon: greatsword
         Moradin:
             Alignment1: Lawful
             Alignment2: Good
+            FavoritWeapon: waraxe_dwarven
         Nerull:
             Alignment1: Neutral
             Alignment2: Evil
-        Obad-Hai:
+            FavoritWeapon: scythe
+        ObadHai:
             Alignment1: Neutral
             Alignment2: Neutral
+            FavoritWeapon: quarterstaff
         Olidammara:
             Alignment1: Chaotic
             Alignment2: Neutral
+            FavoritWeapon: rapier
         Pelor:
             Alignment1: Neutral
             Alignment2: Good
-        St. Cuthbert:
+            FavoritWeapon: mace_heavy
+        StCuthbert:
             Alignment1: Lawful
             Alignment2: Neutral
+            FavoritWeapon: mace_heavy
         Vecna:
             Alignment1: Neutral
             Alignment2: Evil
-        Wy-Djaz:
+            FavoritWeapon: dagger
+        WyDjaz:
             Alignment1: Lawful
             Alignment2: Neutral
+            FavoritWeapon: longsword
         Yondalla:
             Alignment1: Lawful
             Alignment2: Good
+            FavoritWeapon: sword_short
 
     Sexes:
         - Male

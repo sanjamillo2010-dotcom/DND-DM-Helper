@@ -25,6 +25,7 @@ public:
 
     std::string GetRandomName();
 
+    void Set_Race_Stats(YAML::Node config);
 };
 
 } // namespace DND_GM_Helper_N

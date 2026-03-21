@@ -1,10 +1,9 @@
-#include "widget.h"
-#include "NPC.h"
-#include "Race.h"
-#include "classtype.h"
+#include "../include/widget.h"
+#include "../include/NPC.h"
+#include "../include/Race.h"
+#include "../include/classtype.h"
 #include "ui_widget.h"
-#include "npcbattlestats.h"
-#include "mainmenu.h"
+#include "../include/npcbattlestats.h"
 
 #include <iostream>
 #include <random>
@@ -17,12 +16,13 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::DND_GM_Helper)
 {
     ui->setupUi(this);
-    QString configPath = QCoreApplication::applicationDirPath() + "/conf/NPC_conf.yaml";
-    config = YAML::LoadFile(configPath.toStdString());
+    config = YAML::LoadFile("conf/NPC_conf.yaml");
 
     // Populate ddDivinity combobox
     YAML::Node divinities = config["NPC_conf"]["Divinite"];
     YAML::Node details = config["NPC_conf"]["DivinityDetails"];
+    YAML::Node Race_list = config["NPC_conf"]["race"];
+    YAML::Node ClassType_list = config["NPC_conf"]["Classtype"];
 
     for (const auto& deity : divinities) {
         std::string name = deity.as<std::string>();
@@ -30,6 +30,14 @@ Widget::Widget(QWidget *parent)
         std::string a2 = details[name]["Alignment2"].as<std::string>();
         std::string entry = name + " : " + a1 + " " + a2;
         ui->ddDivinity->addItem(QString::fromStdString(entry));
+    }
+    for (const auto& Race : Race_list) {
+        std::string RaceFileName = Race.as<std::string>();
+        ui->ddRace->addItem(QString::fromStdString(RaceFileName));
+    }
+    for (const auto& ClassType : ClassType_list) {
+        std::string ClassTypeFileName = ClassType.as<std::string>();
+        ui->ddClassType->addItem(QString::fromStdString(ClassTypeFileName));
     }
     ui->Racetxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.race.name));
     ui->Classtxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name));
@@ -50,37 +58,199 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::on_ddDivinity_activated(int index)
+//Race !!! To unit Test !!! (0/3)
+
+void Widget::on_Racetxtin_textChanged(const QString &arg1)
 {
-    // Fix for 1.3.2 and make it in a function
-    QString selected = ui->ddDivinity->currentText();
-    QString divinityName = selected.split(" : ").first();
-
-    YAML::Node details = config["NPC_conf"]["DivinityDetails"];
-    std::string key = divinityName.toStdString();
-
-    if (details[key]) {
-        DND_GM_Helper_N::NPC_N::npc.divinity.name = key;
-        DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig1 = details[key]["Alignment1"].as<std::string>();
-        DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig2 = details[key]["Alignment2"].as<std::string>();
+    YAML::Node config = YAML::LoadFile("conf/NPC_conf.yaml");
+    if (arg1.toStdString() == "") {
+        DND_GM_Helper_N::NPC_N::npc.race.name = "";
+        std::fill(DND_GM_Helper_N::NPC_N::npc.race.usualNames.begin(), DND_GM_Helper_N::NPC_N::npc.race.usualNames.end() , "");
+        DND_GM_Helper_N::NPC_N::npc.race.MaxAge = 0;
+        DND_GM_Helper_N::NPC_N::npc.race.MaxSize = 0;
     }
     else {
-        DND_GM_Helper_N::NPC_N::npc.divinity.name = "None";
-        DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig1 = "None";
-        DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig2 = "";
+        YAML::Node YAMLRaceList = config["NPC_conf"]["race"];
+        std::vector<std::string> RaceList;
+        for (const auto& node : YAMLRaceList) {
+            RaceList.push_back(node.as<std::string>());
+        }
+        if (std::find(RaceList.begin(), RaceList.end(), arg1.toStdString()) != RaceList.end()) {
+            DND_GM_Helper_N::NPC_N::npc.race.name = arg1.toStdString();
+            DND_GM_Helper_N::NPC_N::npc.race.Set_Race_Stats(config);
+            YAML::Node NPC_Name_list = config["NPC_conf"][DND_GM_Helper_N::NPC_N::npc.race.name]["usualNames"];
+            for (const auto& node : NPC_Name_list) {
+                std::string NPC_Name = node.as<std::string>();
+                ui->ddName->addItem(QString::fromStdString(NPC_Name));
+            }
+            ui->ddRace->setCurrentText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.race.name));
+        }
+        else {
+            DND_GM_Helper_N::NPC_N::npc.race.name = arg1.toStdString();
+            ui->ddRace->setCurrentText("None");
+        }
     }
-    DND_GM_Helper_N::NPC_N::npc.divinity.alignment.index = index;
 }
 
-void Widget::on_Racetxtin_editingFinished()
+void Widget::on_ddRace_activated(int index)
 {
-    DND_GM_Helper_N::NPC_N::npc.race.name = ui->Racetxtin->text().toStdString();
+    QString selected = ui->ddRace->currentText();
+    std::string RaceKey = selected.toStdString();
+    YAML::Node raceNode = config["NPC_conf"][RaceKey];
+    if (index > 0) {
+        DND_GM_Helper_N::NPC_N::npc.race.name = RaceKey;
+        DND_GM_Helper_N::NPC_N::npc.race.Set_Race_Stats(config);
+    }
+    else {
+        DND_GM_Helper_N::NPC_N::npc.race.name = "";
+        DND_GM_Helper_N::NPC_N::npc.race.usualNames.clear();
+        DND_GM_Helper_N::NPC_N::npc.race.MaxAge = 0;
+        DND_GM_Helper_N::NPC_N::npc.race.MaxSize = 0;
+    }
+    YAML::Node NPC_Name_list = config["NPC_conf"][DND_GM_Helper_N::NPC_N::npc.race.name]["usualNames"];
+    for (const auto& node : NPC_Name_list) {
+        std::string NPC_Name = node.as<std::string>();
+        ui->ddName->addItem(QString::fromStdString(NPC_Name));
+    }
+    ui->Racetxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.race.name));
 }
 
 void Widget::on_pushButton_clicked()
 {
     DND_GM_Helper_N::NPC_N::npc.race = DND_GM_Helper_N::NPC_N::npc.Get_Random_Race();
+    DND_GM_Helper_N::NPC_N::npc.race.Set_Race_Stats(config);
+    YAML::Node NPC_Name_list = config["NPC_conf"][DND_GM_Helper_N::NPC_N::npc.race.name]["usualNames"];
+    for (const auto& node : NPC_Name_list) {
+        std::string NPC_Name = node.as<std::string>();
+        ui->ddName->addItem(QString::fromStdString(NPC_Name));
+    }
     ui->Racetxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.race.name));
+}
+
+//ClassType !!! To unit Test !!! (0/3)
+
+void Widget::on_Classtxtin_textChanged(const QString &arg1)
+{
+    YAML::Node config = YAML::LoadFile("conf/NPC_conf.yaml");
+    YAML::Node YAMLClassTypeList = config["NPC_conf"]["Classtype"];
+    std::vector<std::string> ClassTypeList;
+    for (const auto& node : YAMLClassTypeList) {
+        ClassTypeList.push_back(node.as<std::string>());
+    }
+    if (std::find(ClassTypeList.begin(), ClassTypeList.end(), arg1.toStdString()) != ClassTypeList.end()) {
+        DND_GM_Helper_N::NPC_N::npc.classtype.name = arg1.toStdString();
+        DND_GM_Helper_N::NPC_N::npc.classtype.Set_ClassType_Stats(config);
+        YAML::Node LastName_list = config["NPC_conf"][DND_GM_Helper_N::NPC_N::npc.classtype.name]["usualLastNames"];
+        for (const auto& Node : LastName_list) {
+            std::string NPC_LastName = Node.as<std::string>();
+            ui->ddLastName->addItem(QString::fromStdString(NPC_LastName));
+        }
+        ui->ddClassType->setCurrentText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name));
+    }
+    else {
+        DND_GM_Helper_N::NPC_N::npc.classtype.name = arg1.toStdString();
+        ui->ddClassType->setCurrentText("None");
+    }
+}
+
+void Widget::on_pushButton_2_clicked()
+{
+    DND_GM_Helper_N::NPC_N::npc.classtype = DND_GM_Helper_N::NPC_N::npc.Get_Random_Class();
+    ui->Classtxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name));
+    YAML::Node LastName_list = config["NPC_conf"][DND_GM_Helper_N::NPC_N::npc.classtype.name]["usualLastNames"];
+    for (const auto& Node : LastName_list) {
+        std::string NPC_LastName = Node.as<std::string>();
+        ui->ddLastName->addItem(QString::fromStdString(NPC_LastName));
+    }
+}
+
+void Widget::on_ddClassType_activated(int index)
+{
+    QString selected = ui->ddClassType->currentText();
+    std::string ClassTypeKey = selected.toStdString();
+    if (index > 0) {
+        DND_GM_Helper_N::NPC_N::npc.classtype.name = ClassTypeKey;
+    }
+    else {
+        DND_GM_Helper_N::NPC_N::npc.classtype.name = "";
+        DND_GM_Helper_N::NPC_N::npc.classtype.usualLastNames.clear();
+        DND_GM_Helper_N::NPC_N::npc.classtype.HPdice = 0;
+        DND_GM_Helper_N::NPC_N::npc.classtype.HasLightArmor = false;
+        DND_GM_Helper_N::NPC_N::npc.classtype.HasMidArmor = false;
+        DND_GM_Helper_N::NPC_N::npc.classtype.HasHeavyArmor = false;
+        DND_GM_Helper_N::NPC_N::npc.classtype.HasShild = false;
+        DND_GM_Helper_N::NPC_N::npc.classtype.Hastarge = false;
+    }
+    ui->Classtxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name));
+}
+
+//Name !!! To unit Test !!! (0/3)
+
+
+void Widget::on_Nametxtin_textChanged(const QString &arg1)
+{
+    DND_GM_Helper_N::NPC_N::npc.name = arg1.toStdString();
+    YAML::Node YAML_Name_List = config["NPC_conf"][DND_GM_Helper_N::NPC_N::npc.race.name]["usualNames"];
+    std::vector<std::string> Name_List;
+    for (const auto& Node : YAML_Name_List) {
+        Name_List.push_back(Node.as<std::string>());
+    }
+    if (std::find(Name_List.begin(), Name_List.end(), arg1.toStdString()) != Name_List.end()){
+        ui->ddName->setCurrentText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name));
+    }
+    else {
+        ui->ddName->setCurrentText("None");
+    }
+}
+
+void Widget::on_pushButton_3_clicked()
+{
+    DND_GM_Helper_N::NPC_N::npc.name = DND_GM_Helper_N::NPC_N::npc.race.GetRandomName();
+    ui->Nametxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name));
+}
+
+void Widget::on_ddName_activated(int index)
+{
+    QString selected = ui->ddName->currentText();
+    std::string NameKey = selected.toStdString();
+    if (index > 0) {
+        DND_GM_Helper_N::NPC_N::npc.name = NameKey;
+    }
+    else {
+        DND_GM_Helper_N::NPC_N::npc.name = "";
+    }
+    ui->Nametxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name));
+}
+
+//LastName
+
+void Widget::on_LastNametxtin_textChanged(const QString &arg1)
+{
+    DND_GM_Helper_N::NPC_N::npc.LastName = arg1.toStdString();
+    YAML::Node YAML_LastName_List = config["NPC_conf"][DND_GM_Helper_N::NPC_N::npc.classtype.name]["usualLastNames"];
+    std::vector<std::string> LastName_List;
+    for (const auto& Node : YAML_LastName_List) {
+        LastName_List.push_back(Node.as<std::string>());
+    }
+    if (std::find(LastName_List.begin(), LastName_List.end(), arg1.toStdString()) != LastName_List.end()){
+        ui->ddLastName->setCurrentText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.LastName));
+    }
+    else {
+        ui->ddLastName->setCurrentText("None");
+    }
+}
+
+void Widget::on_ddLastName_activated(int index)
+{
+    QString selected = ui->ddLastName->currentText();
+    std::string LastNameKey = selected.toStdString();
+    if (index > 0) {
+        DND_GM_Helper_N::NPC_N::npc.LastName = LastNameKey;
+    }
+    else {
+        DND_GM_Helper_N::NPC_N::npc.LastName = "";
+    }
+    ui->LastNametxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.LastName));
 }
 
 void Widget::on_butPrintNPCinfo_clicked()
@@ -119,7 +289,14 @@ void Widget::on_butPrintNPCinfo_clicked()
                             + "\nWis : " + QString::number(DND_GM_Helper_N::NPC_N::npc.SAG) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.SAG_Bonus) + ")"
                             + "\nCha : " + QString::number(DND_GM_Helper_N::NPC_N::npc.CHA) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.CHA_Bonus) + ")"
                             + "\nAC : " + QString::number(DND_GM_Helper_N::NPC_N::npc.CA)
-                            + "\n----------------------------------------------------\nInventory\n -=In v1.3.1=-"
+                            + "\n----------------------------------------------------\nInventory"
+                            + "\nArmor : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Armor.Name) + "( +" + QString::number(DND_GM_Helper_N::NPC_N::npc.Armor.Prot) + " )"
+                            + "\nArmor : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Shield.Name) + "( +" + QString::number(DND_GM_Helper_N::NPC_N::npc.Shield.Prot) + " )"
+                            + "\nWeapon 1 : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Weapon1.Name) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon1.Attack.Num_of_Dice) + "d" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon1.Attack.Dice_Value) + ")"
+                            + "\nWeapon 2 : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Weapon2.Name) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon2.Attack.Num_of_Dice) + "d" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon2.Attack.Dice_Value) + ")"
+                            + "\nWeapon 3 : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Weapon3.Name) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon3.Attack.Num_of_Dice) + "d" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon3.Attack.Dice_Value) + ")"
+                            + "\nWeapon 4 : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Weapon4.Name) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon4.Attack.Num_of_Dice) + "d" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon4.Attack.Dice_Value) + ")"
+                            + "\nWeapon 5 : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Weapon5.Name) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon5.Attack.Num_of_Dice) + "d" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon5.Attack.Dice_Value) + ")"
                             + "\n\n"
                             + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name)
                             + " "
@@ -131,32 +308,26 @@ void Widget::on_butPrintNPCinfo_clicked()
                             );
 }
 
-void Widget::on_Classtxtin_editingFinished()
+void Widget::on_ddDivinity_activated(int index)
 {
-    DND_GM_Helper_N::NPC_N::npc.classtype.name = ui->Classtxtin->text().toStdString();
-    std::cout << DND_GM_Helper_N::NPC_N::npc.classtype.name << std::endl;
-}
+    // Fix for 1.3.2 and make it in a function
+    QString selected = ui->ddDivinity->currentText();
+    QString divinityName = selected.split(" : ").first();
 
-void Widget::on_pushButton_2_clicked()
-{
-    DND_GM_Helper_N::NPC_N::npc.classtype = DND_GM_Helper_N::NPC_N::npc.Get_Random_Class();
-    ui->Classtxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name));
-}
+    YAML::Node details = config["NPC_conf"]["DivinityDetails"];
+    std::string key = divinityName.toStdString();
 
-void Widget::on_Nametxtin_editingFinished()
-{
-    DND_GM_Helper_N::NPC_N::npc.name = ui->Nametxtin->text().toStdString();
-}
-
-void Widget::on_pushButton_3_clicked()
-{
-    DND_GM_Helper_N::NPC_N::npc.name = DND_GM_Helper_N::NPC_N::npc.race.GetRandomName();
-    ui->Nametxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name));
-}
-
-void Widget::on_LastNametxtin_editingFinished()
-{
-    DND_GM_Helper_N::NPC_N::npc.LastName = ui->LastNametxtin->text().toStdString();
+    if (details[key]) {
+        DND_GM_Helper_N::NPC_N::npc.divinity.name = key;
+        DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig1 = details[key]["Alignment1"].as<std::string>();
+        DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig2 = details[key]["Alignment2"].as<std::string>();
+    }
+    else {
+        DND_GM_Helper_N::NPC_N::npc.divinity.name = "None";
+        DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig1 = "None";
+        DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig2 = "";
+    }
+    DND_GM_Helper_N::NPC_N::npc.divinity.alignment.index = index;
 }
 
 void Widget::on_pushButton_4_clicked()
@@ -279,30 +450,7 @@ void Widget::on_HPtxtin_editingFinished()
 
 void Widget::on_butCalculatehp_clicked()
 {
-    YAML::Node classNode = config["NPC_conf"][DND_GM_Helper_N::NPC_N::npc.classtype.name];
-    if (classNode) {
-        YAML::Node hpNode;
-        if (classNode.IsSequence() && classNode.size() > 0)
-            hpNode = classNode[0]["HPdice"];
-        else if (classNode.IsMap())
-            hpNode = classNode["HPdice"];
-
-        if (hpNode && hpNode.IsScalar())
-            DND_GM_Helper_N::NPC_N::npc.classtype.HPdice = hpNode.as<int>();
-    }
-
-    if (DND_GM_Helper_N::NPC_N::npc.classtype.HPdice <= 0) {
-        static const std::map<std::string, int> defaultHP = {
-            {"Barbarian", 12}, {"Bard", 6},    {"Cleric", 8},
-            {"Druid", 8},      {"Fighter", 10}, {"Monk", 8},
-            {"Paladin", 10},   {"Rogue", 8},    {"Wizard", 4}
-        };
-        auto it = defaultHP.find(DND_GM_Helper_N::NPC_N::npc.classtype.name);
-        DND_GM_Helper_N::NPC_N::npc.classtype.HPdice = (it != defaultHP.end()) ? it->second : 8;
-    }
-
     if (DND_GM_Helper_N::NPC_N::npc.level <= 0) DND_GM_Helper_N::NPC_N::npc.level = 1;
-
     DND_GM_Helper_N::NPC_N::npc.HP = 0;
     for (int i = 1; i <= DND_GM_Helper_N::NPC_N::npc.level; ++i) {
         if (i == 1)
@@ -416,16 +564,10 @@ void Widget::on_butMakeNPCFItablain_clicked()
 
 }
 
-void Widget::on_pushButton_8_clicked()
-{
-    MainMenu *widget = new MainMenu();
-    widget->show();
-    this->close();
-}
-
 void Widget::on_butResetallstatsin_clicked()
 {
     DND_GM_Helper_N::NPC_N::npc.Reset_All_Stats();
+    on_butPrintNPCinfo_clicked();
     ui->Racetxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.race.name));
     ui->Classtxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name));
     ui->Nametxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name));
@@ -438,4 +580,9 @@ void Widget::on_butResetallstatsin_clicked()
     ui->HPtxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.HP));
     ui->ddAlimetin->setCurrentIndex(DND_GM_Helper_N::NPC_N::npc.alignment.index);
     ui->ddDivinity->setCurrentIndex(DND_GM_Helper_N::NPC_N::npc.divinity.alignment.index);
+}
+
+void Widget::on_pushButton_8_clicked()
+{
+    std::cout << "open Main menu " << std::endl;
 }

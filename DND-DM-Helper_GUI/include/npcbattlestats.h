@@ -83,6 +83,16 @@ private slots:
 
     void on_DDShieldin_activated(int index);
 
+    void on_ddWeapons1_activated(int index);
+
+    void on_ddWeapons2_activated(int index);
+
+    void on_ddWeapons3_activated(int index);
+
+    void on_ddWeapons4_activated(int index);
+
+    void on_ddWeapons5_activated(int index);
+
 private:
     Ui::NPCbattlestats *ui;
 };

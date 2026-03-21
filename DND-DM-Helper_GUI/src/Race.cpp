@@ -1,4 +1,4 @@
-#include "Race.h"
+#include "../include/Race.h"
 
 #include <iostream>
 #include <random>
@@ -14,35 +14,17 @@ void Race::set_usualname(YAML::Node& config, const std::string& raceName) {
         ::YAML::Node Node = config["NPC_conf"][raceName];
         if (Node) {
             ::YAML::Node namesNode;
-            ::YAML::Node maxSizeNode;
-            ::YAML::Node maxAgeNode;
 
             if (Node.IsSequence() && Node.size() > 0) {
                 namesNode = Node[0]["usualNames"];
-                if (Node.size() > 1) {
-                    maxSizeNode = Node[1]["MaxSize"];
-                }
-                if (Node.size() > 2) {
-                    maxAgeNode = Node[2]["MaxAge"];
-                }
             } else if (Node.IsMap()) {
                 namesNode = Node["usualNames"];
-                maxSizeNode = Node["MaxSize"];
-                maxAgeNode = Node["MaxAge"];
             }
 
             if (namesNode && namesNode.IsSequence()) {
                 usualNames = namesNode.as<std::vector<std::string>>();
             } else {
                 std::cerr << raceName << " usualNames missing or not a sequence\n";
-            }
-
-            if (maxSizeNode && maxSizeNode.IsScalar()) {
-                MaxSize = maxSizeNode.as<int>();
-            }
-
-            if (maxAgeNode && maxAgeNode.IsScalar()) {
-                MaxAge = maxAgeNode.as<int>();
             }
         } else {
             std::cerr << raceName << " node missing\n";
@@ -71,6 +53,16 @@ std::string Race::GetRandomName() {
     std::uniform_int_distribution<> dis(0, usualNames.size() - 1);
 
     return usualNames[dis(gen)];
+}
+
+void Race::Set_Race_Stats(YAML::Node config) {
+    Race::set_usualname(config, name);
+    if (config["NPC_conf"][name]["MaxSize"]) {
+        MaxSize = config["NPC_conf"][name]["MaxSize"].as<int>();
+    }
+    if (config["NPC_conf"][name]["MaxAge"]) {
+        MaxAge = config["NPC_conf"][name]["MaxAge"].as<int>();
+    }
 }
 
 } // namespace DND_GM_Helper_N

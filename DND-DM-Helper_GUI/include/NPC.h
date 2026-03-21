@@ -3,12 +3,13 @@
 
 #include <string>
 #include <yaml-cpp/yaml.h>
-#include "Race.h"
-#include "classtype.h"
-#include "alignment.h"
-#include "divinite.h"
-#include "npcbattlestats.h"
-#include "ui_npcbattlestats.h"
+
+#include "../include/Race.h"
+#include "../include/classtype.h"
+#include "../include/alignment.h"
+#include "../include/weapon.h"
+#include "../include/divinite.h"
+#include "../include/armor.h"
 
 
 namespace DND_GM_Helper_N {
@@ -41,6 +42,13 @@ public:
     int CHA_Bonus;
     int CA = 10;
     int Natural_Armor = 0;
+    DND_GM_Helper_N::Inventory_N::Armor Armor;
+    DND_GM_Helper_N::Inventory_N::Armor Shield;
+    DND_GM_Helper_N::Inventory_N::Weapon Weapon1;
+    DND_GM_Helper_N::Inventory_N::Weapon Weapon2;
+    DND_GM_Helper_N::Inventory_N::Weapon Weapon3;
+    DND_GM_Helper_N::Inventory_N::Weapon Weapon4;
+    DND_GM_Helper_N::Inventory_N::Weapon Weapon5;
     Alignment alignment;
     Divinite divinity;
     void Print_NPC_Stats();
@@ -58,6 +66,7 @@ public:
     void Reset_All_Stats();
     void Calculat_Carak_Race_bonus();
     void Get_Random_Natural_Armor();
+
 
     NPC() = default;
 };

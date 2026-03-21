@@ -18,14 +18,10 @@ public:
     ~Widget();
     YAML::Node config;
 private slots:
-    void on_Racetxtin_editingFinished();
     void on_pushButton_clicked();
     void on_butPrintNPCinfo_clicked();
-    void on_Classtxtin_editingFinished();
     void on_pushButton_2_clicked();
-    void on_Nametxtin_editingFinished();
     void on_pushButton_3_clicked();
-    void on_LastNametxtin_editingFinished();
     void on_pushButton_4_clicked();
     void on_butMale_clicked();
     void on_pushButton_6_clicked();
@@ -56,7 +52,21 @@ private slots:
 
     void on_butResetallstatsin_clicked();
 
-    void on_cbhas_natural_armorin_clicked(bool checked);
+    void on_ddRace_activated(int index);
+
+    void on_Racetxtin_textChanged(const QString &arg1);
+
+    void on_Classtxtin_textChanged(const QString &arg1);
+
+    void on_ddClassType_activated(int index);
+
+    void on_Nametxtin_textChanged(const QString &arg1);
+
+    void on_ddName_activated(int index);
+
+    void on_LastNametxtin_textChanged(const QString &arg1);
+
+    void on_ddLastName_activated(int index);
 
 private:
     Ui::DND_GM_Helper *ui;

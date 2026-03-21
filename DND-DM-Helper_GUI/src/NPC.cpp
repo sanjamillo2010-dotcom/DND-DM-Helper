@@ -5,13 +5,11 @@
 #include <yaml-cpp/yaml.h>
 #include <QCoreApplication>
 
-#include "npcbattlestats.h"
-#include "ui_npcbattlestats.h"
-#include "alignment.h"
-#include "classtype.h"
-#include "divinite.h"
-#include "Race.h"
-#include "NPC.h"
+#include "../include/alignment.h"
+#include "../include/classtype.h"
+#include "../include/divinite.h"
+#include "../include/Race.h"
+#include "../include/NPC.h"
 
 namespace DND_GM_Helper_N {
 namespace NPC_N {
@@ -811,6 +809,8 @@ int NPC::LVLFromXP(int xp) {
     return lvl;
 }
 
+#include <iostream>
+
 void NPC::Calculat_Bonus(std::string What_carak){
     if (What_carak == "FOR"){
         FOR_Bonus = (FOR / 2) - 5;
@@ -842,6 +842,7 @@ void NPC::Calculat_Bonus(std::string What_carak){
         std::cout << What_carak <<  " si not valid.";
     }
 }
+#include <iostream>
 
 int NPC::Calculat_CA() {
     CA = 10;
@@ -851,8 +852,8 @@ int NPC::Calculat_CA() {
     else if (SizeCategory == "Large") {CA = CA - 1;}
     else if (SizeCategory == "Huge") {CA = CA - 2;}
     CA = CA + Natural_Armor;
-    //Add Armor (Tello)
-    //Add Shild (Tello)
+    CA = CA + Armor.Prot;
+    CA = CA + Shield.Prot;
     return CA;
 }
 

@@ -1,5 +1,4 @@
-#include "divinite.h"
-#include "./ui_widget.h"
+#include "../include/divinite.h"
 
 #include <iostream>
 

@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.5)
-
 if(WIN32)
     set(CMAKE_TOOLCHAIN_FILE "F:/workspace/vcpkg/scripts/buildsystems/vcpkg.cmake")
     set(VCPKG_TARGET_TRIPLET "x64-mingw-dynamic")
@@ -10,72 +9,81 @@ project(DND_MG_Helper_GUI VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(yaml-cpp CONFIG REQUIRED)
 
+# -------------------------------------------------------
+# Shared source files (used by both GUI and tests)
+# -------------------------------------------------------
+set(SHARED_SOURCES
+    src/alignment.cpp
+    src/armor.cpp
+    src/classtype.cpp
+    src/divinite.cpp
+    src/npcbattlestats.cpp
+    src/widget.cpp
+    src/Race.cpp
+    src/NPC.cpp
+    src/weapon.cpp
+    src/damage_dice.cpp
+    include/alignment.h
+    include/armor.h
+    include/classtype.h
+    include/divinite.h
+    include/npcbattlestats.h
+    include/Race.h
+    include/widget.h
+    include/NPC.h
+    include/weapon.h
+    include/damage_dice.h
+    ui/widget.ui
+    ui/npcbattlestats.ui
+)
+
+# -------------------------------------------------------
+# 1. Main GUI executable
+# -------------------------------------------------------
 set(PROJECT_SOURCES
-        main.cpp
-        widget.cpp
-        widget.h
-        widget.ui
+    src/main.cpp
+    src/widget.cpp
+    include/widget.h
+    ui/widget.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/ui)
     qt_add_executable(DND_MG_Helper_GUI
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        NPC.h
-        Race.h
-        Race.cpp
-        classtype.h classtype.cpp
-        alignment.h alignment.cpp
-        divinite.h divinite.cpp
-        NPC.cpp
-        widget.cpp
-        widget.h
-        widget.ui
+        ${SHARED_SOURCES}
         conf/conf.yaml
         conf/NPC_conf.yaml
-        mainmenu.h mainmenu.cpp mainmenu.ui
-        npcbattlestats.h npcbattlestats.cpp npcbattlestats.ui
-
-
+        conf/Armor_conf.yaml
+        conf/Weapon_conf.yaml
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET DND_MG_Helper_GUI APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(DND_MG_Helper_GUI SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+        add_library(DND_MG_Helper_GUI SHARED ${PROJECT_SOURCES} ${SHARED_SOURCES})
     else()
-        add_executable(DND_MG_Helper_GUI
-            ${PROJECT_SOURCES}
-        )
+        add_executable(DND_MG_Helper_GUI ${PROJECT_SOURCES} ${SHARED_SOURCES})
     endif()
 endif()
 
-find_package(yaml-cpp CONFIG REQUIRED)
+target_include_directories(DND_MG_Helper_GUI PRIVATE include)
 
 target_link_libraries(DND_MG_Helper_GUI PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
-     yaml-cpp::yaml-cpp
+    yaml-cpp::yaml-cpp
 )
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.DND_MG_Helper_GUI)
+    set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.DND_MG_Helper_GUI)
 endif()
+
 set_target_properties(DND_MG_Helper_GUI PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -93,19 +101,49 @@ install(TARGETS DND_MG_Helper_GUI
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(DND_MG_Helper_GUI)
-
     set_target_properties(DND_MG_Helper_GUI PROPERTIES
         VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
     )
+    add_custom_command(TARGET DND_MG_Helper_GUI POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/conf
+        $<TARGET_FILE_DIR:DND_MG_Helper_GUI>/conf
+    )
+    install(DIRECTORY conf/ DESTINATION bin/conf)
+endif()
 
-add_custom_command(TARGET DND_MG_Helper_GUI POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_SOURCE_DIR}/conf
-    $<TARGET_FILE_DIR:DND_MG_Helper_GUI>/conf
-)
+# -------------------------------------------------------
+# 2. Separate test executable
+# -------------------------------------------------------
+find_package(GTest CONFIG QUIET)
 
-install(DIRECTORY conf/
-    DESTINATION bin/conf
-)
+if(GTest_FOUND)
+    message(STATUS "GTest found — building tests")
+    enable_testing()
 
+    add_executable(run_tests
+        test/tst_armor.cpp
+        test/tst_test_main.cpp
+        ${SHARED_SOURCES}          # reuse same sources, no dnd_lib needed
+    )
+
+    target_include_directories(run_tests PRIVATE include)
+
+    target_link_libraries(run_tests PRIVATE
+        Qt${QT_VERSION_MAJOR}::Widgets
+        yaml-cpp::yaml-cpp
+        GTest::gtest_main
+        GTest::gmock_main
+    )
+
+    set_target_properties(run_tests PROPERTIES
+        AUTOMOC ON
+        AUTOUIC ON
+        AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/ui
+    )
+
+    include(GoogleTest)
+    gtest_discover_tests(run_tests)
+else()
+    message(STATUS "GTest NOT found — skipping tests")
 endif()

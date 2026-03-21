@@ -1,8 +1,7 @@
 #ifndef DIVINITE_H
 #define DIVINITE_H
 
-#include "alignment.h"
-#include "widget.h"
+#include "../include/alignment.h"
 
 #include <string>
 

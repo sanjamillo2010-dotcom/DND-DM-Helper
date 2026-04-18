@@ -23,7 +23,6 @@ It can generate **NPCs** as PDF files, including the following attributes:
   - Natural Armor
   - Armor
   - Shield
-  - Magic Items
 
 ---
 

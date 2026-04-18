@@ -4,13 +4,13 @@
 #include <string>
 #include <yaml-cpp/yaml.h>
 
-#include "../include/Race.h"
-#include "../include/classtype.h"
-#include "../include/alignment.h"
-#include "../include/weapon.h"
-#include "../include/divinite.h"
-#include "../include/armor.h"
-
+#include "../include/NPC/Race.h"
+#include "../include/NPC/classtype.h"
+#include "../include/NPC/alignment.h"
+#include "../include/Inventory/weapon.h"
+#include "../include/NPC/divinite.h"
+#include "../include/Inventory/armor.h"
+#include "../include/Inventory/item.h"
 
 namespace DND_GM_Helper_N {
 namespace NPC_N {
@@ -28,17 +28,17 @@ public:
     int level = 1;
     int XP = 0;
     int HP = 0;
-    int FOR = 3;
+    int FOR = 10;
     int FOR_Bonus;
-    int DEX = 3;
+    int DEX = 10;
     int DEX_Bonus;
-    int CON = 3;
+    int CON = 10;
     int CON_Bonus;
-    int INT = 3;
+    int INT = 10;
     int INT_Bonus;
-    int SAG = 3;
+    int SAG = 10;
     int SAG_Bonus;
-    int CHA = 3;
+    int CHA = 10;
     int CHA_Bonus;
     int CA = 10;
     int Natural_Armor = 0;
@@ -49,6 +49,11 @@ public:
     DND_GM_Helper_N::Inventory_N::Weapon Weapon3;
     DND_GM_Helper_N::Inventory_N::Weapon Weapon4;
     DND_GM_Helper_N::Inventory_N::Weapon Weapon5;
+    std::string TempItemName;
+    std::string TempItemDescription;
+    int TempItemPrix;
+    int TempItemPoids;
+    std::vector<Inventory_N::Item*> itemVector;
     Alignment alignment;
     Divinite divinity;
     void Print_NPC_Stats();
@@ -66,7 +71,7 @@ public:
     void Reset_All_Stats();
     void Calculat_Carak_Race_bonus();
     void Get_Random_Natural_Armor();
-
+    Inventory_N::Item* NewItem(std::string iName , std::string idescription , int iPrix , int iPoids);
 
     NPC() = default;
 };

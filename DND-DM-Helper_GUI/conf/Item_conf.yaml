@@ -1,0 +1,283 @@
+Item_conf:
+    Item_List:
+        - backpack
+        - bedroll
+        - belt_pouch
+        - blanket
+        - candle
+        - chalk
+        - flint_and_steel
+        - grappling_hook
+        - hammer
+        - ink
+        - inkpen
+        - jug
+        - ladder_10ft
+        - lamp
+        - lantern_bullseye
+        - lantern_hooded
+        - lock_simple
+        - manacles
+        - mirror_steel
+        - oil_flask
+        - paper
+        - parchment
+        - pick_miner
+        - piton
+        - pole_10ft
+        - pot_iron
+        - rations_trail
+        - rope_hemp
+        - rope_silk
+        - sack
+        - sewing_needle
+        - signal_whistle
+        - signet_ring
+        - soap
+        - spellbook_blank
+        - spyglass
+        - tent
+        - tinderbox
+        - torch
+        - vial
+
+    Items:
+        backpack:
+            Name: "Backpack"
+            Description: "Leather pack to carry gear"
+            Prix: 200
+            Poids: 1000
+
+        bedroll:
+            Name: "Bedroll"
+            Description: "Sleeping roll for camping"
+            Prix: 100
+            Poids: 2500
+
+        belt_pouch:
+            Name: "Belt Pouch"
+            Description: "Small pouch for coins or small items"
+            Prix: 100
+            Poids: 250
+
+        blanket:
+            Name: "Blanket (Winter)"
+            Description: "Warm blanket"
+            Prix: 500
+            Poids: 1500
+
+        candle:
+            Name: "Candle"
+            Description: "Provides light for a short duration"
+            Prix: 10
+            Poids: 50
+
+        chalk:
+            Name: "Chalk"
+            Description: "Used for marking surfaces"
+            Prix: 1
+            Poids: 10
+
+        flint_and_steel:
+            Name: "Flint and Steel"
+            Description: "Used to start fires"
+            Prix: 100
+            Poids: 100
+
+        grappling_hook:
+            Name: "Grappling Hook"
+            Description: "Hook for climbing with rope"
+            Prix: 100
+            Poids: 2000
+
+        hammer:
+            Name: "Hammer"
+            Description: "Light hammer for general use"
+            Prix: 50
+            Poids: 1000
+
+        ink:
+            Name: "Ink (1 oz)"
+            Description: "Black writing ink"
+            Prix: 800
+            Poids: 50
+
+        inkpen:
+            Name: "Inkpen"
+            Description: "Pen for writing"
+            Prix: 10
+            Poids: 20
+
+        jug:
+            Name: "Jug (Clay)"
+            Description: "Container for liquids"
+            Prix: 30
+            Poids: 4000
+
+        ladder_10ft:
+            Name: "Ladder (10 ft)"
+            Description: "Wooden ladder"
+            Prix: 50
+            Poids: 10000
+
+        lamp:
+            Name: "Lamp"
+            Description: "Oil lamp"
+            Prix: 10
+            Poids: 500
+
+        lantern_bullseye:
+            Name: "Lantern (Bullseye)"
+            Description: "Directional lantern"
+            Prix: 1200
+            Poids: 1500
+
+        lantern_hooded:
+            Name: "Lantern (Hooded)"
+            Description: "Lantern with adjustable cover"
+            Prix: 700
+            Poids: 1000
+
+        lock_simple:
+            Name: "Lock (Simple)"
+            Description: "Basic lock"
+            Prix: 2000
+            Poids: 500
+
+        manacles:
+            Name: "Manacles"
+            Description: "Metal restraints"
+            Prix: 1500
+            Poids: 2000
+
+        mirror_steel:
+            Name: "Mirror (Steel)"
+            Description: "Polished steel mirror"
+            Prix: 1000
+            Poids: 250
+
+        oil_flask:
+            Name: "Oil (Flask)"
+            Description: "Fuel for lamps/lanterns"
+            Prix: 100
+            Poids: 500
+
+        paper:
+            Name: "Paper (Sheet)"
+            Description: "Single sheet of paper"
+            Prix: 40
+            Poids: 10
+
+        parchment:
+            Name: "Parchment (Sheet)"
+            Description: "Durable writing material"
+            Prix: 20
+            Poids: 10
+
+        pick_miner:
+            Name: "Miner's Pick"
+            Description: "Tool for mining"
+            Prix: 300
+            Poids: 5000
+
+        piton:
+            Name: "Piton"
+            Description: "Iron spike for climbing"
+            Prix: 10
+            Poids: 250
+
+        pole_10ft:
+            Name: "Pole (10 ft)"
+            Description: "Wooden pole"
+            Prix: 5
+            Poids: 4000
+
+        pot_iron:
+            Name: "Iron Pot"
+            Description: "Cooking pot"
+            Prix: 50
+            Poids: 4000
+
+        rations_trail:
+            Name: "Trail Rations (1 day)"
+            Description: "Preserved food"
+            Prix: 500
+            Poids: 500
+
+        rope_hemp:
+            Name: "Rope (Hemp, 50 ft)"
+            Description: "Standard rope"
+            Prix: 100
+            Poids: 5000
+
+        rope_silk:
+            Name: "Rope (Silk, 50 ft)"
+            Description: "Stronger, lighter rope"
+            Prix: 10000
+            Poids: 2500
+
+        sack:
+            Name: "Sack"
+            Description: "Large cloth bag"
+            Prix: 10
+            Poids: 250
+
+        sewing_needle:
+            Name: "Sewing Needle"
+            Description: "For repairs"
+            Prix: 5
+            Poids: 5
+
+        signal_whistle:
+            Name: "Signal Whistle"
+            Description: "Used for signaling"
+            Prix: 80
+            Poids: 10
+
+        signet_ring:
+            Name: "Signet Ring"
+            Description: "Personal seal ring"
+            Prix: 5000
+            Poids: 20
+
+        soap:
+            Name: "Soap"
+            Description: "Cleaning agent"
+            Prix: 50
+            Poids: 100
+
+        spellbook_blank:
+            Name: "Spellbook (Blank)"
+            Description: "Empty spellbook"
+            Prix: 15000
+            Poids: 1500
+
+        spyglass:
+            Name: "Spyglass"
+            Description: "Magnification device"
+            Prix: 100000
+            Poids: 500
+
+        tent:
+            Name: "Tent"
+            Description: "Two-person shelter"
+            Prix: 1000
+            Poids: 10000
+
+        tinderbox:
+            Name: "Tinderbox"
+            Description: "Fire-starting kit"
+            Prix: 50
+            Poids: 500
+
+        torch:
+            Name: "Torch"
+            Description: "Provides light"
+            Prix: 1
+            Poids: 500
+
+        vial:
+            Name: "Vial"
+            Description: "Small glass container"
+            Prix: 100
+            Poids: 100

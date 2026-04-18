@@ -58,7 +58,6 @@ private slots:
 
     void on_butRandabilityin_clicked();
 
-
     void on_txtcain_textChanged(const QString &arg1);
 
     void on_butsubACin_clicked();
@@ -92,6 +91,16 @@ private slots:
     void on_ddWeapons4_activated(int index);
 
     void on_ddWeapons5_activated(int index);
+
+    void on_butNewitemslote_clicked();
+
+    void on_ddItems_activated(int index);
+
+    void on_butCreatNewItem_clicked();
+
+    void on_butinventorybyclass_clicked();
+
+    void on_butrandinvintory_clicked();
 
 private:
     Ui::NPCbattlestats *ui;

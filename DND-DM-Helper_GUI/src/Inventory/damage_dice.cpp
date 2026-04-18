@@ -1,4 +1,4 @@
-#include "../include/damage_dice.h"
+#include "../include/Inventory/damage_dice.h"
 
 namespace DND_GM_Helper_N {
 namespace Inventory_N {

@@ -1,4 +1,4 @@
-#include "../include/armor.h"
+#include "../include/Inventory/armor.h"
 
 
 namespace DND_GM_Helper_N {
@@ -9,10 +9,10 @@ Armor::Armor() {}
 void Armor::Get_Stats_from_YAML(std::string ArmorName, YAML::Node ArmorNODE) {
     YAML::Node armorData;
 
-    if (ArmorNODE["Armor_conf"] && ArmorNODE["Armor_conf"][ArmorName]) {
+    if (ArmorNODE["Armor_conf"] &&
+        ArmorNODE["Armor_conf"]["Armors"] &&
+        ArmorNODE["Armor_conf"]["Armors"][ArmorName]) {
         armorData = ArmorNODE["Armor_conf"][ArmorName];
-    } else if (ArmorNODE[ArmorName]) {
-        armorData = ArmorNODE[ArmorName];
     } else {
         throw std::runtime_error("Armor '" + ArmorName + "' not found in YAML node.");
     }

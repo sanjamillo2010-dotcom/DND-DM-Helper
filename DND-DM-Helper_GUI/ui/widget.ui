@@ -67,7 +67,7 @@
     <rect>
      <x>420</x>
      <y>5</y>
-     <width>371</width>
+     <width>161</width>
      <height>21</height>
     </rect>
    </property>
@@ -188,12 +188,12 @@
     <rect>
      <x>10</x>
      <y>220</y>
-     <width>66</width>
+     <width>91</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Sexe :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Gender :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="butMale">
@@ -238,9 +238,9 @@
   <widget class="QLineEdit" name="Sexetxtin">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>92</x>
      <y>220</y>
-     <width>121</width>
+     <width>101</width>
      <height>26</height>
     </rect>
    </property>
@@ -322,12 +322,12 @@
     <rect>
      <x>1</x>
      <y>567</y>
-     <width>141</width>
+     <width>151</width>
      <height>26</height>
     </rect>
    </property>
    <property name="text">
-    <string>Command line Mod</string>
+    <string>Command Line Mode</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
@@ -443,23 +443,28 @@
     <rect>
      <x>10</x>
      <y>370</y>
-     <width>91</width>
+     <width>110</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Aliment : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Alignment : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QComboBox" name="ddAlimetin">
    <property name="geometry">
     <rect>
-     <x>98</x>
+     <x>124</x>
      <y>370</y>
-     <width>121</width>
+     <width>120</width>
      <height>26</height>
     </rect>
    </property>
+   <item>
+    <property name="text">
+     <string>No alignment</string>
+    </property>
+   </item>
    <item>
     <property name="text">
      <string>Lawful Good</string>
@@ -482,7 +487,7 @@
    </item>
    <item>
     <property name="text">
-     <string>Neutral Neutral</string>
+     <string>True Neutra</string>
     </property>
    </item>
    <item>
@@ -509,14 +514,14 @@
   <widget class="QPushButton" name="pushButton_7">
    <property name="geometry">
     <rect>
-     <x>225</x>
+     <x>251</x>
      <y>370</y>
-     <width>111</width>
+     <width>120</width>
      <height>26</height>
     </rect>
    </property>
    <property name="text">
-    <string>Rand aliment</string>
+    <string>Rand Alignment</string>
    </property>
   </widget>
   <widget class="QLabel" name="Divinity">
@@ -565,12 +570,12 @@
     <rect>
      <x>130</x>
      <y>430</y>
-     <width>131</width>
+     <width>160</width>
      <height>26</height>
     </rect>
    </property>
    <property name="text">
-    <string>Divinity by aliment</string>
+    <string>Divinity by Alignment</string>
    </property>
   </widget>
   <widget class="QPushButton" name="butMakeNPCFItablain">
@@ -583,7 +588,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Make NPC a fightble NPC</string>
+    <string>Make NPC a Fightable NPC</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">
@@ -602,7 +607,7 @@
   <widget class="QPushButton" name="pushButton_8">
    <property name="geometry">
     <rect>
-     <x>146</x>
+     <x>155</x>
      <y>568</y>
      <width>89</width>
      <height>25</height>
@@ -615,7 +620,7 @@
   <widget class="QPushButton" name="butResetallstatsin">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>247</x>
      <y>567</y>
      <width>101</width>
      <height>26</height>
@@ -684,6 +689,19 @@
      <string>None</string>
     </property>
    </item>
+  </widget>
+  <widget class="QPushButton" name="butPrintNPCinfoPDF">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>5</y>
+     <width>201</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Download NPC Info as PDF</string>
+   </property>
   </widget>
  </widget>
  <resources/>

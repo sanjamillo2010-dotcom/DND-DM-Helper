@@ -1,15 +1,17 @@
-#include "../include/npcbattlestats.h"
+#include "../include/UI/npcbattlestats.h"
 #include "ui_npcbattlestats.h"
-#include "../include/NPC.h"
-#include "../include/widget.h"
+#include "../include/NPC/NPC.h"
+#include "../include/UI/widget.h"
 
 #include <random>
 #include <yaml-cpp/yaml.h>
 #include <iostream>
+#include <fstream>
 
 YAML::Node config = YAML::LoadFile("conf/Armor_conf.yaml");
 YAML::Node WeaponConfig = YAML::LoadFile("conf/Weapon_conf.yaml");
 YAML::Node npcConfig = YAML::LoadFile("conf/NPC_conf.yaml");
+YAML::Node ItemConfig = YAML::LoadFile("conf/Item_conf.yaml");
 
 YAML::Node Armors = config["Armor_conf"]["Armors"];
 YAML::Node Light_Armors_list = config["Armor_conf"]["Armors_list"]["light_armor"];
@@ -19,6 +21,8 @@ YAML::Node Shild_list = config["Armor_conf"]["Armors_list"]["shild"];
 
 YAML::Node Weapon_list = WeaponConfig["Weapon_conf"]["Weapon_list"];
 YAML::Node Weapon_class_Specifique_list = WeaponConfig["Weapon_conf"]["Weapon_list_class_specifique"]["List_of_class"];
+
+YAML::Node Item_list = ItemConfig["Item_conf"]["Item_List"];
 
 NPCbattlestats::NPCbattlestats(QWidget *parent)
     : QWidget(parent)
@@ -305,7 +309,18 @@ NPCbattlestats::NPCbattlestats(QWidget *parent)
             }
         }
     }
-
+    ui->ddItems->addItem(QString::fromStdString("Select an item..."));  // index 0 placeholder
+    for (const auto& Node : Item_list) {
+        std::string key = Node.as<std::string>();
+        std::string itemName = ItemConfig["Item_conf"]["Items"][key]["Name"].as<std::string>();
+        int prix = ItemConfig["Item_conf"]["Items"][key]["Prix"].as<int>();
+        int poids = ItemConfig["Item_conf"]["Items"][key]["Poids"].as<int>();
+        std::string entry = itemName + " | " + std::to_string(prix) + " pc | " + std::to_string(poids) + " g";
+        ui->ddItems->addItem(
+            QString::fromStdString(entry),
+            QString::fromStdString(key)
+            );
+    }
 
     DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("ALL");
     DND_GM_Helper_N::NPC_N::npc.Calculat_CA();
@@ -317,8 +332,8 @@ NPCbattlestats::NPCbattlestats(QWidget *parent)
     ui->txtChain->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.CHA));
     ui->txtcain->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.CA));
     ui->txtNAin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.Natural_Armor));
-    ui->DDArmorin->setCurrentIndex(DND_GM_Helper_N::NPC_N::npc.Armor.index);
-    ui->DDShieldin->setCurrentIndex(DND_GM_Helper_N::NPC_N::npc.Shield.index);
+    ui->DDArmorin->setCurrentIndex(0);
+    ui->DDShieldin->setCurrentIndex(0);
     ui->txtcain->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.CA));
 }
 
@@ -525,6 +540,13 @@ void NPCbattlestats::on_butResetallstatsin_clicked()
     ui->txtWisin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.SAG));
     ui->txtChain->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.CHA));
     ui->txtcain->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.CA));
+    ui->DDArmorin->setCurrentIndex(0);
+    ui->DDShieldin->setCurrentIndex(0);
+    ui->ddWeapons1->setCurrentIndex(0);
+    ui->ddWeapons2->setCurrentIndex(0);
+    ui->ddWeapons3->setCurrentIndex(0);
+    ui->ddWeapons4->setCurrentIndex(0);
+    ui->ddWeapons5->setCurrentIndex(0);
     DND_GM_Helper_N::NPC_N::npc.Calculat_Bonus("ALL");
 }
 
@@ -757,3 +779,126 @@ void NPCbattlestats::on_ddWeapons5_activated(int index)
     }
 }
 
+void NPCbattlestats::on_butNewitemslote_clicked() {
+    DND_GM_Helper_N::NPC_N::npc.itemVector.push_back(DND_GM_Helper_N::NPC_N::npc.NewItem(DND_GM_Helper_N::NPC_N::npc.TempItemName , DND_GM_Helper_N::NPC_N::npc.TempItemDescription , DND_GM_Helper_N::NPC_N::npc.TempItemPrix , DND_GM_Helper_N::NPC_N::npc.TempItemPoids));
+    DND_GM_Helper_N::NPC_N::npc.TempItemName = "";
+    DND_GM_Helper_N::NPC_N::npc.TempItemDescription = "";
+    DND_GM_Helper_N::NPC_N::npc.TempItemPrix = 0;
+    DND_GM_Helper_N::NPC_N::npc.TempItemPoids = 0;
+    ui->ItemDetale->setText("Item added");
+
+}
+
+void NPCbattlestats::on_ddItems_activated(int index) {
+    if (index == 0) {
+        DND_GM_Helper_N::NPC_N::npc.TempItemName        = "";
+        DND_GM_Helper_N::NPC_N::npc.TempItemDescription = "";
+        DND_GM_Helper_N::NPC_N::npc.TempItemPrix        = 0;
+        DND_GM_Helper_N::NPC_N::npc.TempItemPoids       = 0;
+        ui->ItemDetale->setText("No Item Selected");
+        return;
+    }
+    std::string itemKey = ui->ddItems->itemData(index).toString().toStdString();
+    YAML::Node item = ItemConfig["Item_conf"]["Items"][itemKey];
+    if (!item) {
+        ui->ItemDetale->setText("Item not found.");
+        return;
+    }
+    DND_GM_Helper_N::NPC_N::npc.TempItemName        = item["Name"].as<std::string>();
+    DND_GM_Helper_N::NPC_N::npc.TempItemDescription = item["Description"].as<std::string>();
+    DND_GM_Helper_N::NPC_N::npc.TempItemPrix        = item["Prix"].as<int>();
+    DND_GM_Helper_N::NPC_N::npc.TempItemPoids       = item["Poids"].as<int>();
+    std::string entry = "Name : "        + DND_GM_Helper_N::NPC_N::npc.TempItemName
+                        + "\nDescription : " + DND_GM_Helper_N::NPC_N::npc.TempItemDescription
+                        + "\nPrice : "      + std::to_string(DND_GM_Helper_N::NPC_N::npc.TempItemPrix)  + " pc"
+                        + "\nWeight : "     + std::to_string(DND_GM_Helper_N::NPC_N::npc.TempItemPoids) + " g";
+    ui->ItemDetale->setText(QString::fromStdString(entry));
+}
+
+void NPCbattlestats::on_butCreatNewItem_clicked() {
+
+    QString itemName        = ui->txtNewItemNamein->text().trimmed();
+    QString itemDescription = ui->txtNewItemDescriptionin->toPlainText().trimmed();
+    QString itemPrice       = ui->txtNewItemPricein->text().trimmed();
+    QString itemWeight      = ui->txtNewItemWeightin->text().trimmed();
+
+    if (itemName.isEmpty()) {
+        ui->txtCreateNewItemouput->setText("No item Name Was Entered");
+        return;
+    }
+    if (itemPrice.isEmpty()) {
+        ui->txtCreateNewItemouput->setText("No item Price Was Entered");
+        return;
+    }
+    if (itemWeight.isEmpty()) {
+        ui->txtCreateNewItemouput->setText("No item Weight Was Entered");
+        return;
+    }
+
+    bool priceOk, weightOk;
+    int price  = itemPrice.toInt(&priceOk);
+    int weight = itemWeight.toInt(&weightOk);
+
+    if (!priceOk) {
+        ui->txtCreateNewItemouput->setText("Price must be a number");
+        return;
+    }
+    if (!weightOk) {
+        ui->txtCreateNewItemouput->setText("Weight must be a number");
+        return;
+    }
+    QString itemKey = itemName.toLower().replace(" ", "_");
+    YAML::Node config = YAML::LoadFile("conf/Item_conf.yaml");
+    config["Item_conf"]["Item_List"].push_back(itemKey.toStdString());
+    config["Item_conf"]["Items"][itemKey.toStdString()]["Name"]        = itemName.toStdString();
+    config["Item_conf"]["Items"][itemKey.toStdString()]["Description"] = itemDescription.toStdString();
+    config["Item_conf"]["Items"][itemKey.toStdString()]["Price"]       = price;
+    config["Item_conf"]["Items"][itemKey.toStdString()]["Weight"]      = weight;
+    std::ofstream fout("conf/Item_conf.yaml");
+    fout << config;
+    fout.close();
+    ui->txtCreateNewItemouput->setText("Item '" + itemName + "' created successfully!");
+    QString entry = itemName + " | " + itemPrice + " pc | " + itemWeight + " g";
+    ui->ddItems->addItem(entry);
+}
+
+void NPCbattlestats::on_butinventorybyclass_clicked() {
+    YAML::Node ClassInventory = npcConfig["NPC_conf"][DND_GM_Helper_N::NPC_N::npc.classtype.name]["Inventory"];
+    for (const auto& Node : ClassInventory) {
+        YAML::Node item = ItemConfig["Item_conf"]["Items"][Node.as<std::string>()];
+        if (!item) {
+            ui->ItemDetale->setText("Item not found.");
+            return;
+        }
+        DND_GM_Helper_N::NPC_N::npc.TempItemName = item["Name"].as<std::string>();
+        DND_GM_Helper_N::NPC_N::npc.TempItemDescription  = item["Description"].as<std::string>();
+        DND_GM_Helper_N::NPC_N::npc.TempItemPrix = item["Prix"].as<int>();
+        DND_GM_Helper_N::NPC_N::npc.TempItemPoids = item["Poids"].as<int>();
+        DND_GM_Helper_N::NPC_N::npc.itemVector.push_back(DND_GM_Helper_N::NPC_N::npc.NewItem(DND_GM_Helper_N::NPC_N::npc.TempItemName , DND_GM_Helper_N::NPC_N::npc.TempItemDescription , DND_GM_Helper_N::NPC_N::npc.TempItemPrix , DND_GM_Helper_N::NPC_N::npc.TempItemPoids));
+        ui->ItemDetale->setText("Inventory Added");
+    }
+}
+
+void NPCbattlestats::on_butrandinvintory_clicked() {
+    DND_GM_Helper_N::NPC_N::npc.itemVector.clear();
+    int Num_Items = Item_list.size();
+    for (int i = 0 ; i < 20 ; i++) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, Num_Items);
+        int WhatItem = dis(gen);
+        std::string itemFileName = Item_list[i].as<std::string>();
+        YAML::Node item = ItemConfig["Item_conf"]["Items"][itemFileName];
+        if (!item) {
+            ui->ItemDetale->setText("Item not found.");
+            return;
+        }
+        DND_GM_Helper_N::NPC_N::npc.TempItemName = item["Name"].as<std::string>();
+        DND_GM_Helper_N::NPC_N::npc.TempItemDescription  = item["Description"].as<std::string>();
+        DND_GM_Helper_N::NPC_N::npc.TempItemPrix = item["Prix"].as<int>();
+        DND_GM_Helper_N::NPC_N::npc.TempItemPoids = item["Poids"].as<int>();
+        DND_GM_Helper_N::NPC_N::npc.itemVector.push_back(DND_GM_Helper_N::NPC_N::npc.NewItem(DND_GM_Helper_N::NPC_N::npc.TempItemName , DND_GM_Helper_N::NPC_N::npc.TempItemDescription , DND_GM_Helper_N::NPC_N::npc.TempItemPrix , DND_GM_Helper_N::NPC_N::npc.TempItemPoids));
+        ui->ItemDetale->setText("Inventory Added");
+    }
+
+}

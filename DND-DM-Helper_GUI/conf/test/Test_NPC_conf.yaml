@@ -1,3 +1,4 @@
+---
 NPC_conf:
     race:
         - Human
@@ -266,12 +267,6 @@ NPC_conf:
         Hasexotic_one_handed: false
         Hasexotic_two_handed: false
         Hasexotic_ranged: false
-        Inventory:
-            - backpack
-            - bedroll
-            - rations_trail
-            - tinderbox
-            - torch
 
     Bard:
         usualLastNames:
@@ -308,15 +303,6 @@ NPC_conf:
         Hasexotic_one_handed: false
         Hasexotic_two_handed: false
         Hasexotic_ranged: false
-        Inventory:
-            - backpack
-            - bedroll
-            - rations_trail
-            - tinderbox
-            - torch
-            - candle
-            - signet_ring
-            - parchment
 
     Cleric:
         usualLastNames:
@@ -353,16 +339,6 @@ NPC_conf:
         Hasexotic_one_handed: false
         Hasexotic_two_handed: false
         Hasexotic_ranged: false
-        Inventory:
-            - backpack
-            - bedroll
-            - rations_trail
-            - tinderbox
-            - torch
-            - candle
-            - parchment
-            - ink
-            - inkpen
 
     Druid:
         usualLastNames:
@@ -399,12 +375,6 @@ NPC_conf:
         Hasexotic_one_handed: false
         Hasexotic_two_handed: false
         Hasexotic_ranged: false
-        Inventory:
-            - backpack
-            - bedroll
-            - rations_trail
-            - tinderbox
-            - torch
 
     Fighter:
         usualLastNames:
@@ -441,13 +411,6 @@ NPC_conf:
         Hasexotic_one_handed: false
         Hasexotic_two_handed: false
         Hasexotic_ranged: false
-        Inventory:
-            - backpack
-            - bedroll
-            - rations_trail
-            - tinderbox
-            - torch
-            - grappling_hook
 
     Monk:
         usualLastNames:
@@ -484,16 +447,6 @@ NPC_conf:
         Hasexotic_one_handed: false
         Hasexotic_two_handed: false
         Hasexotic_ranged: false
-        Inventory:
-            - backpack
-            - bedroll
-            - rations_trail
-            - tinderbox
-            - torch
-            - candle
-            - parchment
-            - ink
-            - inkpen
 
     Paladin:
         usualLastNames:
@@ -530,13 +483,6 @@ NPC_conf:
         Hasexotic_one_handed: false
         Hasexotic_two_handed: false
         Hasexotic_ranged: false
-        Inventory:
-            - backpack
-            - bedroll
-            - rations_trail
-            - tinderbox
-            - torch
-            - candle
 
     Rogue:
         usualLastNames:
@@ -573,13 +519,6 @@ NPC_conf:
         Hasexotic_one_handed: false
         Hasexotic_two_handed: false
         Hasexotic_ranged: false
-        Inventory:
-            - backpack
-            - bedroll
-            - rations_trail
-            - tinderbox
-            - torch
-            - grappling_hook
 
     Wizard:
         usualLastNames:
@@ -613,19 +552,8 @@ NPC_conf:
         Hasmartial_ranged: false
         Hasexotic_light: false
         Hasexotic_one_handed: false
-        Hasexotic_ranged: false
         Hasexotic_two_handed: false
-        Inventory:
-            - spellbook_blank
-            - backpack
-            - bedroll
-            - rations_trail
-            - tinderbox
-            - torch
-            - candle
-            - parchment
-            - ink
-            - inkpen
+        Hasexotic_ranged: false
 
     Divinite:
         - Boccob

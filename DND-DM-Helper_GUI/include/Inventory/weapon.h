@@ -1,7 +1,7 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-#include "../include/damage_dice.h"
+#include "../include/Inventory/damage_dice.h"
 
 #include <iostream>
 

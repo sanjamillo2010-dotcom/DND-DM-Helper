@@ -5,14 +5,40 @@
 #include <yaml-cpp/yaml.h>
 #include <QCoreApplication>
 
-#include "../include/alignment.h"
-#include "../include/classtype.h"
-#include "../include/divinite.h"
-#include "../include/Race.h"
-#include "../include/NPC.h"
+#include "../include/NPC/alignment.h"
+#include "../include/NPC/classtype.h"
+#include "../include/NPC/divinite.h"
+#include "../include/NPC/Race.h"
+#include "../include/NPC/NPC.h"
 
 namespace DND_GM_Helper_N {
 namespace NPC_N {
+
+// Shared XP threshold table — index = level, value = XP required to reach that level.
+// Both XPFromLVL and LVLFromXP reference this single source of truth.
+static const int XP_TABLE[21] = {
+    0,       // index 0 — unused
+    0,       // level 1
+    1000,    // level 2
+    3000,    // level 3
+    6000,    // level 4
+    10000,   // level 5
+    15000,   // level 6
+    21000,   // level 7
+    28000,   // level 8
+    36000,   // level 9
+    45000,   // level 10
+    55000,   // level 11
+    66000,   // level 12
+    78000,   // level 13
+    91000,   // level 14
+    105000,  // level 15
+    120000,  // level 16
+    136000,  // level 17
+    153000,  // level 18
+    171000,  // level 19
+    190000   // level 20
+};
 
 Race NPC::Get_Random_Race() {
     QString configPath = QCoreApplication::applicationDirPath() + "/conf/NPC_conf.yaml";
@@ -351,36 +377,6 @@ void NPC::Get_NPC_Stats() {
         int choice;
         std::cin >> choice;
 
-        auto levelFromXP = [&](int xp) {
-            if (xp >= 190000)     return 20;
-            else if (xp >= 171000) return 19;
-            else if (xp >= 153000) return 18;
-            else if (xp >= 136000) return 17;
-            else if (xp >= 120000) return 16;
-            else if (xp >= 105000) return 15;
-            else if (xp >= 91000)  return 14;
-            else if (xp >= 78000)  return 13;
-            else if (xp >= 66000)  return 12;
-            else if (xp >= 55000)  return 11;
-            else if (xp >= 45000)  return 10;
-            else if (xp >= 36000)  return 9;
-            else if (xp >= 28000)  return 8;
-            else if (xp >= 21000)  return 7;
-            else if (xp >= 15000)  return 6;
-            else if (xp >= 10000)  return 5;
-            else if (xp >= 6000)   return 4;
-            else if (xp >= 3000)   return 3;
-            else if (xp >= 1000)   return 2;
-            else                   return 1;
-        };
-
-        auto xpFromLevel = [&](int lvl) {
-            const int table[] = { 0, 0, 1000, 3000, 6000, 10000, 15000, 21000,
-                                 28000, 36000, 45000, 55000, 66000, 78000,
-                                 91000, 105000, 120000, 136000, 153000, 171000, 190000 };
-            return table[lvl];
-        };
-
         if (choice == 1) {
             std::cout << "Please enter the NPC's level (1-20): ";
             if (!(std::cin >> level) || level < 1 || level > 20) {
@@ -390,14 +386,14 @@ void NPC::Get_NPC_Stats() {
                 std::cout << "Invalid input. Please enter a number between 1 and 20.\n";
                 continue;
             }
-            XP = xpFromLevel(level);
+            XP = XPFromLVL(level);
             break;
         } else if (choice == 2) {
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(1 , 20);
+            std::uniform_int_distribution<> dis(1, 20);
             level = dis(gen);
-            XP = xpFromLevel(level);
+            XP = XPFromLVL(level);
             break;
         } else if (choice == 3) {
             std::cout << "Please enter the NPC's XP: ";
@@ -408,14 +404,14 @@ void NPC::Get_NPC_Stats() {
                 std::cout << "Invalid input. Please enter a non-negative number.\n";
                 continue;
             }
-            level = levelFromXP(XP);
+            level = LVLFromXP(XP);
             break;
         } else if (choice == 4) {
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(0 , 190000);
+            std::uniform_int_distribution<> dis(0, 190000);
             XP = dis(gen);
-            level = levelFromXP(XP);
+            level = LVLFromXP(XP);
             break;
         } else {
             std::cout << "Invalid choice. Please try again." << std::endl;
@@ -790,26 +786,20 @@ void NPC::Print_NPC_Stats() {
         << "AC : "            << CA                            << "\n";
 }
 
-int NPC::XPFromLVL(int level){
-    if ( level <= 1 )
-    {
-        return level * 1000;
-    }
-    else {
-        return level * 1000 + XPFromLVL(level - 1);
-    }
+int NPC::XPFromLVL(int level) {
+    if (level < 1)  return XP_TABLE[1];
+    if (level > 20) return XP_TABLE[20];
+    return XP_TABLE[level];
 }
 
 int NPC::LVLFromXP(int xp) {
-    if (xp <= 0)      return 1;
-    if (xp >= 190000) return 20;
+    if (xp <= 0)                return 1;
+    if (xp >= XP_TABLE[20])     return 20;
     int lvl = 1;
-    while (lvl < 20 && xp >= XPFromLVL(lvl + 1))
+    while (lvl < 20 && xp >= XP_TABLE[lvl + 1])
         lvl++;
     return lvl;
 }
-
-#include <iostream>
 
 void NPC::Calculat_Bonus(std::string What_carak){
     if (What_carak == "FOR"){
@@ -838,11 +828,7 @@ void NPC::Calculat_Bonus(std::string What_carak){
         SAG_Bonus = (SAG / 2) - 5;
         CHA_Bonus = (CHA / 2) - 5;
     }
-    else {
-        std::cout << What_carak <<  " si not valid.";
-    }
 }
-#include <iostream>
 
 int NPC::Calculat_CA() {
     CA = 10;
@@ -861,8 +847,29 @@ void NPC::Reset_All_Stats() {
     name = "";
     LastName = "";
     race.name = "";
+    race.usualNames.clear();
+    race.MaxAge = 0;
+    race.MaxSize = 0;
     classtype.name = "";
     classtype.HPdice = 0;
+    classtype.usualLastNames.clear();
+    classtype.HasLightArmor = false;
+    classtype.HasMidArmor = false;
+    classtype.HasHeavyArmor = false;
+    classtype.HasShild = false;
+    classtype.Hastarge = false;
+    classtype.Hassimple_light = false;
+    classtype.Hassimple_one_handed = false;
+    classtype.Hassimple_two_handed = false;
+    classtype.Hassimple_ranged = false;
+    classtype.Hasmartial_light = false;
+    classtype.Hasmartial_one_handed = false;
+    classtype.Hasmartial_two_handed = false;
+    classtype.Hasmartial_ranged = false;
+    classtype.Hasexotic_light = false;
+    classtype.Hasexotic_one_handed = false;
+    classtype.Hasexotic_two_handed = false;
+    classtype.Hasexotic_ranged = false;
     Sexe = "";
     Age = 0;
     Size = 0;
@@ -870,17 +877,17 @@ void NPC::Reset_All_Stats() {
     level = 1;
     XP = 0;
     HP = 0;
-    FOR = 3;
+    FOR = 10;
     FOR_Bonus = 0;
-    DEX = 3;
+    DEX = 10;
     DEX_Bonus = 0;
-    CON = 3;
+    CON = 10;
     CON_Bonus = 0;
-    INT = 3;
+    INT = 10;
     INT_Bonus = 0;
-    SAG = 3;
+    SAG = 10;
     SAG_Bonus = 0;
-    CHA = 3;
+    CHA = 10;
     CHA_Bonus = 0;
     CA = 10;
     Natural_Armor = 0;
@@ -892,6 +899,66 @@ void NPC::Reset_All_Stats() {
     divinity.alignment.index = -1;
     divinity.index = -1;
     divinity.name = "";
+    Armor.Name = "";
+    Armor.FileName = "";
+    Armor.MaxDEX_Bonus = 0;
+    Armor.Poids = 0;
+    Armor.Prix = 0;
+    Armor.Prot = 0;
+    Armor.Type = "";
+    Armor.asIron = false;
+    Armor.index = -1;
+    Armor.isShild = false;
+    Shield.Name = "";
+    Shield.FileName = "";
+    Shield.MaxDEX_Bonus = 0;
+    Shield.Poids = 0;
+    Shield.Prix = 0;
+    Shield.Prot = 0;
+    Shield.Type = "";
+    Shield.asIron = false;
+    Shield.index = -1;
+    Shield.isShild = false;
+    Weapon1.Name = "";
+    Weapon1.Attack.Num_of_Dice = 0;
+    Weapon1.Attack.Dice_Value = 0;
+    Weapon1.Index = -1;
+    Weapon1.Poids = 0;
+    Weapon1.Prix = 0;
+    Weapon1.Type = "";
+    Weapon2.Name = "";
+    Weapon2.Attack.Num_of_Dice = 0;
+    Weapon2.Attack.Dice_Value = 0;
+    Weapon2.Index = -1;
+    Weapon2.Poids = 0;
+    Weapon2.Prix = 0;
+    Weapon2.Type = "";
+    Weapon3.Name = "";
+    Weapon3.Attack.Num_of_Dice = 0;
+    Weapon3.Attack.Dice_Value = 0;
+    Weapon3.Index = -1;
+    Weapon3.Poids = 0;
+    Weapon3.Prix = 0;
+    Weapon3.Type = "";
+    Weapon4.Name = "";
+    Weapon4.Attack.Num_of_Dice = 0;
+    Weapon4.Attack.Dice_Value = 0;
+    Weapon4.Index = -1;
+    Weapon4.Poids = 0;
+    Weapon4.Prix = 0;
+    Weapon4.Type = "";
+    Weapon5.Name = "";
+    Weapon5.Attack.Num_of_Dice = 0;
+    Weapon5.Attack.Dice_Value = 0;
+    Weapon5.Index = -1;
+    Weapon5.Poids = 0;
+    Weapon5.Prix = 0;
+    Weapon5.Type = "";
+    TempItemName = "";
+    TempItemDescription = "";
+    TempItemPrix = 0;
+    TempItemPoids = 0;
+    itemVector.clear();
 }
 
 void NPC::Calculat_Carak_Race_bonus() {
@@ -945,6 +1012,9 @@ void NPC::SizeCategoryfromSize() {
     else                   SizeCategory = "Gargantuan";
 }
 
+DND_GM_Helper_N::Inventory_N::Item* NPC::NewItem(std::string iName , std::string idescription , int iPrix , int iPoids) {
+    return new DND_GM_Helper_N::Inventory_N::Item(iName , idescription , iPrix , iPoids);
+}
+
 } // namespace NPC_N
 } // namespace DND_GM_Helper_N
-

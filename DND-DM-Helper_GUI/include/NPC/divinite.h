@@ -1,7 +1,7 @@
 #ifndef DIVINITE_H
 #define DIVINITE_H
 
-#include "../include/alignment.h"
+#include "../include/NPC/alignment.h"
 
 #include <string>
 

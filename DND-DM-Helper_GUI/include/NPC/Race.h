@@ -12,8 +12,8 @@ class Race {
 public:
     std::string name;
     std::vector<std::string> usualNames;
-    int MaxSize;
-    int MaxAge;
+    int MaxSize = 0;
+    int MaxAge = 0;
 
     Race() = default;;
 

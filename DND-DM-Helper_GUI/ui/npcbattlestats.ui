@@ -354,8 +354,8 @@
   <widget class="QPushButton" name="butBackin">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>615</y>
+     <x>5</x>
+     <y>612</y>
      <width>80</width>
      <height>24</height>
     </rect>
@@ -484,8 +484,8 @@
   <widget class="QPushButton" name="butResetallstatsin">
    <property name="geometry">
     <rect>
-     <x>83</x>
-     <y>613</y>
+     <x>88</x>
+     <y>611</y>
      <width>101</width>
      <height>26</height>
     </rect>
@@ -612,7 +612,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="SubTitle1_2">
+  <widget class="QLabel" name="SubTitle4">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -699,6 +699,222 @@
      <string>No Weapons</string>
     </property>
    </item>
+  </widget>
+  <widget class="QLabel" name="SubTitle3">
+   <property name="geometry">
+    <rect>
+     <x>265</x>
+     <y>260</y>
+     <width>90</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:700;&quot;&gt;Item :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="ddItems">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>310</y>
+     <width>231</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="butrandinvintory">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>576</y>
+     <width>231</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Random Item Inventory</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="butinventorybyclass">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>605</y>
+     <width>231</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Item Inventory by class</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="ItemDetale">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>340</y>
+     <width>231</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="butNewitemslote">
+   <property name="geometry">
+    <rect>
+     <x>317</x>
+     <y>534</y>
+     <width>121</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add Item</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="NewItemName">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>308</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Name : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="Line" name="line_4">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>260</y>
+     <width>20</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txtNewItemNamein">
+   <property name="geometry">
+    <rect>
+     <x>604</x>
+     <y>308</y>
+     <width>150</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SubTitle5">
+   <property name="geometry">
+    <rect>
+     <x>518</x>
+     <y>258</y>
+     <width>251</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:700;&quot;&gt;Create new Item :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="NewItemDescription">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>340</y>
+     <width>151</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Description : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="txtNewItemDescriptionin">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>370</y>
+     <width>241</width>
+     <height>81</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="NewItemPrice">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>460</y>
+     <width>81</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Price : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txtNewItemPricein">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>460</y>
+     <width>161</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="NewItemWeigt">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>490</y>
+     <width>111</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Weight : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txtNewItemWeightin">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>492</y>
+     <width>141</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="butCreatNewItem">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>529</y>
+     <width>130</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Create New Item</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="txtCreateNewItemouput">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>560</y>
+     <width>241</width>
+     <height>70</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources/>

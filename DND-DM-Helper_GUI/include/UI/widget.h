@@ -68,6 +68,8 @@ private slots:
 
     void on_ddLastName_activated(int index);
 
+    void on_butPrintNPCinfoPDF_clicked();
+
 private:
     Ui::DND_GM_Helper *ui;
 };

@@ -1,10 +1,13 @@
-#include "../include/widget.h"
-#include "../include/NPC.h"
-#include "../include/Race.h"
-#include "../include/classtype.h"
+#include "../include/UI/widget.h"
+#include "../include/NPC/NPC.h"
+#include "../include/NPC/Race.h"
+#include "../include/NPC/classtype.h"
 #include "ui_widget.h"
-#include "../include/npcbattlestats.h"
+#include "../include/UI/npcbattlestats.h"
+#include "../include/Export/pdfexporter.h"
 
+#include <QFileDialog>
+#include <QDir>
 #include <iostream>
 #include <random>
 #include <yaml-cpp/yaml.h>
@@ -253,31 +256,57 @@ void Widget::on_ddLastName_activated(int index)
     ui->LastNametxtin->setText(QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.LastName));
 }
 
-void Widget::on_butPrintNPCinfo_clicked()
-{
+void Widget::on_butPrintNPCinfo_clicked() {
+    std::string ItemEntry;
+    for (int i = 0; i < DND_GM_Helper_N::NPC_N::npc.itemVector.size(); i++) {
+        ItemEntry += "Item " + std::to_string(i+1) + " : " + DND_GM_Helper_N::NPC_N::npc.itemVector[i]->name + " | Price : " + std::to_string(DND_GM_Helper_N::NPC_N::npc.itemVector[i]->Prix) + + " | Weight : " + std::to_string(DND_GM_Helper_N::NPC_N::npc.itemVector[i]->Poids) + "\n";
+    }
+    std::string ArmorEntry;
+    if (DND_GM_Helper_N::NPC_N::npc.Armor.Name != "") {
+        ArmorEntry += "Armor : " + DND_GM_Helper_N::NPC_N::npc.Armor.Name + "(" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Armor.Prot) + ")\n";
+    }
+    if (DND_GM_Helper_N::NPC_N::npc.Shield.Name != "") {
+        ArmorEntry += "Armor : " + DND_GM_Helper_N::NPC_N::npc.Shield.Name + "(" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Shield.Prot) + ")\n";
+    }
+    std::string WeaponEntry;
+    if (DND_GM_Helper_N::NPC_N::npc.Weapon1.Name != "") {
+        WeaponEntry += "Weapon 1 : " + DND_GM_Helper_N::NPC_N::npc.Weapon1.Name + " (" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Weapon1.Attack.Num_of_Dice) + "d" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Weapon1.Attack.Dice_Value) + ")\n";
+    }
+    if (DND_GM_Helper_N::NPC_N::npc.Weapon2.Name != "") {
+        WeaponEntry += "Weapon 2 : " + DND_GM_Helper_N::NPC_N::npc.Weapon2.Name + " (" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Weapon2.Attack.Num_of_Dice) + "d" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Weapon2.Attack.Dice_Value) + ")\n";
+    }
+    if (DND_GM_Helper_N::NPC_N::npc.Weapon3.Name != "") {
+        WeaponEntry += "Weapon 3 : " + DND_GM_Helper_N::NPC_N::npc.Weapon3.Name + " (" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Weapon3.Attack.Num_of_Dice) + "d" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Weapon3.Attack.Dice_Value) + ")\n";
+    }
+    if (DND_GM_Helper_N::NPC_N::npc.Weapon4.Name != "") {
+        WeaponEntry += "Weapon 2 : " + DND_GM_Helper_N::NPC_N::npc.Weapon4.Name + " (" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Weapon4.Attack.Num_of_Dice) + "d" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Weapon4.Attack.Dice_Value) + ")\n";
+    }
+    if (DND_GM_Helper_N::NPC_N::npc.Weapon5.Name != "") {
+        WeaponEntry += "Weapon 3 : " + DND_GM_Helper_N::NPC_N::npc.Weapon5.Name + " (" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Weapon5.Attack.Num_of_Dice) + "d" + std::to_string(DND_GM_Helper_N::NPC_N::npc.Weapon5.Attack.Dice_Value) + ")\n";
+    }
+    std::string IdentetyEntry;
+    if (DND_GM_Helper_N::NPC_N::npc.name != "" && DND_GM_Helper_N::NPC_N::npc.LastName != "" && DND_GM_Helper_N::NPC_N::npc.classtype.name != "" && DND_GM_Helper_N::NPC_N::npc.race.name != "") {
+        IdentetyEntry = "\n\n" + DND_GM_Helper_N::NPC_N::npc.name + " " + DND_GM_Helper_N::NPC_N::npc.LastName + " the " + DND_GM_Helper_N::NPC_N::npc.classtype.name + " " + DND_GM_Helper_N::NPC_N::npc.race.name + "\n";
+    }
     ui->outNPCinfo->setText("DND 3.5e NPC\nName : "
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name)
-                            + "\nLast Name : "
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.LastName)
-                            + "\nRace : "
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.race.name)
-                            + "\nClass : "
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name)
-                            + "\nSexe : "
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Sexe)
-                            + "\nSize (cm): "
+                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name) + "\n"
+                            + "Last Name : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.LastName) + "\n"
+                            + "Race : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.race.name) + "\n"
+                            + "Class : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name) + "\n"
+                            + "Sexe : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Sexe) + "\n"
+                            + "Size (cm): "
                             + QString::number(DND_GM_Helper_N::NPC_N::npc.Size)
                             + " , "
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.SizeCategory)
-                            + "\nAge : "
-                            + QString::number(DND_GM_Helper_N::NPC_N::npc.Age)
-                            + "\nLevel : "
-                            + QString::number(DND_GM_Helper_N::NPC_N::npc.level)
-                            + "\nXP : "
-                            + QString::number(DND_GM_Helper_N::NPC_N::npc.XP)
-                            + "\nAlignment : "
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.alignment.alig1) + " " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.alignment.alig2)
-                            + "\nDivinity : "
+                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.SizeCategory) + "\n"
+                            + "Age : "
+                            + QString::number(DND_GM_Helper_N::NPC_N::npc.Age) + "\n"
+                            + "Level : "
+                            + QString::number(DND_GM_Helper_N::NPC_N::npc.level) + "\n"
+                            + "XP : "
+                            + QString::number(DND_GM_Helper_N::NPC_N::npc.XP) + "\n"
+                            + "Alignment : "
+                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.alignment.alig1) + " " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.alignment.alig2) + "\n"
+                            + "Divinity : "
                             + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.divinity.name)
                             + " (" + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig1)
                             + " " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.divinity.alignment.alig2) + ")"
@@ -289,22 +318,11 @@ void Widget::on_butPrintNPCinfo_clicked()
                             + "\nWis : " + QString::number(DND_GM_Helper_N::NPC_N::npc.SAG) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.SAG_Bonus) + ")"
                             + "\nCha : " + QString::number(DND_GM_Helper_N::NPC_N::npc.CHA) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.CHA_Bonus) + ")"
                             + "\nAC : " + QString::number(DND_GM_Helper_N::NPC_N::npc.CA)
-                            + "\n----------------------------------------------------\nInventory"
-                            + "\nArmor : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Armor.Name) + "( +" + QString::number(DND_GM_Helper_N::NPC_N::npc.Armor.Prot) + " )"
-                            + "\nArmor : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Shield.Name) + "( +" + QString::number(DND_GM_Helper_N::NPC_N::npc.Shield.Prot) + " )"
-                            + "\nWeapon 1 : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Weapon1.Name) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon1.Attack.Num_of_Dice) + "d" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon1.Attack.Dice_Value) + ")"
-                            + "\nWeapon 2 : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Weapon2.Name) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon2.Attack.Num_of_Dice) + "d" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon2.Attack.Dice_Value) + ")"
-                            + "\nWeapon 3 : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Weapon3.Name) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon3.Attack.Num_of_Dice) + "d" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon3.Attack.Dice_Value) + ")"
-                            + "\nWeapon 4 : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Weapon4.Name) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon4.Attack.Num_of_Dice) + "d" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon4.Attack.Dice_Value) + ")"
-                            + "\nWeapon 5 : " + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.Weapon5.Name) + " (" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon5.Attack.Num_of_Dice) + "d" + QString::number(DND_GM_Helper_N::NPC_N::npc.Weapon5.Attack.Dice_Value) + ")"
-                            + "\n\n"
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name)
-                            + " "
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.LastName)
-                            + " the "
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.race.name)
-                            + " "
-                            + QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.classtype.name)
+                            + "\n----------------------------------------------------\nInventory\n"
+                            + QString::fromStdString(ArmorEntry)
+                            + QString::fromStdString(WeaponEntry)
+                            + QString::fromStdString(ItemEntry)
+                            + QString::fromStdString(IdentetyEntry)
                             );
 }
 
@@ -367,13 +385,18 @@ void Widget::on_Sizetxtin_editingFinished()
 
 void Widget::on_butRandsize_clicked()
 {
-    DND_GM_Helper_N::NPC_N::npc.race.set_usualname(config, DND_GM_Helper_N::NPC_N::npc.race.name);
-    std::random_device SIZErd;
-    std::mt19937 SIZEgen(SIZErd());
-    std::uniform_int_distribution<> SIZEdis(DND_GM_Helper_N::NPC_N::npc.race.MaxSize / 2,DND_GM_Helper_N::NPC_N::npc.race.MaxSize + 10);
-    DND_GM_Helper_N::NPC_N::npc.Size = SIZEdis(SIZEgen);
-    ui->Sizetxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.Size));
-    DND_GM_Helper_N::NPC_N::npc.SizeCategoryfromSize();
+    if (DND_GM_Helper_N::NPC_N::npc.race.MaxSize == 0) {
+        ui->Sizetxtin->setText("No race selected");
+    }
+    else {
+        std::random_device SIZErd;
+        std::mt19937 SIZEgen(SIZErd());
+        std::uniform_int_distribution<> SIZEdis(DND_GM_Helper_N::NPC_N::npc.race.MaxSize / 2,DND_GM_Helper_N::NPC_N::npc.race.MaxSize + 10);
+        DND_GM_Helper_N::NPC_N::npc.Size = SIZEdis(SIZEgen);
+        ui->Sizetxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.Size));
+        DND_GM_Helper_N::NPC_N::npc.SizeCategoryfromSize();
+    }
+
 }
 
 void Widget::on_agetxtin_editingFinished()
@@ -383,12 +406,17 @@ void Widget::on_agetxtin_editingFinished()
 
 void Widget::on_pushButton_5_clicked()
 {
-    DND_GM_Helper_N::NPC_N::npc.race.set_usualname(config, DND_GM_Helper_N::NPC_N::npc.race.name);
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(DND_GM_Helper_N::NPC_N::npc.race.MaxAge / 6,  DND_GM_Helper_N::NPC_N::npc.race.MaxAge + 10);
-    DND_GM_Helper_N::NPC_N::npc.Age = dis(gen);
-    ui->agetxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.Age));
+    if (DND_GM_Helper_N::NPC_N::npc.race.MaxAge == 0) {
+        ui->agetxtin->setText("No race selected");
+    }
+    else {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(DND_GM_Helper_N::NPC_N::npc.race.MaxAge / 6,  DND_GM_Helper_N::NPC_N::npc.race.MaxAge + 10);
+        DND_GM_Helper_N::NPC_N::npc.Age = dis(gen);
+        ui->agetxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.Age));
+    }
+
 }
 
 void Widget::on_butCOmandlinemode_clicked()
@@ -454,9 +482,9 @@ void Widget::on_butCalculatehp_clicked()
     DND_GM_Helper_N::NPC_N::npc.HP = 0;
     for (int i = 1; i <= DND_GM_Helper_N::NPC_N::npc.level; ++i) {
         if (i == 1)
-            DND_GM_Helper_N::NPC_N::npc.HP = DND_GM_Helper_N::NPC_N::npc.classtype.HPdice;
+            DND_GM_Helper_N::NPC_N::npc.HP = DND_GM_Helper_N::NPC_N::npc.classtype.HPdice + DND_GM_Helper_N::NPC_N::npc.CON_Bonus;
         else
-            DND_GM_Helper_N::NPC_N::npc.HP += rand() % DND_GM_Helper_N::NPC_N::npc.classtype.HPdice + 1;
+            DND_GM_Helper_N::NPC_N::npc.HP += rand() % DND_GM_Helper_N::NPC_N::npc.classtype.HPdice + 1 +  + DND_GM_Helper_N::NPC_N::npc.CON_Bonus;
     }
 
     ui->HPtxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.HP));
@@ -578,11 +606,28 @@ void Widget::on_butResetallstatsin_clicked()
     ui->leveltxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.level));
     ui->xptxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.XP));
     ui->HPtxtin->setText(QString::number(DND_GM_Helper_N::NPC_N::npc.HP));
-    ui->ddAlimetin->setCurrentIndex(DND_GM_Helper_N::NPC_N::npc.alignment.index);
-    ui->ddDivinity->setCurrentIndex(DND_GM_Helper_N::NPC_N::npc.divinity.alignment.index);
+    ui->ddAlimetin->setCurrentIndex(0);
+    ui->ddDivinity->setCurrentIndex(0);
 }
 
 void Widget::on_pushButton_8_clicked()
 {
     std::cout << "open Main menu " << std::endl;
+}
+
+void Widget::on_butPrintNPCinfoPDF_clicked() {
+    QString defaultName = QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.name) + "_" +
+                          QString::fromStdString(DND_GM_Helper_N::NPC_N::npc.LastName) + ".pdf";
+
+    QString filePath = QFileDialog::getSaveFileName(
+        nullptr,
+        "Save NPC Sheet as PDF",
+        QDir::homePath() + "/" + defaultName,
+        "PDF Files (*.pdf)"
+        );
+
+    if (filePath.isEmpty()) return; // user cancelled
+
+    DND_GM_Helper_N::Export_N::PdfExporter::exportNpcToPdf(
+        DND_GM_Helper_N::NPC_N::npc, filePath);
 }

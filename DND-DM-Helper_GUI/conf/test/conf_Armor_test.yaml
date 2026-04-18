@@ -1,0 +1,44 @@
+Armor_conf:
+    Armors_list:
+        light_armor:
+            - quilted_armor
+            - leather_armor
+            - studded_leather_armor
+            - mail_shirt
+    Armors:
+        quilted_armor:
+            Name : "Quilted Armor"
+            Prix : 500
+            Prot : 1
+            MaxDEX_Bonus : 8
+            Poids : 5000
+            Type : "Light Armor"
+            isShild : false
+            asIron : false
+        leather_armor:
+            Name : "Leather Armor"
+            Prix : 1000
+            Prot : 2
+            MaxDEX_Bonus : 6
+            Poids : 7500
+            Type : "Light Armor"
+            isShild : false
+            asIron : false
+        studded_leather_armor:
+            Name : "Studded Leather Armor"
+            Prix : 2500
+            Prot : 3
+            MaxDEX_Bonus : 5
+            Poids : 10000
+            Type : "Light Armor"
+            isShild : false
+            asIron : true
+        mail_shirt:
+            Name: "Mail Shirt"
+            Prix : 10000
+            Prot : 4
+            MaxDEX_Bonus : 4
+            Poids : 12500
+            Type : "Light Armor"
+            isShild : false
+            asIron : true

@@ -1,5 +1,5 @@
-#include "../include/NPC.h"
-#include "../include/widget.h"
+#include "../include/NPC/NPC.h"
+#include "../include/UI/widget.h"
 
 #include <QApplication>
 #include <yaml-cpp/yaml.h>

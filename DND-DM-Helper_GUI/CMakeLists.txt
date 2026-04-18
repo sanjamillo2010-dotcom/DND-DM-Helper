@@ -15,31 +15,45 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(yaml-cpp CONFIG REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets PrintSupport)
+
 
 # -------------------------------------------------------
 # Shared source files (used by both GUI and tests)
 # -------------------------------------------------------
 set(SHARED_SOURCES
-    src/alignment.cpp
-    src/armor.cpp
-    src/classtype.cpp
-    src/divinite.cpp
-    src/npcbattlestats.cpp
-    src/widget.cpp
-    src/Race.cpp
-    src/NPC.cpp
-    src/weapon.cpp
-    src/damage_dice.cpp
-    include/alignment.h
-    include/armor.h
-    include/classtype.h
-    include/divinite.h
-    include/npcbattlestats.h
-    include/Race.h
-    include/widget.h
-    include/NPC.h
-    include/weapon.h
-    include/damage_dice.h
+    src/NPC/alignment.cpp
+    src/NPC/classtype.cpp
+    src/NPC/divinite.cpp
+    src/NPC/Race.cpp
+    src/NPC/NPC.cpp
+
+    src/Inventory/armor.cpp
+    src/Inventory/weapon.cpp
+    src/Inventory/damage_dice.cpp
+    src/Inventory/item.cpp
+
+    src/UI/npcbattlestats.cpp
+    src/UI/widget.cpp
+
+    src/Export/pdfexporter.cpp
+
+    include/NPC/alignment.h
+    include/NPC/classtype.h
+    include/NPC/divinite.h
+    include/NPC/Race.h
+    include/NPC/NPC.h
+
+    include/Inventory/armor.h
+    include/Inventory/weapon.h
+    include/Inventory/damage_dice.h
+    include/Inventory/item.h
+
+    include/UI/npcbattlestats.h
+    include/UI/widget.h
+
+    include/Export/pdfexporter.h
+
     ui/widget.ui
     ui/npcbattlestats.ui
 )
@@ -49,9 +63,12 @@ set(SHARED_SOURCES
 # -------------------------------------------------------
 set(PROJECT_SOURCES
     src/main.cpp
-    src/widget.cpp
-    include/widget.h
+    src/UI/widget.cpp
+    include/UI/widget.h
     ui/widget.ui
+    src/UI/npcbattlestats.cpp
+    include/UI/npcbattlestats.h
+    ui/npcbattlestats.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -64,6 +81,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         conf/NPC_conf.yaml
         conf/Armor_conf.yaml
         conf/Weapon_conf.yaml
+        conf/Item_conf.yaml
     )
 else()
     if(ANDROID)
@@ -77,6 +95,10 @@ target_include_directories(DND_MG_Helper_GUI PRIVATE include)
 
 target_link_libraries(DND_MG_Helper_GUI PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::PrintSupport
     yaml-cpp::yaml-cpp
 )
 
@@ -124,7 +146,46 @@ if(GTest_FOUND)
     add_executable(run_tests
         test/tst_armor.cpp
         test/tst_test_main.cpp
-        ${SHARED_SOURCES}          # reuse same sources, no dnd_lib needed
+        test/tst_classtype.cpp
+        test/tst_npc.cpp
+        test/tst_race.cpp
+        test/tst_item.cpp
+
+        conf/test/conf_Armor_test.yaml
+        conf/test/Test_NPC_conf.yaml
+        conf/test/empty.yaml
+
+        src/NPC/alignment.cpp
+        src/NPC/classtype.cpp
+        src/NPC/divinite.cpp
+        src/NPC/Race.cpp
+        src/NPC/NPC.cpp
+
+        src/Inventory/armor.cpp
+        src/Inventory/weapon.cpp
+        src/Inventory/damage_dice.cpp
+        src/Inventory/item.cpp
+
+        src/UI/npcbattlestats.cpp
+        src/UI/widget.cpp
+
+        src/Export/pdfexporter.cpp
+
+        include/NPC/alignment.h
+        include/NPC/classtype.h
+        include/NPC/divinite.h
+        include/NPC/Race.h
+        include/NPC/NPC.h
+
+        include/Inventory/armor.h
+        include/Inventory/weapon.h
+        include/Inventory/damage_dice.h
+        include/Inventory/item.h
+
+        include/UI/npcbattlestats.h
+        include/UI/widget.h
+
+        include/Export/pdfexporter.h
     )
 
     target_include_directories(run_tests PRIVATE include)
@@ -134,6 +195,11 @@ if(GTest_FOUND)
         yaml-cpp::yaml-cpp
         GTest::gtest_main
         GTest::gmock_main
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Widgets
+        Qt6::PrintSupport
+        yaml-cpp
     )
 
     set_target_properties(run_tests PROPERTIES

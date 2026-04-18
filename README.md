@@ -19,11 +19,37 @@ It can generate **NPCs** as PDF files, including the following attributes:
 - Level and XP
 - Alignment and Divinity
 - Ability Scores
-- Armor Class (CA), broken down by:
+- Armor Class (AC), broken down by:
   - Natural Armor
   - Armor
   - Shield
   - Magic Items
+
+---
+
+## Screenshots
+
+### NPC Creator — Main Window
+![NPC Creator main window](APT_IMG1.png)
+
+The main window lets you set or randomize every attribute of your NPC: race, class, name, gender, size, age, level, XP, alignment, and divinity. A live preview on the right shows the full NPC stat block as it is built.
+
+### NPC Battle Stats Creator
+![NPC Battle Stats Creator window](APT_IMG2.png)
+
+The battle stats window lets you configure ability scores, armor class, natural armor, armor, shield, weapons (up to 5 slots), and inventory items. You can also create custom items on the fly using the **Create New Item** panel.
+
+### Generated NPC Sheet — Page 1
+![Generated NPC PDF sheet page 1](PDF_IMG3.png)
+
+The generated PDF sheet includes a full character info block, ability scores with modifiers, a hit point tracking section with damage tick boxes, armor & shield details, weapons, and the start of the inventory.
+
+### Generated NPC Sheet — Page 2
+![Generated NPC PDF sheet page 2](PDF_IMG4.png)
+
+The second page continues the inventory list and shows the total weight of all items, armor, and weapons combined.
+
+> To display these screenshots, upload the four image files into `docs/img/` in the repository.
 
 ---
 
@@ -241,7 +267,7 @@ Armors:
 
 #### Removing an Armor
 
-Remove the key from the `Armors_list` **and** delete its block under `Armors`.
+Remove the key from `Armors_list` **and** delete its block under `Armors`.
 
 ---
 

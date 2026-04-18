@@ -49,8 +49,6 @@ The generated PDF sheet includes a full character info block, ability scores wit
 
 The second page continues the inventory list and shows the total weight of all items, armor, and weapons combined.
 
-> To display these screenshots, upload the four image files into `docs/img/` in the repository.
-
 ---
 
 ## Building the Executable

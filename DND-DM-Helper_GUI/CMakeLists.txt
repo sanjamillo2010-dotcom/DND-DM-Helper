@@ -71,6 +71,9 @@ set(PROJECT_SOURCES
     ui/npcbattlestats.ui
 )
 
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/conf"
+     DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/ui)
     qt_add_executable(DND_MG_Helper_GUI

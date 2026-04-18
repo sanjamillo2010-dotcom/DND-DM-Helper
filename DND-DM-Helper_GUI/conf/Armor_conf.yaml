@@ -1,0 +1,191 @@
+---
+Armor_conf:
+    Armors_list:
+        light_armor:
+            - quilted_armor
+            - leather_armor
+            - studded_leather_armor
+            - mail_shirt
+        mid_armor:
+            - hide_armor
+            - scale_armor
+            - chain_mail
+            - breastplate
+        heavy_armor:
+            - clibanion
+            - crevice
+            - plate_armor
+            - harnois
+        shild:
+            - targe
+            - buckler
+            - light_wooden_shield
+            - light_steel_shield
+            - heavy_wooden_shield
+            - heavy_steel_shield
+            - tower_shield
+    Armors:
+        quilted_armor:
+            Name : "Quilted Armor"
+            Prix : 500
+            Prot : 1
+            MaxDEX_Bonus : 8
+            Poids : 5000
+            Type : "Light Armor"
+            isShild : false
+            asIron : false
+        leather_armor:
+            Name : "Leather Armor"
+            Prix : 1000
+            Prot : 2
+            MaxDEX_Bonus : 6
+            Poids : 7500
+            Type : "Light Armor"
+            isShild : false
+            asIron : false
+        studded_leather_armor:
+            Name : "Studded Leather Armor"
+            Prix : 2500
+            Prot : 3
+            MaxDEX_Bonus : 5
+            Poids : 10000
+            Type : "Light Armor"
+            isShild : false
+            asIron : true
+        mail_shirt:
+            Name: "Mail Shirt"
+            Prix : 10000
+            Prot : 4
+            MaxDEX_Bonus : 4
+            Poids : 12500
+            Type : "Light Armor"
+            isShild : false
+            asIron : true
+        hide_armor:
+            Name: "Hide Armor"
+            Prix : 1500
+            Prot : 3
+            MaxDEX_Bonus : 4
+            Poids : 12500
+            Type : "Mid Armor"
+            isShild : false
+            asIron : false
+        scale_armor:
+            Name: "Scale Armor"
+            Prix : 5000
+            Prot : 4
+            MaxDEX_Bonus : 3
+            Poids : 15000
+            Type : "Mid Armor"
+            isShild : false
+            asIron : false
+        chain_mail:
+            Name: "Chain Mail"
+            Prix : 15000
+            Prot : 5
+            MaxDEX_Bonus : 2
+            Poids : 25000
+            Type : "Mid Armor"
+            isShild : false
+            asIron : true
+        breastplate:
+            Name: "Breastplate"
+            Prix : 20000
+            Prot : 5
+            MaxDEX_Bonus : 3
+            Poids : 15000
+            Type : "Mid Armor"
+            isShild : false
+            asIron : true
+        clibanion:
+            Name: "Clibanion"
+            Prix : 20000
+            Prot : 6
+            MaxDEX_Bonus : 0
+            Poids : 22500
+            Type : "Heavy Armor"
+            isShild : false
+            asIron : false
+        crevice:
+            Name: "Crevice"
+            Prix : 25000
+            Prot : 6
+            MaxDEX_Bonus : 1
+            Poids : 17500
+            Type : "Heavy Armor"
+            isShild : false
+            asIron : true
+        plate_armor:
+            Name: "Plate Armor"
+            Prix : 60000
+            Prot : 7
+            MaxDEX_Bonus : 0
+            Poids : 25000
+            Type : "Heavy Armor"
+            isShild : false
+            asIron : true
+        harnois:
+            Name: "Harnois"
+            Prix : 150000
+            Prot : 8
+            MaxDEX_Bonus : 1
+            Poids : 25000
+            Type : "Heavy Armor"
+            isShild : false
+            asIron : true
+        targe:
+            Name: "Targe"
+            Prix : 1500
+            Prot : 1
+            Poids : 2500
+            Type : "Shild"
+            isShild : true
+            asIron : true
+        buckler:
+            Name: "Buckler"
+            Prix : 1500
+            Prot : 1
+            Poids : 2250
+            Type : "Shild"
+            isShild : true
+            asIron : true
+        light_wooden_shield:
+            Name: "Light Wooden Shield"
+            Prix : 300
+            Prot : 1
+            Poids : 2500
+            Type : "Shild"
+            isShild : true
+            asIron : false
+        light_steel_shield:
+            Name: "Light Steel Shield"
+            Prix : 900
+            Prot : 1
+            Poids : 3200
+            Type : "Shild"
+            isShild : true
+            asIron : true
+        heavy_wooden_shield:
+            Name: "Heavy Wooden Shield"
+            Prix : 700
+            Prot : 2
+            Poids : 5000
+            Type : "Shild"
+            isShild : true
+            asIron : false
+        heavy_steel_shield:
+            Name: "Heavy Steel Shield"
+            Prix : 2000
+            Prot : 2
+            Poids : 7500
+            Type : "Shild"
+            isShild : true
+            asIron : true
+        tower_shield:
+            Name: "Tower Shield"
+            Prix : 3000
+            Prot : 4
+            Poids : 22500
+            Type : "Shild"
+            isShild : true
+            asIron : false

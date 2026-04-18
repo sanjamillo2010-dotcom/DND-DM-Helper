@@ -1,0 +1,34 @@
+#ifndef RACE_H
+#define RACE_H
+
+#include <string>
+#include <vector>
+#include <yaml-cpp/yaml.h>
+
+namespace DND_GM_Helper_N {
+namespace NPC_N {
+
+class Race {
+public:
+    std::string name;
+    std::vector<std::string> usualNames;
+    int MaxSize = 0;
+    int MaxAge = 0;
+
+    Race() = default;;
+
+    Race(const std::string& iRaceName);
+
+    void set_usualname(::YAML::Node& ioConfig, const std::string& raceName);
+
+    void print_race_info();
+
+    std::string GetRandomName();
+
+    void Set_Race_Stats(YAML::Node config);
+};
+
+} // namespace DND_GM_Helper_N
+} // namespace NPC_N
+
+#endif // RACE_H

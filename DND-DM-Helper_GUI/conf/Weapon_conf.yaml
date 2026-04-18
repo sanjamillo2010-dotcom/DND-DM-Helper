@@ -1,0 +1,744 @@
+---
+Weapon_conf:
+    Weapon_list:
+        unarmed:
+            - unarmed_strike
+        simple_light:
+            - dagger
+            - dagger_punching
+            - gauntlet
+            - spiked_gauntlet
+        simple_one_handed:
+            - club
+            - mace_heavy
+            - mace_light
+            - morningstar
+            - shortspear
+            - sickle
+        simple_two_handed:
+            - quarterstaff
+            - spear
+        simple_ranged:
+            - crossbow_heavy
+            - crossbow_light
+            - dart
+            - javelin
+            - sling
+        martial_light:
+            - axe_throwing
+            - hammer_light
+            - handaxe
+            - kukri
+            - pick_light
+            - sap
+            - sword_short
+        martial_one_handed:
+            - battleaxe
+            - flail
+            - longsword
+            - pick_heavy
+            - rapier
+            - scimitar
+            - trident
+            - waraxe_dwarven
+        martial_two_handed:
+            - falchion
+            - flail_heavy
+            - glaive
+            - greataxe
+            - greatclub
+            - greatsword
+            - guisarme
+            - halberd
+            - lance
+            - ranseur
+            - scythe
+        martial_ranged:
+            - bow_long
+            - bow_long_composite
+            - bow_short
+            - bow_short_composite
+            - crossbow_hand
+            - crossbow_repeating_heavy
+            - crossbow_repeating_light
+            - longbow
+        exotic_light:
+            - kama
+            - nunchaku
+            - sai
+            - siangham
+            - sword_bastard
+            - waraxe_dwarven_exotic
+            - whip
+        exotic_one_handed:
+            - chain_spiked
+            - flail_dire
+        exotic_two_handed:
+            - curve_blade_elven
+            - gnome_hooked_hammer
+            - orc_double_axe
+            - sword_two_bladed
+            - urgrosh_dwarven
+        exotic_ranged:
+            - bolas
+            - net
+            - shuriken
+            - bow_composite_repeating
+
+    Weapon_list_class_specifique:
+        List_of_class:
+            - Bard
+            - Druid
+            - Monk
+            - Rogue
+            - Wizard
+        Bard:
+            - longsword
+            - rapier
+            - sap
+            - sword_short
+            - bow_short
+            - bow_short_composite
+            - crossbow_hand
+            - crossbow_light
+            - whip
+        Druid:
+            - club
+            - dagger
+            - dart
+            - javelin
+            - quarterstaff
+            - scimitar
+            - sickle
+            - shortspear
+            - sling
+            - spear
+        Monk:
+            - club
+            - crossbow_heavy
+            - crossbow_light
+            - dagger
+            - handaxe
+            - javelin
+            - kama
+            - nunchaku
+            - quarterstaff
+            - sai
+            - shuriken
+            - siangham
+            - sling
+            - sword_short
+        Rogue:
+            - crossbow_hand
+            - rapier
+            - sap
+            - sword_short
+            - bow_short
+            - bow_short_composite
+        Wizard:
+            - club
+            - dagger
+            - crossbow_heavy
+            - crossbow_light
+            - quarterstaff
+            - sling
+
+    Weapons:
+        # ─────────────────────────────────────────
+        # UNARMED
+        # ─────────────────────────────────────────
+        unarmed_strike:
+            Name: "Unarmed Strike"
+            Num_of_Dice: 1
+            Dice_Value: 3
+            Prix: 0
+            Poids: 0
+            Type: "Unarmed"
+
+        # ─────────────────────────────────────────
+        # SIMPLE — LIGHT
+        # ─────────────────────────────────────────
+        dagger:
+            Name: "Dagger"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 200
+            Poids: 500
+            Type: "Simple Light"
+
+        dagger_punching:
+            Name: "Dagger, Punching"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 200
+            Poids: 500
+            Type: "Simple Light"
+
+        gauntlet:
+            Name: "Gauntlet"
+            Num_of_Dice: 1
+            Dice_Value: 3
+            Prix: 200
+            Poids: 500
+            Type: "Simple Light"
+
+        spiked_gauntlet:
+            Name: "Gauntlet, Spiked"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 500
+            Poids: 500
+            Type: "Simple Light"
+
+        # ─────────────────────────────────────────
+        # SIMPLE — ONE-HANDED
+        # ─────────────────────────────────────────
+        club:
+            Name: "Club"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 0
+            Poids: 1500
+            Type: "Simple One-Handed"
+
+        mace_heavy:
+            Name: "Mace, Heavy"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 1200
+            Poids: 4000
+            Type: "Simple One-Handed"
+
+        mace_light:
+            Name: "Mace, Light"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 500
+            Poids: 2000
+            Type: "Simple One-Handed"
+
+        morningstar:
+            Name: "Morningstar"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 800
+            Poids: 3000
+            Type: "Simple One-Handed"
+
+        shortspear:
+            Name: "Shortspear"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 100
+            Poids: 1500
+            Type: "Simple One-Handed"
+
+        sickle:
+            Name: "Sickle"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 600
+            Poids: 1000
+            Type: "Simple One-Handed"
+
+        # ─────────────────────────────────────────
+        # SIMPLE — TWO-HANDED
+        # ─────────────────────────────────────────
+        quarterstaff:
+            Name: "Quarterstaff"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 0
+            Poids: 1800
+            Type: "Simple Two-Handed"
+
+        spear:
+            Name: "Spear"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 200
+            Poids: 3000
+            Type: "Simple Two-Handed"
+
+        # ─────────────────────────────────────────
+        # SIMPLE — RANGED
+        # ─────────────────────────────────────────
+        crossbow_heavy:
+            Name: "Crossbow, Heavy"
+            Num_of_Dice: 1
+            Dice_Value: 10
+            Prix: 5000
+            Poids: 4000
+            Type: "Simple Ranged"
+
+        crossbow_light:
+            Name: "Crossbow, Light"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 3500
+            Poids: 2000
+            Type: "Simple Ranged"
+
+        dart:
+            Name: "Dart"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 50
+            Poids: 250
+            Type: "Simple Ranged"
+
+        javelin:
+            Name: "Javelin"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 100
+            Poids: 1000
+            Type: "Simple Ranged"
+
+        sling:
+            Name: "Sling"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 0
+            Poids: 0
+            Type: "Simple Ranged"
+
+        # ─────────────────────────────────────────
+        # MARTIAL — LIGHT
+        # ─────────────────────────────────────────
+        axe_throwing:
+            Name: "Axe, Throwing"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 800
+            Poids: 1000
+            Type: "Martial Light"
+
+        hammer_light:
+            Name: "Hammer, Light"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 100
+            Poids: 1000
+            Type: "Martial Light"
+
+        handaxe:
+            Name: "Handaxe"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 600
+            Poids: 1500
+            Type: "Martial Light"
+
+        kukri:
+            Name: "Kukri"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 800
+            Poids: 500
+            Type: "Martial Light"
+
+        pick_light:
+            Name: "Pick, Light"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 400
+            Poids: 1500
+            Type: "Martial Light"
+
+        sap:
+            Name: "Sap"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 100
+            Poids: 1000
+            Type: "Martial Light"
+
+        sword_short:
+            Name: "Sword, Short"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 1000
+            Poids: 1500
+            Type: "Martial Light"
+
+        # ─────────────────────────────────────────
+        # MARTIAL — ONE-HANDED
+        # ─────────────────────────────────────────
+        battleaxe:
+            Name: "Battleaxe"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 1000
+            Poids: 3000
+            Type: "Martial One-Handed"
+
+        flail:
+            Name: "Flail"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 800
+            Poids: 2500
+            Type: "Martial One-Handed"
+
+        longsword:
+            Name: "Longsword"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 1500
+            Poids: 2000
+            Type: "Martial One-Handed"
+
+        pick_heavy:
+            Name: "Pick, Heavy"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 800
+            Poids: 3000
+            Type: "Martial One-Handed"
+
+        rapier:
+            Name: "Rapier"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 2000
+            Poids: 1500
+            Type: "Martial One-Handed"
+
+        scimitar:
+            Name: "Scimitar"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 1500
+            Poids: 2000
+            Type: "Martial One-Handed"
+
+        trident:
+            Name: "Trident"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 1500
+            Poids: 2500
+            Type: "Martial One-Handed"
+
+        waraxe_dwarven:
+            Name: "Waraxe, Dwarven"
+            Num_of_Dice: 1
+            Dice_Value: 10
+            Prix: 3000
+            Poids: 4500
+            Type: "Martial One-Handed"
+
+        # ─────────────────────────────────────────
+        # MARTIAL — TWO-HANDED
+        # ─────────────────────────────────────────
+        falchion:
+            Name: "Falchion"
+            Num_of_Dice: 2
+            Dice_Value: 4
+            Prix: 7500
+            Poids: 4000
+            Type: "Martial Two-Handed"
+
+        flail_heavy:
+            Name: "Flail, Heavy"
+            Num_of_Dice: 1
+            Dice_Value: 10
+            Prix: 1500
+            Poids: 5000
+            Type: "Martial Two-Handed"
+
+        glaive:
+            Name: "Glaive"
+            Num_of_Dice: 1
+            Dice_Value: 10
+            Prix: 800
+            Poids: 3000
+            Type: "Martial Two-Handed"
+
+        greataxe:
+            Name: "Greataxe"
+            Num_of_Dice: 1
+            Dice_Value: 12
+            Prix: 2000
+            Poids: 6000
+            Type: "Martial Two-Handed"
+
+        greatclub:
+            Name: "Greatclub"
+            Num_of_Dice: 1
+            Dice_Value: 10
+            Prix: 500
+            Poids: 4500
+            Type: "Martial Two-Handed"
+
+        greatsword:
+            Name: "Greatsword"
+            Num_of_Dice: 2
+            Dice_Value: 6
+            Prix: 5000
+            Poids: 5500
+            Type: "Martial Two-Handed"
+
+        guisarme:
+            Name: "Guisarme"
+            Num_of_Dice: 2
+            Dice_Value: 4
+            Prix: 900
+            Poids: 3000
+            Type: "Martial Two-Handed"
+
+        halberd:
+            Name: "Halberd"
+            Num_of_Dice: 1
+            Dice_Value: 10
+            Prix: 1000
+            Poids: 6000
+            Type: "Martial Two-Handed"
+
+        lance:
+            Name: "Lance"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 1000
+            Poids: 5000
+            Type: "Martial Two-Handed"
+
+        ranseur:
+            Name: "Ranseur"
+            Num_of_Dice: 2
+            Dice_Value: 4
+            Prix: 1000
+            Poids: 3000
+            Type: "Martial Two-Handed"
+
+        scythe:
+            Name: "Scythe"
+            Num_of_Dice: 2
+            Dice_Value: 4
+            Prix: 1800
+            Poids: 5000
+            Type: "Martial Two-Handed"
+
+        # ─────────────────────────────────────────
+        # MARTIAL — RANGED
+        # ─────────────────────────────────────────
+        bow_long:
+            Name: "Bow, Long"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 7500
+            Poids: 1500
+            Type: "Martial Ranged"
+
+        bow_long_composite:
+            Name: "Bow, Long Composite"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 10000
+            Poids: 1500
+            Type: "Martial Ranged"
+
+        bow_short:
+            Name: "Bow, Short"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 3000
+            Poids: 1000
+            Type: "Martial Ranged"
+
+        bow_short_composite:
+            Name: "Bow, Short Composite"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 7500
+            Poids: 1000
+            Type: "Martial Ranged"
+
+        crossbow_hand:
+            Name: "Crossbow, Hand"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 10000
+            Poids: 1500
+            Type: "Martial Ranged"
+
+        crossbow_repeating_heavy:
+            Name: "Crossbow, Repeating Heavy"
+            Num_of_Dice: 1
+            Dice_Value: 10
+            Prix: 40000
+            Poids: 4500
+            Type: "Martial Ranged"
+
+        crossbow_repeating_light:
+            Name: "Crossbow, Repeating Light"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 25000
+            Poids: 2500
+            Type: "Martial Ranged"
+
+        longbow:
+            Name: "Longbow"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 7500
+            Poids: 1500
+            Type: "Martial Ranged"
+
+        # ─────────────────────────────────────────
+        # EXOTIC — LIGHT
+        # ─────────────────────────────────────────
+        kama:
+            Name: "Kama"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 200
+            Poids: 1000
+            Type: "Exotic Light"
+
+        nunchaku:
+            Name: "Nunchaku"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 200
+            Poids: 1000
+            Type: "Exotic Light"
+
+        sai:
+            Name: "Sai"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 100
+            Poids: 500
+            Type: "Exotic Light"
+
+        siangham:
+            Name: "Siangham"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 300
+            Poids: 500
+            Type: "Exotic Light"
+
+        sword_bastard:
+            Name: "Sword, Bastard"
+            Num_of_Dice: 1
+            Dice_Value: 10
+            Prix: 3500
+            Poids: 3000
+            Type: "Exotic Light"
+
+        waraxe_dwarven_exotic:
+            Name: "Waraxe, Dwarven (Exotic)"
+            Num_of_Dice: 1
+            Dice_Value: 10
+            Prix: 3000
+            Poids: 4500
+            Type: "Exotic Light"
+
+        whip:
+            Name: "Whip"
+            Num_of_Dice: 1
+            Dice_Value: 3
+            Prix: 100
+            Poids: 1000
+            Type: "Exotic Light"
+
+        # ─────────────────────────────────────────
+        # EXOTIC — ONE-HANDED
+        # ─────────────────────────────────────────
+        chain_spiked:
+            Name: "Chain, Spiked"
+            Num_of_Dice: 2
+            Dice_Value: 4
+            Prix: 2500
+            Poids: 5000
+            Type: "Exotic One-Handed"
+
+        flail_dire:
+            Name: "Flail, Dire"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 9000
+            Poids: 5000
+            Type: "Exotic One-Handed"
+
+        # ─────────────────────────────────────────
+        # EXOTIC — TWO-HANDED
+        # ─────────────────────────────────────────
+        curve_blade_elven:
+            Name: "Curve Blade, Elven"
+            Num_of_Dice: 1
+            Dice_Value: 10
+            Prix: 8000
+            Poids: 3500
+            Type: "Exotic Two-Handed"
+
+        gnome_hooked_hammer:
+            Name: "Gnome Hooked Hammer"
+            Num_of_Dice: 1
+            Dice_Value: 6
+            Prix: 2000
+            Poids: 3000
+            Type: "Exotic Two-Handed"
+
+        orc_double_axe:
+            Name: "Orc Double Axe"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 6000
+            Poids: 7000
+            Type: "Exotic Two-Handed"
+
+        sword_two_bladed:
+            Name: "Sword, Two-Bladed"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 10000
+            Poids: 5000
+            Type: "Exotic Two-Handed"
+
+        urgrosh_dwarven:
+            Name: "Urgrosh, Dwarven"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 5000
+            Poids: 5500
+            Type: "Exotic Two-Handed"
+
+        # ─────────────────────────────────────────
+        # EXOTIC — RANGED
+        # ─────────────────────────────────────────
+        bolas:
+            Name: "Bolas"
+            Num_of_Dice: 1
+            Dice_Value: 4
+            Prix: 500
+            Poids: 1000
+            Type: "Exotic Ranged"
+
+        net:
+            Name: "Net"
+            Num_of_Dice: 0
+            Dice_Value: 0
+            Prix: 2000
+            Poids: 3000
+            Type: "Exotic Ranged"
+
+        shuriken:
+            Name: "Shuriken"
+            Num_of_Dice: 1
+            Dice_Value: 2
+            Prix: 10
+            Poids: 50
+            Type: "Exotic Ranged"
+
+        bow_composite_repeating:
+            Name: "Bow, Composite Repeating"
+            Num_of_Dice: 1
+            Dice_Value: 8
+            Prix: 10000
+            Poids: 1500
+            Type: "Exotic Ranged"

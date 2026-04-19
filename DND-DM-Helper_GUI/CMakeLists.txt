@@ -209,10 +209,15 @@ if(GTest_FOUND)
         AUTOMOC ON
         AUTOUIC ON
         AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/ui
+        VS_DEBUGGER_ENVIRONMENT "PATH=F:/workspace/vcpkg/installed/x64-mingw-dynamic/debug/bin;C:/Qt/6.10.2/mingw_64/bin;$ENV{PATH}"
     )
 
     include(GoogleTest)
-    gtest_discover_tests(run_tests)
+    gtest_discover_tests(run_tests
+        DISCOVERY_MODE PRE_TEST
+        PROPERTIES
+            ENVIRONMENT "PATH=F:/workspace/vcpkg/installed/x64-mingw-dynamic/debug/bin;C:/Qt/6.10.2/mingw_64/bin;$ENV{PATH}"
+    )
 else()
     message(STATUS "GTest NOT found — skipping tests")
 endif()
